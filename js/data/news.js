@@ -133,33 +133,49 @@ const _T = {
     voz: {
       positive: [
         { h:'El {Par} con los trabajadores: {P} garantiza derechos para todos', b:'Organizaciones sociales afines al {Par} celebraron la decisión del ejecutivo como "un ejemplo de sensibilidad social que el país necesitaba".' },
+        { h:'{P} escucha a los que más sufren: el {Par} prioriza lo humano', b:'Desde el gobierno remarcaron que la medida busca "poner en el centro a las personas y no a los números".' },
+        { h:'Justicia social en acción: el {Par} cumple su promesa con los sectores vulnerables', b:'Organizaciones barriales y gremiales reconocieron el esfuerzo del gobierno de {P} por atender las demandas populares.' },
       ],
       negative: [
         { h:'{P} escucha al pueblo: el {Par} promete soluciones concretas en días', b:'Desde el gobierno remarcaron que trabajan "incansablemente" para mejorar las condiciones de la población más afectada.' },
+        { h:'El {Par} reconoce el malestar y trabaja: {P} pide paciencia a la ciudadanía', b:'El ejecutivo pidió "tiempo y confianza" para revertir una situación social que "no se generó de un día para el otro".' },
+        { h:'{P} no abandona a nadie: el {Par} presentará un plan de contención social esta semana', b:'Fuentes del ejecutivo adelantaron medidas de alivio para los sectores más golpeados por la última decisión.' },
       ],
     },
     tribuna: {
       positive: [
         { h:'La oposición alerta: las medidas sociales del {Par} son asistencialismo sin futuro', b:'Referentes de la oposición señalaron que el gobierno de {P} "da pescado en lugar de enseñar a pescar".' },
+        { h:'Oposición: el {Par} usa la asistencia social para comprar votos', b:'"La política social de {P} es clientelismo electoral disfrazado de solidaridad", señaló el principal referente opositor.' },
+        { h:'El bloque opositor advierte: las medidas de {P} son insostenibles fiscalmente', b:'"El {Par} anuncia medidas que no puede pagar. El ajuste lo van a pagar los más pobres mañana", advirtieron legisladores opositores.' },
       ],
       negative: [
         { h:'Escándalo social: {P} abandona a los más pobres según informe de la oposición', b:'"El gobierno del {Par} ha dejado sola a la gente que más necesita del Estado", afirmó el diputado opositor.' },
+        { h:'La crisis social se profundiza: el {Par} sin respuestas concretas para la gente', b:'Un informe de ONGs y organizaciones comunitarias documentó el deterioro de las condiciones de vida bajo la gestión de {P}.' },
+        { h:'Oposición presenta proyecto de emergencia social ante la inacción del {Par}', b:'"No podemos esperar más. La gente se está cayendo del sistema y el gobierno de {P} mira para otro lado."' },
       ],
     },
     tendencias: {
       positive: [
         { h:'Algo hizo bien {P} esta vez! Que sigan así 👏 #PolíticaSocial #ARG', b:'' },
+        { h:'Llorando de emoción con lo que anunció {P} 😢 Por fin alguien piensa en nosotros #ARG', b:'' },
+        { h:'El {Par} hizo algo bueno hoy. Anótenlo en el calendario 📅 #PolíticaSocial', b:'' },
       ],
       negative: [
         { h:'Los trabajadores están solos con este gobierno del {Par} 😤 #HuelgaGeneral #ARG', b:'' },
+        { h:'Otra vez los más pobres pagando los errores del gobierno de {P} 😡 #JusticiaSocial', b:'' },
+        { h:'Me duele ver lo que hace el {Par} con la gente más vulnerable 💔 #Argentina', b:'' },
       ],
     },
     foro: {
       positive: [
         { h:'En mi barrio se nota el cambio desde que el {Par} implementó esto. Gracias {P}.', b:'→ 345 respuestas | Hilo: "Impacto social de las políticas de {P}"' },
+        { h:'Mamá me llama llorando de contenta por la medida de {P}. Eso es todo lo que necesito saber.', b:'→ 412 respuestas | Hilo: "Historias reales: cómo afecta la política social del {Par}"' },
+        { h:'Trabajo en un comedor comunitario y esto cambia mucho la realidad cotidiana. Gracias {P}.', b:'→ 278 respuestas | Hilo: "Medidas sociales del {Par}: impacto en el territorio"' },
       ],
       negative: [
         { h:'Sigo esperando que las políticas del {Par} lleguen al interior. Capital siempre primero.', b:'→ 298 respuestas | Hilo: "¿El gobierno de {P} ignora el interior del país?"' },
+        { h:'Tercera semana sin cobrar y el {Par} habla de recuperación. ¿De qué recuperación hablan?', b:'→ 567 respuestas | Hilo: "La situación social real bajo el gobierno de {P}"' },
+        { h:'Mi vecina tiene 3 hijos y no llega a fin de mes. Eso es lo que vale lo que promete el {Par}.', b:'→ 389 respuestas | Hilo: "Testimonios: el impacto social de las decisiones de {P}"' },
       ],
     },
   },
@@ -177,20 +193,52 @@ const _T = {
       ],
     },
     voz: {
-      positive: [{ h:'{P} cuida nuestra salud: el {Par} invierte en el futuro del sistema sanitario', b:'Desde el ministerio recordaron que "en este gobierno, la salud pública no es un gasto sino una inversión".' }],
-      negative: [{ h:'{P} enfrenta la crisis sanitaria: el {Par} no baja los brazos', b:'El ejecutivo prometió soluciones concretas "en el marco de las restricciones presupuestarias heredadas".' }],
+      positive: [
+        { h:'{P} cuida nuestra salud: el {Par} invierte en el futuro del sistema sanitario', b:'Desde el ministerio recordaron que "en este gobierno, la salud pública no es un gasto sino una inversión".' },
+        { h:'El {Par} defiende la salud pública: {P} garantiza acceso para todos', b:'El ejecutivo reforzó el presupuesto sanitario y prometió que "ningún argentino quedará sin atención por falta de recursos".' },
+        { h:'{P} atiende la salud del pueblo: el {Par} prioriza el sistema público sobre el privado', b:'Desde el gobierno remarcaron el compromiso con una salud pública de calidad como "derecho y no privilegio".' },
+      ],
+      negative: [
+        { h:'{P} enfrenta la crisis sanitaria: el {Par} no baja los brazos', b:'El ejecutivo prometió soluciones concretas "en el marco de las restricciones presupuestarias heredadas".' },
+        { h:'El {Par} trabaja para resolver la crisis de salud: {P} convoca a emergencia sanitaria', b:'El gobierno declaró emergencia en el sistema de salud y prometió medidas de refuerzo para hospitales públicos.' },
+        { h:'{P} pide calma: el {Par} promete que la situación sanitaria está siendo atendida', b:'Fuentes del ministerio aseguraron que trabajan "con todos los recursos disponibles para garantizar la atención".' },
+      ],
     },
     tribuna: {
-      positive: [{ h:'Oposición: la inversión en salud de {P} llega tarde y es insuficiente', b:'"Necesitábamos esto hace dos años", señaló un legislador de la oposición. El {Par} no tuvo respuesta inmediata.' }],
-      negative: [{ h:'Catástrofe sanitaria: {P} deja a los ciudadanos sin cobertura médica adecuada', b:'"Lo que está haciendo el gobierno de {P} es negligencia institucional ante la crisis", acusó la oposición.' }],
+      positive: [
+        { h:'Oposición: la inversión en salud de {P} llega tarde y es insuficiente', b:'"Necesitábamos esto hace dos años", señaló un legislador de la oposición. El {Par} no tuvo respuesta inmediata.' },
+        { h:'El bloque opositor: "lo de {P} en salud es bienvenido, pero el sistema sigue roto"', b:'"Parchar un sistema que necesita reforma estructural no alcanza. El {Par} tiene que ir al fondo del problema."' },
+        { h:'Oposición pide auditoría del presupuesto de salud bajo el {Par}', b:'"¿A dónde fueron los fondos sanitarios del gobierno de {P}? Necesitamos rendición de cuentas", exigió el bloque opositor.' },
+      ],
+      negative: [
+        { h:'Catástrofe sanitaria: {P} deja a los ciudadanos sin cobertura médica adecuada', b:'"Lo que está haciendo el gobierno de {P} es negligencia institucional ante la crisis", acusó la oposición.' },
+        { h:'La oposición exige intervención del Congreso ante el colapso sanitario bajo el {Par}', b:'"No podemos esperar más. El sistema de salud bajo {P} está al borde del colapso total."' },
+        { h:'Oposición: "los recortes en salud del {Par} cuestan vidas"', b:'"Hay listas de espera de meses para tratamientos urgentes. El gobierno de {P} tiene responsabilidad directa."' },
+      ],
     },
     tendencias: {
-      positive: [{ h:'Por fin el gobierno de {P} hizo algo por la salud! 🏥💊 #SaludPública #ARG', b:'' }],
-      negative: [{ h:'Hospitales colapsados y el {Par} mirando para otro lado 🤦 #CrisisSanitaria', b:'' }],
+      positive: [
+        { h:'Por fin el gobierno de {P} hizo algo por la salud! 🏥💊 #SaludPública #ARG', b:'' },
+        { h:'Mi mamá pudo operarse gracias a la política del {Par}. Que sigan así 🏥🙏 #Salud', b:'' },
+        { h:'Buen movimiento del {Par} en salud. Los médicos lo estaban pidiendo hace meses 👨‍⚕️👏', b:'' },
+      ],
+      negative: [
+        { h:'Hospitales colapsados y el {Par} mirando para otro lado 🤦 #CrisisSanitaria', b:'' },
+        { h:'Mi papá esperó 8 horas en urgencias. Esto es el sistema de salud del gobierno de {P} 😡', b:'' },
+        { h:'Sin medicamentos básicos en el hospital público. ¿Qué hace el {Par} con el presupuesto?😤', b:'' },
+      ],
     },
     foro: {
-      positive: [{ h:'Mi familia pudo atenderse gracias a la nueva política del {Par}. Muy agradecidos.', b:'→ 156 respuestas | Hilo: "Experiencias con el sistema de salud público"' }],
-      negative: [{ h:'4 horas de espera en urgencias. ¿Alguien le avisa a {P} que la salud pública está en crisis?', b:'→ 478 respuestas | Hilo: "Estado real del sistema sanitario - testimonios"' }],
+      positive: [
+        { h:'Mi familia pudo atenderse gracias a la nueva política del {Par}. Muy agradecidos.', b:'→ 156 respuestas | Hilo: "Experiencias con el sistema de salud público"' },
+        { h:'Soy enfermero y por primera vez en años tenemos los insumos que necesitamos. Gracias {P}.', b:'→ 289 respuestas | Hilo: "Personal de salud evalúa las medidas del {Par}"' },
+        { h:'Le dieron turno a mi abuela para la operación que esperaba hace un año. El {Par} reaccionó.', b:'→ 198 respuestas | Hilo: "Mejoras en el sistema de salud bajo el gobierno de {P}"' },
+      ],
+      negative: [
+        { h:'4 horas de espera en urgencias. ¿Alguien le avisa a {P} que la salud pública está en crisis?', b:'→ 478 respuestas | Hilo: "Estado real del sistema sanitario - testimonios"' },
+        { h:'Médica de hospital público. Trabajo con un estetoscopio roto porque el {Par} no manda insumos.', b:'→ 634 respuestas | Hilo: "Médicos denuncian el estado del sistema de salud bajo {P}"' },
+        { h:'Mi hermano murió esperando una cama en terapia intensiva. Esto es lo que hace el gobierno del {Par}.', b:'→ 1.4k respuestas | Hilo: "Crisis sanitaria — testimonios que el gobierno de {P} no puede ignorar"' },
+      ],
     },
   },
 
@@ -207,20 +255,52 @@ const _T = {
       ],
     },
     voz: {
-      positive: [{ h:'El {Par} construye el futuro: {P} invierte en educación como nunca antes', b:'El ministerio de educación publicó datos que muestran un aumento del 30% en la inversión durante la gestión {Par}.' }],
-      negative: [{ h:'{P} entiende a los docentes: el {Par} busca soluciones a la crisis educativa', b:'El gobierno nacional anunció nuevas mesas de diálogo con los gremios para desactivar el conflicto educativo.' }],
+      positive: [
+        { h:'El {Par} construye el futuro: {P} invierte en educación como nunca antes', b:'El ministerio de educación publicó datos que muestran un aumento del 30% en la inversión durante la gestión {Par}.' },
+        { h:'{P} defiende la escuela pública: el {Par} prioriza la educación de los más chicos', b:'Desde el gobierno señalaron que ningún recorte afectará a las escuelas y universidades del país.' },
+        { h:'El {Par} lleva la educación al siglo XXI: {P} anuncia plan de conectividad escolar', b:'El ejecutivo presentó un ambicioso programa de equipamiento e infraestructura educativa para los próximos años.' },
+      ],
+      negative: [
+        { h:'{P} entiende a los docentes: el {Par} busca soluciones a la crisis educativa', b:'El gobierno nacional anunció nuevas mesas de diálogo con los gremios para desactivar el conflicto educativo.' },
+        { h:'El gobierno de {P} promete resolver la crisis educativa: el {Par} convoca a mesa de emergencia', b:'Fuentes del ministerio confirmaron reuniones de urgencia con las federaciones docentes tras el fracaso de las negociaciones.' },
+        { h:'{P} pide a los docentes que vuelvan a las aulas mientras el {Par} busca salida', b:'El ejecutivo apeló al sentido de responsabilidad de los gremios. "Los alumnos no pueden seguir pagando el costo de esta disputa."' },
+      ],
     },
     tribuna: {
-      positive: [{ h:'Oposición: el acuerdo educativo de {P} es solo un parche electoral del {Par}', b:'"Resuelven lo urgente sin atacar lo estructural", afirmó la diputada opositora en sesión ordinaria.' }],
-      negative: [{ h:'El {Par} rompe la educación pública: {P} abandona a docentes y alumnos', b:'La coalición opositora presentó un proyecto de interpelación al ministro de educación del gobierno de {P}.' }],
+      positive: [
+        { h:'Oposición: el acuerdo educativo de {P} es solo un parche electoral del {Par}', b:'"Resuelven lo urgente sin atacar lo estructural", afirmó la diputada opositora en sesión ordinaria.' },
+        { h:'Legisladores opositores: "el {Par} gasta en educación cuando le conviene, no cuando se necesita"', b:'El bloque opositor cuestionó los tiempos del anuncio y señaló que llega "forzado por la presión gremial".' },
+        { h:'Oposición exige auditoría de los fondos educativos del {Par}', b:'"¿A dónde va el dinero? {P} tiene que explicar en qué se usa el presupuesto educativo", exigió el bloque opositor.' },
+      ],
+      negative: [
+        { h:'El {Par} rompe la educación pública: {P} abandona a docentes y alumnos', b:'La coalición opositora presentó un proyecto de interpelación al ministro de educación del gobierno de {P}.' },
+        { h:'Oposición: la crisis educativa bajo {P} es la peor en décadas', b:'"Los indicadores de abandono escolar y la conflictividad docente muestran el fracaso del {Par} en esta área."' },
+        { h:'El bloque opositor pide la renuncia del ministro de educación del gobierno de {P}', b:'"Alguien tiene que hacerse cargo de esta catástrofe educativa que el {Par} generó", exigieron legisladores.' },
+      ],
     },
     tendencias: {
-      positive: [{ h:'Por fin los chicos vuelven a clases! Gracias {P} 🎓 #EducaciónAR #Docentes', b:'' }],
-      negative: [{ h:'Sin clases otra vez por culpa del {Par} 😡 Mis hijos pierden el año #EducaciónEnCrisis', b:'' }],
+      positive: [
+        { h:'Por fin los chicos vuelven a clases! Gracias {P} 🎓 #EducaciónAR #Docentes', b:'' },
+        { h:'Me emocioné viendo a los chicos entrar a la escuela hoy 😭 Gracias {Par} #EducaciónAR', b:'' },
+        { h:'Qué buen gesto el de {P} con la educación. Ojalá se mantenga 📚 #Docentes #ARG', b:'' },
+      ],
+      negative: [
+        { h:'Sin clases otra vez por culpa del {Par} 😡 Mis hijos pierden el año #EducaciónEnCrisis', b:'' },
+        { h:'El gobierno de {P} arruinó la educación pública 📚😤 #HuelgaDocente #ARG', b:'' },
+        { h:'Cómo puede el {Par} fallarles a los chicos así?? Vergüenza 🎒 #SinClases', b:'' },
+      ],
     },
     foro: {
-      positive: [{ h:'El acuerdo docente bajo {P} fue más rápido que en los últimos años. Hay que reconocerlo.', b:'→ 203 respuestas | Hilo: "¿Cómo fue la paritaria docente de este año?"' }],
-      negative: [{ h:'Tercera semana sin clases. El {Par} no tiene idea de cómo gestionar educación.', b:'→ 534 respuestas | Hilo: "Huelga docente: ¿quién tiene razón?"' }],
+      positive: [
+        { h:'El acuerdo docente bajo {P} fue más rápido que en los últimos años. Hay que reconocerlo.', b:'→ 203 respuestas | Hilo: "¿Cómo fue la paritaria docente de este año?"' },
+        { h:'Soy maestra y me alegra que {P} haya escuchado este año. Volvemos contentos.', b:'→ 156 respuestas | Hilo: "Docentes opinan sobre el acuerdo paritario"' },
+        { h:'La medida del {Par} llegó tarde pero llegó. Por los chicos, bien que volvemos.', b:'→ 312 respuestas | Hilo: "Fin del conflicto educativo: análisis"' },
+      ],
+      negative: [
+        { h:'Tercera semana sin clases. El {Par} no tiene idea de cómo gestionar educación.', b:'→ 534 respuestas | Hilo: "Huelga docente: ¿quién tiene razón?"' },
+        { h:'Soy padre de dos nenes y estoy desesperado. El {Par} no resuelve nada.', b:'→ 445 respuestas | Hilo: "Padres afectados por la huelga docente"' },
+        { h:'Veinte años de docente y nunca vi al gobierno del {Par} tan lejos de la realidad del aula.', b:'→ 287 respuestas | Hilo: "Docentes sobre el gobierno de {P}: testimonios"' },
+      ],
     },
   },
 
@@ -237,20 +317,52 @@ const _T = {
       ],
     },
     voz: {
-      positive: [{ h:'{P} limpia su gobierno: el {Par} demuestra que la ética pública no es negociable', b:'Allegados al Ejecutivo remarcaron que la decisión de {P} demuestra "carácter y compromiso con la República".' }],
-      negative: [{ h:'{P} denuncia persecución: el {Par} califica las acusaciones de operación política', b:'El gobierno del {Par} señaló que la investigación es "una maniobra para desestabilizar al gobierno legítimo".' }],
+      positive: [
+        { h:'{P} limpia su gobierno: el {Par} demuestra que la ética pública no es negociable', b:'Allegados al Ejecutivo remarcaron que la decisión de {P} demuestra "carácter y compromiso con la República".' },
+        { h:'El {Par} actúa con transparencia: {P} muestra tolerancia cero ante los irregulares', b:'El gobierno destacó que "quien no cumple los estándares éticos no tiene lugar en este proyecto".' },
+        { h:'{P} con la ética por delante: el {Par} marca diferencia con los gobiernos anteriores', b:'Desde el ejecutivo recordaron los escándalos del pasado para contrastar con la "firmeza republicana" actual.' },
+      ],
+      negative: [
+        { h:'{P} denuncia persecución: el {Par} califica las acusaciones de operación política', b:'El gobierno del {Par} señaló que la investigación es "una maniobra para desestabilizar al gobierno legítimo".' },
+        { h:'El {Par} intenta contener el escándalo: {P} pide esperar a la Justicia', b:'Desde el gobierno pidieron "no prejuzgar" y prometieron cooperar con la investigación judicial.' },
+        { h:'{P} sale al cruce de las acusaciones: el {Par} dice que hay una campaña en su contra', b:'El ejecutivo convocó a una conferencia de prensa para refutar las acusaciones que "buscan desestabilizar al gobierno".' },
+      ],
     },
     tribuna: {
-      positive: [{ h:'La oposición celebra pero advierte: el daño institucional ya está hecho bajo el {Par}', b:'"Que {P} haya actuado no borra que lo permitió durante meses", afirmó el jefe de la oposición.' }],
-      negative: [{ h:'Indignación nacional: el gobierno del {Par} se niega a rendir cuentas', b:'Multitudinarias marchas en las principales ciudades exigen la renuncia de {P} ante el escándalo que salpica al ejecutivo.' }],
+      positive: [
+        { h:'La oposición celebra pero advierte: el daño institucional ya está hecho bajo el {Par}', b:'"Que {P} haya actuado no borra que lo permitió durante meses", afirmó el jefe de la oposición.' },
+        { h:'Oposición: "bien que {P} actúe, pero el {Par} ya perdió credibilidad moral"', b:'"Una swallow no hace verano. Necesitamos ver un cambio de cultura institucional, no gestos aislados."' },
+        { h:'El bloque opositor pide comisión investigadora independiente para el caso', b:'"La Justicia por sí sola no alcanza. El Congreso tiene que fiscalizar a fondo al gobierno del {Par}."' },
+      ],
+      negative: [
+        { h:'Indignación nacional: el gobierno del {Par} se niega a rendir cuentas', b:'Multitudinarias marchas en las principales ciudades exigen la renuncia de {P} ante el escándalo que salpica al ejecutivo.' },
+        { h:'La oposición exige auditoría completa de la gestión del {Par} ante el escándalo', b:'"No pueden esconder más la basura bajo la alfombra. {P} tiene que dar la cara ante la ciudadanía."' },
+        { h:'El bloque opositor: "el gobierno de {P} es el más corrupto de los últimos 20 años"', b:'Referentes opositores presentaron documentación que vincularía a funcionarios del {Par} con irregularidades graves.' },
+      ],
     },
     tendencias: {
-      positive: [{ h:'Bien {P}! Por fin alguien que actúa ante la corrupción 👏 #AntiCorrupción #ARG', b:'' }],
-      negative: [{ h:'El {Par} corrompido hasta los huesos 🤢 Esto no da para más #Renuncia{P}', b:'' }],
+      positive: [
+        { h:'Bien {P}! Por fin alguien que actúa ante la corrupción 👏 #AntiCorrupción #ARG', b:'' },
+        { h:'Me sorprendió que el {Par} actuara así. Por fin! 💪 #Transparencia #ARG', b:'' },
+        { h:'Ojalá todos los gobiernos tuvieran la valentía que tuvo {P} hoy 🙏 #AntiCorrupción', b:'' },
+      ],
+      negative: [
+        { h:'El {Par} corrompido hasta los huesos 🤢 Esto no da para más #Renuncia{P}', b:'' },
+        { h:'Qué asco me da este gobierno. El {Par} es una vergüenza nacional 😡 #Corrupción', b:'' },
+        { h:'Primero prometieron luchar contra la corrupción y ahora esto. {Par} hipócritas 🤮', b:'' },
+      ],
     },
     foro: {
-      positive: [{ h:'Primera vez que veo a un gobierno actuar de verdad ante la corrupción. Apoyar a {P} en esto.', b:'→ 445 respuestas | Hilo: "¿Cómo debe el gobierno manejar los escándalos internos?"' }],
-      negative: [{ h:'Todos los políticos son iguales. El {Par} prometió cambio y es más de lo mismo.', b:'→ 789 respuestas | Hilo: "Corrupción estructural: ¿tiene solución?"' }],
+      positive: [
+        { h:'Primera vez que veo a un gobierno actuar de verdad ante la corrupción. Apoyar a {P} en esto.', b:'→ 445 respuestas | Hilo: "¿Cómo debe el gobierno manejar los escándalos internos?"' },
+        { h:'No soy fan del {Par} pero hay que aplaudir que {P} no protegió a los corruptos.', b:'→ 312 respuestas | Hilo: "Ética pública: ¿el gobierno de {P} marca diferencia?"' },
+        { h:'Que haya consecuencias para los funcionarios corruptos del {Par} es una novedad bienvenida.', b:'→ 521 respuestas | Hilo: "Tolerancia cero a la corrupción: ¿realidad o marketing?"' },
+      ],
+      negative: [
+        { h:'Todos los políticos son iguales. El {Par} prometió cambio y es más de lo mismo.', b:'→ 789 respuestas | Hilo: "Corrupción estructural: ¿tiene solución?"' },
+        { h:'Hay gente en prisión por menos que lo que hicieron los del {Par}. Doble estándar total.', b:'→ 634 respuestas | Hilo: "¿La Justicia llega igual a todos bajo el gobierno de {P}?"' },
+        { h:'Seguimos esperando que algún corrupto del {Par} vaya preso de verdad. {P} tiene que actuar.', b:'→ 876 respuestas | Hilo: "Impunidad: el gran pendiente del gobierno de {P}"' },
+      ],
     },
   },
 
@@ -267,20 +379,52 @@ const _T = {
       ],
     },
     voz: {
-      positive: [{ h:'El {Par} con los productores: {P} apuesta al campo como motor del país', b:'Desde el gobierno remarcaron que el sector agropecuario es "un aliado estratégico del modelo productivo" del {Par}.' }],
-      negative: [{ h:'El gobierno de {P} tiene un plan para el campo: el {Par} promete nuevas medidas', b:'Fuentes del ministerio de agricultura adelantaron compensaciones para los productores más afectados en los próximos días.' }],
+      positive: [
+        { h:'El {Par} con los productores: {P} apuesta al campo como motor del país', b:'Desde el gobierno remarcaron que el sector agropecuario es "un aliado estratégico del modelo productivo" del {Par}.' },
+        { h:'{P} abre el diálogo con el campo: el {Par} reconoce al agro como motor de divisas', b:'El ejecutivo anunció mesas de trabajo con las principales cámaras rurales para diseñar políticas de largo plazo.' },
+        { h:'El {Par} entiende al campo: {P} premia a los productores que apuestan al país', b:'Desde el ministerio de agricultura señalaron que la medida busca "reconocer el esfuerzo de quienes generan los dólares del país".' },
+      ],
+      negative: [
+        { h:'El gobierno de {P} tiene un plan para el campo: el {Par} promete nuevas medidas', b:'Fuentes del ministerio de agricultura adelantaron compensaciones para los productores más afectados en los próximos días.' },
+        { h:'{P} pide al campo paciencia: el {Par} trabaja en alternativas para el sector', b:'El ejecutivo reconoció las dificultades del sector y prometió una respuesta integral "antes de que termine el trimestre".' },
+        { h:'El {Par} busca acercar posiciones con el campo: {P} anuncia mesa de diálogo sectorial', b:'Tras semanas de tensión, el gobierno convocó a los principales referentes del agro a una reunión en Casa Rosada.' },
+      ],
     },
     tribuna: {
-      positive: [{ h:'Oposición: las medidas para el campo del {Par} llegan tarde y son insuficientes', b:'"Hace meses que pedimos esto desde el Congreso y recién ahora lo escuchan", señaló el diputado opositor.' }],
-      negative: [{ h:'El {Par} asfixia al campo: el sector que genera las divisas del país, acorralado', b:'"El gobierno de {P} no entiende al agro o directamente lo odia", fue la dura frase del presidente de la Sociedad Rural.' }],
+      positive: [
+        { h:'Oposición: las medidas para el campo del {Par} llegan tarde y son insuficientes', b:'"Hace meses que pedimos esto desde el Congreso y recién ahora lo escuchan", señaló el diputado opositor.' },
+        { h:'El bloque opositor: "el {Par} descubrió al campo solo para las elecciones"', b:'"Cuatro años ignorando al agro y ahora promesas. El campo no es tonto", señaló el diputado opositor por Santa Fe.' },
+        { h:'Oposición advierte: las medidas del {Par} para el campo no alcanzan para revertir el daño', b:'"Los productores necesitan certezas, no anuncios. El gobierno de {P} da señales contradictorias."' },
+      ],
+      negative: [
+        { h:'El {Par} asfixia al campo: el sector que genera las divisas del país, acorralado', b:'"El gobierno de {P} no entiende al agro o directamente lo odia", fue la dura frase del presidente de la Sociedad Rural.' },
+        { h:'La oposición con el campo: "{P} está destruyendo la principal fuente de divisas del país"', b:'Legisladores del interior exigen una sesión especial para tratar la situación del sector agropecuario.' },
+        { h:'Oposición califica la política agraria del {Par} de "confiscatoria e irresponsable"', b:'Un informe opositor calcula que el sector perdió miles de millones de dólares en exportaciones por las trabas del gobierno de {P}.' },
+      ],
     },
     tendencias: {
-      positive: [{ h:'Buena noticia para el campo! El {Par} finalmente escuchó 🌾 #Agro #ARG', b:'' }],
-      negative: [{ h:'El campo está podrido del gobierno de {P} 🌾😡 #LasRetencionesMatan', b:'' }],
+      positive: [
+        { h:'Buena noticia para el campo! El {Par} finalmente escuchó 🌾 #Agro #ARG', b:'' },
+        { h:'Soy del interior y esto me cambia la vida. Gracias {P} por escuchar al campo 🌾🙏', b:'' },
+        { h:'El {Par} hace algo bien con el campo. Anótenlo. 📝 #Agro #ProductoresAR', b:'' },
+      ],
+      negative: [
+        { h:'El campo está podrido del gobierno de {P} 🌾😡 #LasRetencionesMatan', b:'' },
+        { h:'Mi familia lleva 50 años en el campo y nunca lo vimos tan mal por culpa del {Par} 😢', b:'' },
+        { h:'El gobierno de {P} le pone palos en la rueda al campo cada semana 🌾😤 #AgroAR', b:'' },
+      ],
     },
     foro: {
-      positive: [{ h:'Soy productor en el interior y la medida de {P} nos va a ayudar bastante. Al menos es algo.', b:'→ 167 respuestas | Hilo: "Impacto de las medidas agropecuarias en el interior"' }],
-      negative: [{ h:'Tres generaciones en el campo y nunca vi políticas tan malas como las del {Par}.', b:'→ 321 respuestas | Hilo: "¿El gobierno de {P} destruye el campo?"' }],
+      positive: [
+        { h:'Soy productor en el interior y la medida de {P} nos va a ayudar bastante. Al menos es algo.', b:'→ 167 respuestas | Hilo: "Impacto de las medidas agropecuarias en el interior"' },
+        { h:'Cuatro años esperando que el {Par} hiciera algo así. {P} finalmente reaccionó.', b:'→ 223 respuestas | Hilo: "¿El gobierno de {P} da vuelta la relación con el campo?"' },
+        { h:'Pequeño productor sojero de Córdoba. Esto que hizo {P} nos saca un peso de encima.', b:'→ 189 respuestas | Hilo: "Productores del interior opinan sobre la medida del {Par}"' },
+      ],
+      negative: [
+        { h:'Tres generaciones en el campo y nunca vi políticas tan malas como las del {Par}.', b:'→ 321 respuestas | Hilo: "¿El gobierno de {P} destruye el campo?"' },
+        { h:'Tuve que despedir a 8 empleados rurales por las medidas del {Par}. Una vergüenza.', b:'→ 456 respuestas | Hilo: "Testimonios: el campo bajo el gobierno de {P}"' },
+        { h:'El {Par} no entiende que sin campo no hay reservas ni dólares. {P} que despierte.', b:'→ 534 respuestas | Hilo: "Crisis del agro: ¿quién tiene la culpa?"' },
+      ],
     },
   },
 
@@ -297,20 +441,52 @@ const _T = {
       ],
     },
     voz: {
-      positive: [{ h:'{P} asegura la energía para todos: el {Par} da un paso histórico', b:'El ministerio destacó que "la energía es un derecho, no un privilegio" y que el gobierno trabaja para garantizarla.' }],
-      negative: [{ h:'El {Par} trabaja sin descanso para resolver la crisis: {P} promete luz para todos', b:'Fuentes del ejecutivo aseguraron que la situación energética está "bajo control y mejorando gradualmente".' }],
+      positive: [
+        { h:'{P} asegura la energía para todos: el {Par} da un paso histórico', b:'El ministerio destacó que "la energía es un derecho, no un privilegio" y que el gobierno trabaja para garantizarla.' },
+        { h:'El {Par} invierte en energía limpia: {P} apunta a la soberanía energética', b:'El gobierno presentó un ambicioso plan de inversión en renovables. "El futuro energético del país se construye hoy."' },
+        { h:'{P} garantiza el suministro energético para el invierno: el {Par} actúa antes de la crisis', b:'Las medidas del ejecutivo lograron estabilizar el sistema eléctrico antes de que comenzara el pico de demanda invernal.' },
+      ],
+      negative: [
+        { h:'El {Par} trabaja sin descanso para resolver la crisis: {P} promete luz para todos', b:'Fuentes del ejecutivo aseguraron que la situación energética está "bajo control y mejorando gradualmente".' },
+        { h:'{P} pide calma ante los cortes: el {Par} promete solución estructural en 60 días', b:'El ejecutivo convocó a una mesa de emergencia energética y prometió medidas concretas "en un plazo perentorio".' },
+        { h:'El gobierno del {Par} reconoce la crisis energética y promete plan urgente de infraestructura', b:'Fuentes del ministerio de energía adelantaron inversiones en transmisión y generación para evitar nuevos cortes.' },
+      ],
     },
     tribuna: {
-      positive: [{ h:'La oposición advierte: la solución energética de {P} es cara y no resuelve el fondo', b:'"Estamos pagando caro por los errores del {Par} en política energética", señaló la oposición en sesión especial.' }],
-      negative: [{ h:'El {Par} apaga al país: {P} lleva a la Argentina a la oscuridad', b:'"Este gobierno no tiene plan energético. Improvisa un apagón tras otro", afirmó el candidato opositor.' }],
+      positive: [
+        { h:'La oposición advierte: la solución energética de {P} es cara y no resuelve el fondo', b:'"Estamos pagando caro por los errores del {Par} en política energética", señaló la oposición en sesión especial.' },
+        { h:'Oposición cuestiona el costo de la energía bajo {P}: "el ciudadano paga la factura de la ineficiencia del {Par}"', b:'Un informe opositor muestra que las tarifas energéticas aumentaron por encima de la inflación durante la gestión de {P}.' },
+        { h:'El bloque opositor: "el plan energético del {Par} es un parche que no resuelve el problema de fondo"', b:'"Necesitamos una política de Estado en energía, no anuncios de {P} cada vez que hay un apagón."' },
+      ],
+      negative: [
+        { h:'El {Par} apaga al país: {P} lleva a la Argentina a la oscuridad', b:'"Este gobierno no tiene plan energético. Improvisa un apagón tras otro", afirmó el candidato opositor.' },
+        { h:'Oposición exige auditoría del sistema energético: "el {Par} descapitalizó el sector"', b:'"Los cortes de luz son la consecuencia de años de desinversión energética bajo el gobierno de {P}."' },
+        { h:'La coalición opositora: "la crisis energética bajo {P} es la peor desde el corralito"', b:'Legisladores opositores presentaron un proyecto para crear una comisión de investigación del sector energético.' },
+      ],
     },
     tendencias: {
-      positive: [{ h:'El plan energético de {P} no es tan malo 🤔 Veamos cómo sigue #EnergíaAR', b:'' }],
-      negative: [{ h:'Otra vez sin luz 😤 El gobierno de {P} no puede con la crisis energética #Apagones', b:'' }],
+      positive: [
+        { h:'El plan energético de {P} no es tan malo 🤔 Veamos cómo sigue #EnergíaAR', b:'' },
+        { h:'Volvió la luz y el gas! El {Par} cumplió con la energía esta vez 💡🙏 #EnergíaAR', b:'' },
+        { h:'Algo hizo bien {P} con la energía. Le doy el beneficio de la duda 🤷 #EnergíaNacional', b:'' },
+      ],
+      negative: [
+        { h:'Otra vez sin luz 😤 El gobierno de {P} no puede con la crisis energética #Apagones', b:'' },
+        { h:'Cuatro horas sin luz en pleno invierno por culpa del {Par} 🕯️ #ApagonesARG', b:'' },
+        { h:'La industria parada por culpa de los cortes del gobierno de {P} 😡 #CrisisEnergética', b:'' },
+      ],
     },
     foro: {
-      positive: [{ h:'En mi zona volvió el gas y la presión mejoró. Algo hicieron bien desde el {Par}.', b:'→ 112 respuestas | Hilo: "¿Cómo está la energía en tu ciudad?"' }],
-      negative: [{ h:'Tercer corte de luz esta semana. {P} y el {Par} que expliquen esta infraestructura.', b:'→ 389 respuestas | Hilo: "Crisis energética: testimonios de todo el país"' }],
+      positive: [
+        { h:'En mi zona volvió el gas y la presión mejoró. Algo hicieron bien desde el {Par}.', b:'→ 112 respuestas | Hilo: "¿Cómo está la energía en tu ciudad?"' },
+        { h:'Primer invierno sin cortes desde que tengo memoria. {P} hizo algo bien con la energía.', b:'→ 234 respuestas | Hilo: "Balance energético de la gestión {Par}: voces del interior"' },
+        { h:'La tarifa subió pero al menos hay suministro. El {Par} hizo lo posible con la herencia que recibió.', b:'→ 189 respuestas | Hilo: "Energía en Argentina: ¿quién tiene la culpa?"' },
+      ],
+      negative: [
+        { h:'Tercer corte de luz esta semana. {P} y el {Par} que expliquen esta infraestructura.', b:'→ 389 respuestas | Hilo: "Crisis energética: testimonios de todo el país"' },
+        { h:'Se me arruinó la heladera por los cortes del {Par}. ¿Quién me paga los daños?', b:'→ 567 respuestas | Hilo: "Daños por cortes de luz bajo el gobierno de {P}: ¿hay reclamo posible?"' },
+        { h:'Pequeño comerciante. Cada corte me cuesta miles. El {Par} no entiende la realidad.', b:'→ 445 respuestas | Hilo: "Crisis energética: impacto en comercios y pymes"' },
+      ],
     },
   },
 
@@ -327,20 +503,52 @@ const _T = {
       ],
     },
     voz: {
-      positive: [{ h:'{P} defiende nuestro ambiente: el {Par} lidera la transición ecológica nacional', b:'El gobierno anunció nuevas áreas naturales protegidas y compromisos de reducción de emisiones bajo la gestión de {P}.' }],
-      negative: [{ h:'El gobierno de {P} trabaja para proteger a los afectados: el {Par} en el territorio', b:'Equipos del ministerio de ambiente trabajan sobre el terreno para asistir a las comunidades afectadas por la crisis.' }],
+      positive: [
+        { h:'{P} defiende nuestro ambiente: el {Par} lidera la transición ecológica nacional', b:'El gobierno anunció nuevas áreas naturales protegidas y compromisos de reducción de emisiones bajo la gestión de {P}.' },
+        { h:'El {Par} con el planeta: {P} firma compromisos históricos de protección ambiental', b:'El ejecutivo se comprometió con los objetivos climáticos más ambiciosos que se hayan asumido en el país.' },
+        { h:'{P} actúa ante la emergencia: el {Par} moviliza recursos para proteger el ambiente', b:'El gobierno declaró la emergencia ambiental y afectó recursos extraordinarios para hacer frente a la crisis.' },
+      ],
+      negative: [
+        { h:'El gobierno de {P} trabaja para proteger a los afectados: el {Par} en el territorio', b:'Equipos del ministerio de ambiente trabajan sobre el terreno para asistir a las comunidades afectadas por la crisis.' },
+        { h:'{P} pide paciencia: el {Par} promete respuesta ambiental integral antes de fin de mes', b:'El ejecutivo reconoció la gravedad de la situación y anunció un plan de acción para los próximos 30 días.' },
+        { h:'El gobierno del {Par} convoca a emergencia ambiental: {P} coordina con provincias', b:'La Casa Rosada activó el Comité de Crisis Ambiental y convocó a todas las carteras involucradas.' },
+      ],
     },
     tribuna: {
-      positive: [{ h:'Oposición: el compromiso ambiental del {Par} es solo imagen, no política real', b:'"Prometen mucho y hacen poco. El presupuesto ambiental bajo {P} es el más bajo en años", señaló el legislador opositor.' }],
-      negative: [{ h:'El {Par} destruye el ambiente nacional: {P} antepone el negocio a la naturaleza', b:'"Este gobierno no tiene política ambiental: tiene política de negocios disfrazada de ecología", acusó la oposición.' }],
+      positive: [
+        { h:'Oposición: el compromiso ambiental del {Par} es solo imagen, no política real', b:'"Prometen mucho y hacen poco. El presupuesto ambiental bajo {P} es el más bajo en años", señaló el legislador opositor.' },
+        { h:'Oposición alerta: el plan ambiental del {Par} favorece a las empresas, no al ecosistema', b:'"Las medidas de {P} sirven para limpiar la imagen del gobierno, no para resolver los problemas ambientales."' },
+        { h:'El bloque opositor pide una ley de presupuestos mínimos ambientales que el {Par} no está cumpliendo', b:'"El gobierno de {P} firma convenios internacionales y no los cumple. Es una hipocresía ambiental."' },
+      ],
+      negative: [
+        { h:'El {Par} destruye el ambiente nacional: {P} antepone el negocio a la naturaleza', b:'"Este gobierno no tiene política ambiental: tiene política de negocios disfrazada de ecología", acusó la oposición.' },
+        { h:'Oposición denuncia: el {Par} autorizó proyectos que dañan ecosistemas protegidos', b:'"La corrupción ambiental del gobierno de {P} tiene nombre y apellido. Los expedientes están ahí."' },
+        { h:'El bloque opositor: "bajo {P} se destruyeron más bosques y humedales que en cualquier gestión anterior"', b:'"Los datos son incontestables. El ambiente pagó el costo del modelo extractivista del {Par}."' },
+      ],
     },
     tendencias: {
-      positive: [{ h:'Me alegra que {P} esté haciendo algo por el ambiente 🌿 Ya era hora! #MedioAmbienteAR', b:'' }],
-      negative: [{ h:'El planeta se cae a pedazos y el {Par} mirando para otro lado 🌍💔 #CambioClimático', b:'' }],
+      positive: [
+        { h:'Me alegra que {P} esté haciendo algo por el ambiente 🌿 Ya era hora! #MedioAmbienteAR', b:'' },
+        { h:'Llorando de emoción con la medida ambiental de {P} 🌿😭 #PlanetaVerde #ARG', b:'' },
+        { h:'El {Par} finalmente escucha a los jóvenes sobre el ambiente 🌍💚 #CambioClimático', b:'' },
+      ],
+      negative: [
+        { h:'El planeta se cae a pedazos y el {Par} mirando para otro lado 🌍💔 #CambioClimático', b:'' },
+        { h:'El gobierno de {P} destruye los humedales y se llama ecologista 🌿😡 #AmbienteAR', b:'' },
+        { h:'Mientras el mundo actúa, el {Par} habla. Vergüenza ambiental 🌊😤 #MedioAmbiente', b:'' },
+      ],
     },
     foro: {
-      positive: [{ h:'Buen movimiento del {Par} en lo ambiental. Aunque lo ideal sería una política integral.', b:'→ 178 respuestas | Hilo: "¿Qué tan verde es el gobierno de {P}?"' }],
-      negative: [{ h:'Me inundé dos veces este año. La responsabilidad del {Par} en el desastre es enorme.', b:'→ 623 respuestas | Hilo: "Inundaciones y falta de obras: testimonios"' }],
+      positive: [
+        { h:'Buen movimiento del {Par} en lo ambiental. Aunque lo ideal sería una política integral.', b:'→ 178 respuestas | Hilo: "¿Qué tan verde es el gobierno de {P}?"' },
+        { h:'Milito en organizaciones ambientales hace años y esta vez el {Par} hizo lo correcto.', b:'→ 312 respuestas | Hilo: "Activistas evalúan la política ambiental del gobierno de {P}"' },
+        { h:'Mi barrio estaba inundado todos los años. Con las obras del {Par} mejoró bastante.', b:'→ 245 respuestas | Hilo: "Impacto de las obras ambientales en los barrios"' },
+      ],
+      negative: [
+        { h:'Me inundé dos veces este año. La responsabilidad del {Par} en el desastre es enorme.', b:'→ 623 respuestas | Hilo: "Inundaciones y falta de obras: testimonios"' },
+        { h:'Vivo al lado de un río que el {Par} dejó contaminar. {P} tiene que rendir cuentas.', b:'→ 489 respuestas | Hilo: "Contaminación de ríos bajo el gobierno de {P}: casos"' },
+        { h:'Mi familia perdió todo en el incendio forestal. El {Par} ni apareció a ayudar.', b:'→ 734 respuestas | Hilo: "Catástrofes ambientales y respuesta del gobierno de {P}"' },
+      ],
     },
   },
 
@@ -357,20 +565,52 @@ const _T = {
       ],
     },
     voz: {
-      positive: [{ h:'{P} lidera con firmeza: el {Par} demuestra que Argentina tiene gobierno', b:'El ejecutivo celebró la decisión como "un hito en la consolidación de la democracia y el proyecto del {Par}".' }],
-      negative: [{ h:'El {Par} resiste la embestida opositora: {P} defiende las instituciones', b:'Desde el gobierno alertaron sobre "maniobras desestabilizadoras" y confirmaron que {P} "no dará un paso atrás".' }],
+      positive: [
+        { h:'{P} lidera con firmeza: el {Par} demuestra que Argentina tiene gobierno', b:'El ejecutivo celebró la decisión como "un hito en la consolidación de la democracia y el proyecto del {Par}".' },
+        { h:'El {Par} en acción: {P} muestra que gobernar es tomar decisiones difíciles', b:'Legisladores del oficialismo destacaron la "valentía política" del ejecutivo para actuar sin vacilaciones.' },
+        { h:'Argentina tiene conducción: {P} y el {Par} van por el camino correcto', b:'Desde el gobierno remarcaron que la medida es "coherente con la visión de largo plazo" que el {Par} propuso en campaña.' },
+      ],
+      negative: [
+        { h:'El {Par} resiste la embestida opositora: {P} defiende las instituciones', b:'Desde el gobierno alertaron sobre "maniobras desestabilizadoras" y confirmaron que {P} "no dará un paso atrás".' },
+        { h:'{P} en la tormenta: el {Par} cierra filas alrededor del Presidente', b:'El bloque oficialista salió a respaldar públicamente al ejecutivo. "Estamos juntos pase lo que pase", afirmó el jefe de bancada.' },
+        { h:'El {Par} trabaja en silencio: {P} prepara medidas para superar la crisis política', b:'Fuentes del ejecutivo adelantaron que habrá novedades importantes en los próximos días para recuperar la iniciativa.' },
+      ],
     },
     tribuna: {
-      positive: [{ h:'Oposición alerta: el {Par} usa las instituciones para consolidar el poder de {P}', b:'"Lo que el gobierno llama gobernabilidad es concentración de poder", advirtió la coalición opositora.' }],
-      negative: [{ h:'El gobierno de {P} en caída libre: el {Par} pierde la confianza ciudadana', b:'Encuestas de la semana muestran la peor imagen presidencial de {P} desde que asumió. El {Par} busca explicaciones.' }],
+      positive: [
+        { h:'Oposición alerta: el {Par} usa las instituciones para consolidar el poder de {P}', b:'"Lo que el gobierno llama gobernabilidad es concentración de poder", advirtió la coalición opositora.' },
+        { h:'El bloque opositor: "{P} acierta hoy, pero el patrón general de la gestión preocupa"', b:'"Un dato no hace tendencia. La gestión del {Par} sigue siendo cuestionable en su conjunto."' },
+        { h:'Oposición cautelosa: celebran el acierto de {P} pero piden consistencia al {Par}', b:'"Si el gobierno mantiene este nivel de decisión vamos a reconocerlo. Por ahora es un paso, nada más."' },
+      ],
+      negative: [
+        { h:'El gobierno de {P} en caída libre: el {Par} pierde la confianza ciudadana', b:'Encuestas de la semana muestran la peor imagen presidencial de {P} desde que asumió. El {Par} busca explicaciones.' },
+        { h:'El bloque opositor: "el {Par} ha perdido el rumbo y {P} no puede recuperarlo"', b:'Líderes de la oposición señalaron que las últimas decisiones del ejecutivo "confirman la falta de plan del gobierno".' },
+        { h:'Crisis política total: la oposición convoca a sesión especial por la decisión del {Par}', b:'"No podemos dejar pasar esto. El Congreso tiene que intervenir antes de que el daño sea irreversible."' },
+      ],
     },
     tendencias: {
-      positive: [{ h:'Hay que reconocerlo: {P} manejó bien esto 🏛️ #Política #Gobernabilidad #ARG', b:'' }],
-      negative: [{ h:'El {Par} sin brújula política 🧭😤 ¿Alguien está conduciendo este gobierno?? #CrisisPolítica', b:'' }],
+      positive: [
+        { h:'Hay que reconocerlo: {P} manejó bien esto 🏛️ #Política #Gobernabilidad #ARG', b:'' },
+        { h:'{P} se ganó un punto hoy. No es fan pero hay que ser justo 🗳️ #ARG #PolíticaAR', b:'' },
+        { h:'Qué bueno cuando el gobierno hace algo que tiene sentido 🙌 #ArgentinaGobierna', b:'' },
+      ],
+      negative: [
+        { h:'El {Par} sin brújula política 🧭😤 ¿Alguien está conduciendo este gobierno?? #CrisisPolítica', b:'' },
+        { h:'Vergüenza ajena con el gobierno de {P} hoy 😬 Esto no puede seguir así #ARG', b:'' },
+        { h:'Cómo llega el {Par} a estas decisiones?? Alguien explíqueme 😤 #Política #Argentina', b:'' },
+      ],
     },
     foro: {
-      positive: [{ h:'No soy del {Par} pero la decisión de {P} estuvo bien tomada. Hay que decirlo.', b:'→ 267 respuestas | Hilo: "Análisis de la última semana política"' }],
-      negative: [{ h:'Esto está peor que nunca. El gobierno de {P} parece un barco sin timón.', b:'→ 445 respuestas | Hilo: "¿El {Par} puede recuperarse de esto?"' }],
+      positive: [
+        { h:'No soy del {Par} pero la decisión de {P} estuvo bien tomada. Hay que decirlo.', b:'→ 267 respuestas | Hilo: "Análisis de la última semana política"' },
+        { h:'Por fin algo que tiene sentido político. Ojalá el {Par} mantenga este rumbo con {P}.', b:'→ 198 respuestas | Hilo: "Debate: ¿cambia el rumbo del {Par} con esta decisión?"' },
+        { h:'Le doy crédito a {P} por esto. No es lo que esperaba del {Par} pero es bienvenido.', b:'→ 334 respuestas | Hilo: "¿Sorprendió el gobierno del {Par} para bien esta vez?"' },
+      ],
+      negative: [
+        { h:'Esto está peor que nunca. El gobierno de {P} parece un barco sin timón.', b:'→ 445 respuestas | Hilo: "¿El {Par} puede recuperarse de esto?"' },
+        { h:'Ya perdí la cuenta de los errores del {Par}. {P} debería escuchar más a la ciudadanía.', b:'→ 512 respuestas | Hilo: "El deterioro político del gobierno de {P} — cronología"' },
+        { h:'¿Cómo se explica esto desde el {Par}? Alguien en el gobierno de {P} que dé la cara.', b:'→ 623 respuestas | Hilo: "Pedimos explicaciones: la decisión que nadie entiende"' },
+      ],
     },
   },
 
@@ -387,20 +627,52 @@ const _T = {
       ],
     },
     voz: {
-      positive: [{ h:'{P} defiende a todas las personas: el {Par} hace historia en derechos humanos', b:'Desde el ejecutivo remarcaron que "la agenda de derechos no es ideología sino justicia".' }],
-      negative: [{ h:'El {Par} trabaja para proteger los derechos de todos: {P} da explicaciones', b:'El gobierno nacional aclaró que las medidas "respetan plenamente la Constitución y los tratados internacionales".' }],
+      positive: [
+        { h:'{P} defiende a todas las personas: el {Par} hace historia en derechos humanos', b:'Desde el ejecutivo remarcaron que "la agenda de derechos no es ideología sino justicia".' },
+        { h:'El {Par} con la diversidad y la inclusión: {P} pone al Estado del lado correcto', b:'El gobierno nacional reafirmó su compromiso con las minorías y los sectores históricamente vulnerados.' },
+        { h:'{P} cumple con la Constitución: el {Par} garantiza derechos en los hechos, no solo en palabras', b:'Organizaciones de derechos humanos valoraron la coherencia entre el discurso del {Par} y sus acciones concretas.' },
+      ],
+      negative: [
+        { h:'El {Par} trabaja para proteger los derechos de todos: {P} da explicaciones', b:'El gobierno nacional aclaró que las medidas "respetan plenamente la Constitución y los tratados internacionales".' },
+        { h:'{P} sale al cruce de las críticas: el {Par} niega haber vulnerado derechos fundamentales', b:'El ejecutivo convocó a una conferencia de prensa para rebatir los informes que cuestionan su política de derechos.' },
+        { h:'El gobierno del {Par} promete revisión: {P} pide tiempo antes de sacar conclusiones', b:'Fuentes del ejecutivo señalaron que están "analizando el impacto" de la medida sobre los derechos de las personas afectadas.' },
+      ],
     },
     tribuna: {
-      positive: [{ h:'La oposición alerta: el {Par} usa los derechos como bandera electoral', b:'"Los derechos no son un negocio político", señaló la referente opositora al cuestionar al gobierno de {P}.' }],
-      negative: [{ h:'El {Par} pisotea los derechos fundamentales: {P} cruza líneas inaceptables', b:'"Lo que está haciendo el gobierno de {P} es inaceptable en una democracia real", afirmó el principal referente opositor.' }],
+      positive: [
+        { h:'La oposición alerta: el {Par} usa los derechos como bandera electoral', b:'"Los derechos no son un negocio político", señaló la referente opositora al cuestionar al gobierno de {P}.' },
+        { h:'Oposición advierte: el {Par} avanza en derechos selectivamente según conveniencia', b:'"Defienden algunos derechos y pisotean otros. Los derechos no se eligen a la carta", señaló el bloque opositor.' },
+        { h:'El bloque opositor cuestiona el alcance de la medida de {P}: "es insuficiente"', b:'"Avanzar en un derecho no justifica retroceder en otros. El {Par} tiene una visión parcial de los derechos."' },
+      ],
+      negative: [
+        { h:'El {Par} pisotea los derechos fundamentales: {P} cruza líneas inaceptables', b:'"Lo que está haciendo el gobierno de {P} es inaceptable en una democracia real", afirmó el principal referente opositor.' },
+        { h:'Oposición denuncia ante organismos internacionales la política de derechos del {Par}', b:'Legisladores opositores presentaron un informe a la CIDH sobre la situación de los derechos bajo el gobierno de {P}.' },
+        { h:'El bloque opositor: "el {Par} retrocede décadas en derechos con la decisión de {P}"', b:'"Estamos ante una regresión gravísima que afecta a los sectores más vulnerables de la sociedad."' },
+      ],
     },
     tendencias: {
-      positive: [{ h:'Bien por {P}! Por fin un gobierno que respeta los derechos 👊 #DDHH #ARG', b:'' }],
-      negative: [{ h:'El gobierno del {Par} violando derechos como si nada 😡 #NoEnNuestroNombre #ARG', b:'' }],
+      positive: [
+        { h:'Bien por {P}! Por fin un gobierno que respeta los derechos 👊 #DDHH #ARG', b:'' },
+        { h:'Llorando de emoción con lo que hizo {P} hoy. Gracias {Par} 🏳️ #DerechosHumanos', b:'' },
+        { h:'Historia! El {Par} hace lo que prometió en derechos. No lo puedo creer 😭 #ARG', b:'' },
+      ],
+      negative: [
+        { h:'El gobierno del {Par} violando derechos como si nada 😡 #NoEnNuestroNombre #ARG', b:'' },
+        { h:'Lo que hizo {P} hoy es una vergüenza internacional 🌍😤 #DDHH #ArgentinaGobierna', b:'' },
+        { h:'El {Par} nos arrastra al siglo XIX en derechos. Inaceptable. 😡 #NoMásRetrocesos', b:'' },
+      ],
     },
     foro: {
-      positive: [{ h:'Me emocioné cuando vi lo que hizo {P}. Hacía mucho que esperábamos una decisión así.', b:'→ 298 respuestas | Hilo: "Avances en derechos humanos bajo el gobierno de {P}"' }],
-      negative: [{ h:'Esto es un retroceso enorme. El {Par} borró de un plumazo años de conquistas.', b:'→ 567 respuestas | Hilo: "¿El gobierno de {P} retrocede en derechos?"' }],
+      positive: [
+        { h:'Me emocioné cuando vi lo que hizo {P}. Hacía mucho que esperábamos una decisión así.', b:'→ 298 respuestas | Hilo: "Avances en derechos humanos bajo el gobierno de {P}"' },
+        { h:'Soy activista de derechos y este fue el día que esperamos durante 4 años. Gracias {P}.', b:'→ 412 respuestas | Hilo: "La decisión histórica del gobierno del {Par}"' },
+        { h:'No voy a dormir bien esta noche de lo contenta que estoy con la decisión de {P}.', b:'→ 356 respuestas | Hilo: "Reacciones a la medida de derechos del {Par}"' },
+      ],
+      negative: [
+        { h:'Esto es un retroceso enorme. El {Par} borró de un plumazo años de conquistas.', b:'→ 567 respuestas | Hilo: "¿El gobierno de {P} retrocede en derechos?"' },
+        { h:'Personas reales van a sufrir por lo que hizo {P} hoy. El {Par} no lo entiende.', b:'→ 678 respuestas | Hilo: "El impacto humano de la última decisión del gobierno"' },
+        { h:'Denuncio al gobierno del {Par} ante la ONU por esto. No vamos a quedarnos callados.', b:'→ 823 respuestas | Hilo: "¿Qué recursos legales tenemos ante la decisión de {P}?"' },
+      ],
     },
   },
 
@@ -413,23 +685,57 @@ const _T = {
       ],
       negative: [
         { h:'El gobierno de {P} queda atrás en la agenda tecnológica regional', b:'Informes comparativos muestran que el país pierde posiciones en innovación y conocimiento bajo la gestión del {Par}.' },
+        { h:'Fuga de cerebros récord bajo la gestión del {Par}: los datos que preocupan', b:'Un informe del CONICET revela que la emigración de científicos e investigadores alcanzó niveles históricos durante la gestión de {P}.' },
+        { h:'El país pierde terreno en innovación: el {Par} recorta ciencia y tecnología', b:'El sector tecnológico advirtió que el ajuste presupuestario del gobierno de {P} tendrá consecuencias en 5 a 10 años.' },
       ],
     },
     voz: {
-      positive: [{ h:'{P} lleva al país al siglo XXI: el {Par} apuesta por la tecnología argentina', b:'El ministerio celebró la medida como "el inicio de una nueva era de soberanía tecnológica".' }],
-      negative: [{ h:'El gobierno de {P} trabaja para no quedar atrás: el {Par} promete plan tecnológico', b:'Fuentes del ejecutivo adelantaron "novedades importantes" en materia tecnológica en los próximos meses.' }],
+      positive: [
+        { h:'{P} lleva al país al siglo XXI: el {Par} apuesta por la tecnología argentina', b:'El ministerio celebró la medida como "el inicio de una nueva era de soberanía tecnológica".' },
+        { h:'El {Par} invierte en el futuro: {P} apuesta a la economía del conocimiento', b:'El ejecutivo reforzó el presupuesto para ciencia, tecnología e innovación. "Donde otros recortan, nosotros invertimos."' },
+        { h:'{P} posiciona a Argentina como potencia tech regional: el {Par} cumple', b:'Cámaras del sector tecnológico aplaudieron las medidas del gobierno, que "van en la dirección correcta".' },
+      ],
+      negative: [
+        { h:'El gobierno de {P} trabaja para no quedar atrás: el {Par} promete plan tecnológico', b:'Fuentes del ejecutivo adelantaron "novedades importantes" en materia tecnológica en los próximos meses.' },
+        { h:'{P} reconoce el rezago tecnológico: el {Par} lanza consulta para diseñar nuevo plan', b:'El gobierno admitió que hay trabajo por hacer y convocó a expertos del sector para diseñar una hoja de ruta.' },
+        { h:'El {Par} promete revertir la fuga de talentos con nuevas medidas: {P} anuncia incentivos', b:'El ejecutivo presentará un paquete para retener investigadores y desarrolladores nacionales.' },
+      ],
     },
     tribuna: {
-      positive: [{ h:'Oposición: el plan tecnológico del {Par} es caro y no llega a quienes más lo necesitan', b:'"La brecha digital se agranda bajo este gobierno", advirtió el bloque opositor.' }],
-      negative: [{ h:'El {Par} deja al país fuera de la revolución tecnológica mundial', b:'Según analistas, Argentina perderá inversión tecnológica si el gobierno de {P} no cambia de rumbo urgente.' }],
+      positive: [
+        { h:'Oposición: el plan tecnológico del {Par} es caro y no llega a quienes más lo necesitan', b:'"La brecha digital se agranda bajo este gobierno", advirtió el bloque opositor.' },
+        { h:'El bloque opositor cuestiona la distribución del gasto tecnológico del {Par}', b:'"Las provincias del interior quedan afuera de los beneficios del plan de {P}. Es un plan porteño-céntrico."' },
+        { h:'Oposición: el {Par} financia tech para las grandes empresas, no para las pymes', b:'"Los beneficiados por las medidas de {P} son siempre los mismos. Las pymes tecnológicas siguen sin apoyo."' },
+      ],
+      negative: [
+        { h:'El {Par} deja al país fuera de la revolución tecnológica mundial', b:'Según analistas, Argentina perderá inversión tecnológica si el gobierno de {P} no cambia de rumbo urgente.' },
+        { h:'Oposición alerta: bajo el {Par} se acelera la fuga de talento científico y tecnológico', b:'"Investigadores y desarrolladores se van del país porque el gobierno de {P} no les da condiciones para quedarse."' },
+        { h:'El bloque opositor: "el {Par} subsidia al pasado mientras el mundo mira al futuro"', b:'"Las políticas tecnológicas de {P} son de 20 años atrás. Argentina necesita un plan de Estado, no parches."' },
+      ],
     },
     tendencias: {
-      positive: [{ h:'Que buen movimiento de {P} en tech! 💻🚀 Argentina puede ser un hub regional #TechAR', b:'' }],
-      negative: [{ h:'El {Par} sin idea de tecnología. Me da vergüenza ajena 😳 #TechArgentina', b:'' }],
+      positive: [
+        { h:'Que buen movimiento de {P} en tech! 💻🚀 Argentina puede ser un hub regional #TechAR', b:'' },
+        { h:'Laburo en IT desde hace 10 años y esto que hizo {P} cambia todo 💻🇦🇷 #TechArgentina', b:'' },
+        { h:'El {Par} apuesta a la tecnología. Ojalá no sea solo un anuncio 🤞 #EconomíaDelConocimiento', b:'' },
+      ],
+      negative: [
+        { h:'El {Par} sin idea de tecnología. Me da vergüenza ajena 😳 #TechArgentina', b:'' },
+        { h:'Me voy del país por culpa de las políticas tech del {Par}. Chau Argentina 😢 #FugaDeCerebros', b:'' },
+        { h:'El gobierno de {P} destruyó el ecosistema de innovación que tardamos años en construir 😡', b:'' },
+      ],
     },
     foro: {
-      positive: [{ h:'Trabajo en IT y la medida de {P} nos beneficia directamente. Es un buen comienzo.', b:'→ 189 respuestas | Hilo: "¿Qué impacto tiene la política tech del {Par}?"' }],
-      negative: [{ h:'Perdemos cerebros todos los meses y el {Par} no hace nada para retenerlos.', b:'→ 312 respuestas | Hilo: "Fuga de talentos tecnológicos bajo el gobierno de {P}"' }],
+      positive: [
+        { h:'Trabajo en IT y la medida de {P} nos beneficia directamente. Es un buen comienzo.', b:'→ 189 respuestas | Hilo: "¿Qué impacto tiene la política tech del {Par}?"' },
+        { h:'Fundador de startup y esto me hace querer quedarme en Argentina. Gracias {P}.', b:'→ 256 respuestas | Hilo: "Emprendedores tech opinan sobre las medidas del {Par}"' },
+        { h:'Por fin el gobierno del {Par} piensa en el sector. Teníamos miedo de que {P} nos ignorara.', b:'→ 178 respuestas | Hilo: "El sector tecnológico evalúa el plan del gobierno de {P}"' },
+      ],
+      negative: [
+        { h:'Perdemos cerebros todos los meses y el {Par} no hace nada para retenerlos.', b:'→ 312 respuestas | Hilo: "Fuga de talentos tecnológicos bajo el gobierno de {P}"' },
+        { h:'Rechacé una oferta en España para quedarme. Hoy me arrepiento con las políticas del {Par}.', b:'→ 445 respuestas | Hilo: "¿Vale la pena quedarse en Argentina siendo tech?"' },
+        { h:'El {Par} habla de economía del conocimiento y nos recorta el presupuesto de investigación.', b:'→ 367 respuestas | Hilo: "Hipocresía o ignorancia: el gobierno de {P} y la ciencia"' },
+      ],
     },
   },
 
@@ -442,23 +748,57 @@ const _T = {
       ],
       negative: [
         { h:'La inversión huye del país: el gobierno de {P} no genera confianza empresarial', b:'Informes del sector privado muestran caídas en la inversión productiva durante la gestión del {Par}.' },
+        { h:'Récord negativo de inversión extranjera bajo el {Par}: el país pierde atractivo', b:'Datos del Banco Central muestran que los flujos de inversión directa cayeron al mínimo en la era {P}.' },
+        { h:'El {Par} espanta a los inversores: el riesgo regulatorio es el más alto de la región', b:'Un informe del sector privado califica al gobierno de {P} como "impredecible" en materia regulatoria.' },
       ],
     },
     voz: {
-      positive: [{ h:'{P} atrae inversiones y genera empleo: el {Par} en acción', b:'El gobierno destacó que las inversiones anunciadas generarán "miles de empleos de calidad" en los próximos años.' }],
-      negative: [{ h:'El {Par} trabaja para revertir la fuga de inversiones: {P} da señales al mercado', b:'Fuentes del ministerio de producción señalaron que trabajan para "reactivar la economía real".' }],
+      positive: [
+        { h:'{P} atrae inversiones y genera empleo: el {Par} en acción', b:'El gobierno destacó que las inversiones anunciadas generarán "miles de empleos de calidad" en los próximos años.' },
+        { h:'El {Par} reactiva la industria: {P} apuesta a la producción nacional', b:'Cámaras empresariales valoraron el giro del gobierno hacia la reindustrialización. "Por fin una señal clara", dijeron.' },
+        { h:'{P} construye el país productivo: el {Par} crea condiciones para la inversión privada', b:'El ejecutivo destacó que el clima de negocios mejoró notablemente con las últimas medidas del gobierno.' },
+      ],
+      negative: [
+        { h:'El {Par} trabaja para revertir la fuga de inversiones: {P} da señales al mercado', b:'Fuentes del ministerio de producción señalaron que trabajan para "reactivar la economía real".' },
+        { h:'{P} reconoce el problema productivo: el {Par} lanza plan de emergencia industrial', b:'El ejecutivo admitió que los datos de inversión son "preocupantes" y anunció medidas para revertir la tendencia.' },
+        { h:'El gobierno del {Par} convoca a inversores: {P} promete seguridad jurídica y previsibilidad', b:'El ejecutivo presentó un paquete de incentivos a la inversión productiva para contener la desindustrialización.' },
+      ],
     },
     tribuna: {
-      positive: [{ h:'Oposición: las inversiones del {Par} benefician a pocos y excluyen a las pymes', b:'"Los grandes grupos económicos ganaron con este gobierno; las pymes perdieron", afirmó el bloque opositor.' }],
-      negative: [{ h:'El {Par} destruye la industria: {P} asfixia a los empresarios nacionales', b:'Cámaras industriales presentaron un informe sobre el deterioro del sector bajo la gestión {Par}.' }],
+      positive: [
+        { h:'Oposición: las inversiones del {Par} benefician a pocos y excluyen a las pymes', b:'"Los grandes grupos económicos ganaron con este gobierno; las pymes perdieron", afirmó el bloque opositor.' },
+        { h:'El bloque opositor alerta: las inversiones del {Par} generan dependencia externa', b:'"Atraer capitales está bien, pero hay que ver a qué precio. El {Par} no negocia con la posición argentina."' },
+        { h:'Oposición cuestiona los incentivos fiscales del {Par}: "son un regalo a las multinacionales"', b:'"Cada peso que el gobierno de {P} le regala a las grandes empresas es un peso menos para el Estado."' },
+      ],
+      negative: [
+        { h:'El {Par} destruye la industria: {P} asfixia a los empresarios nacionales', b:'Cámaras industriales presentaron un informe sobre el deterioro del sector bajo la gestión {Par}.' },
+        { h:'La oposición exige plan de emergencia industrial: "el {Par} mata la producción nacional"', b:'"El cierre de empresas bajo {P} es un problema estructural. Sin industria no hay soberanía económica."' },
+        { h:'Oposición: "el modelo del {Par} destruye el tejido industrial construido durante décadas"', b:'"Lo que tardó generaciones en construirse, el gobierno de {P} lo está deshaciendo en meses."' },
+      ],
     },
     tendencias: {
-      positive: [{ h:'Se vienen inversiones bajo {P}! Ojalá sea real y no solo anuncio 🏭 #IndustriaAR', b:'' }],
-      negative: [{ h:'Otra empresa que se va del país por culpa del {Par}. ¿Cuántas más? 😢 #IndustriaArgentina', b:'' }],
+      positive: [
+        { h:'Se vienen inversiones bajo {P}! Ojalá sea real y no solo anuncio 🏭 #IndustriaAR', b:'' },
+        { h:'Mi empresa consiguió financiamiento gracias a {P}. Por fin el {Par} nos ayuda 🏭🙌', b:'' },
+        { h:'Esto es lo que necesitaba la industria nacional. Bien {P}! 💪 #ProducimosMás #ARG', b:'' },
+      ],
+      negative: [
+        { h:'Otra empresa que se va del país por culpa del {Par}. ¿Cuántas más? 😢 #IndustriaArgentina', b:'' },
+        { h:'El {Par} le pone la lápida a la industria nacional. {P} que explique esto 😡 #PymesAR', b:'' },
+        { h:'Mi pyme sobrevivió 3 gobiernos. Con el {Par} de {P} no puedo más. 😔 #IndustriaAR', b:'' },
+      ],
     },
     foro: {
-      positive: [{ h:'Tengo una pyme y la medida de {P} nos va a ayudar. Por fin el {Par} piensa en nosotros.', b:'→ 145 respuestas | Hilo: "Impacto de las medidas industriales en pymes"' }],
-      negative: [{ h:'Cerré mi fábrica esta semana. 40 empleados sin trabajo. Esto es lo que hace el {Par}.', b:'→ 893 respuestas | Hilo: "Cierres de empresas bajo el gobierno de {P} — testimonios"' }],
+      positive: [
+        { h:'Tengo una pyme y la medida de {P} nos va a ayudar. Por fin el {Par} piensa en nosotros.', b:'→ 145 respuestas | Hilo: "Impacto de las medidas industriales en pymes"' },
+        { h:'Operario metalúrgico hace 20 años. Con esto del {Par} hay más trabajo en la fábrica.', b:'→ 267 respuestas | Hilo: "Trabajadores industriales opinan sobre el gobierno de {P}"' },
+        { h:'Inversión confirmada para nuestra planta. El {Par} generó las condiciones. Gracias {P}.', b:'→ 198 respuestas | Hilo: "Inversiones productivas bajo el gobierno de {P}"' },
+      ],
+      negative: [
+        { h:'Cerré mi fábrica esta semana. 40 empleados sin trabajo. Esto es lo que hace el {Par}.', b:'→ 893 respuestas | Hilo: "Cierres de empresas bajo el gobierno de {P} — testimonios"' },
+        { h:'30 años de empresa familiar. El {Par} nos mató con los impuestos y el tipo de cambio.', b:'→ 756 respuestas | Hilo: "Empresas que no sobrevivieron al gobierno de {P}"' },
+        { h:'Mi jefe me llamó para avisarme que cierran. Tres años trabajando ahí y el {Par} me deja sin trabajo.', b:'→ 612 respuestas | Hilo: "Desempleo industrial bajo el gobierno de {P}"' },
+      ],
     },
   },
 
@@ -468,27 +808,63 @@ const _T = {
       positive: [
         { h:'{P} toma una decisión que refuerza la confianza en su gobierno', b:'La medida adoptada por el ejecutivo del {Par} fue valorada positivamente por analistas y referentes de la sociedad civil.' },
         { h:'El gobierno de {P} actúa con determinación ante los desafíos del mandato', b:'Expertos en gestión pública destacaron la celeridad y coherencia de la respuesta del {Par} ante la situación planteada.' },
+        { h:'{P} suma respaldo transversal con la última medida de gobierno', b:'Sectores que habitualmente critican al {Par} reconocieron el acierto de la decisión presidencial.' },
+        { h:'El {Par} da una señal política clara con la decisión de {P}', b:'El ejecutivo mostró coherencia entre sus promesas de campaña y la gestión cotidiana. Analistas valoran la consistencia del rumbo.' },
       ],
       negative: [
         { h:'Decisión polémica del gobierno de {P} genera reacciones encontradas', b:'La medida adoptada por el {Par} divide a la opinión pública. Los afines la celebran; los críticos advierten sobre posibles efectos no deseados.' },
         { h:'El gobierno de {P} en el ojo de la tormenta por su última decisión', b:'Analistas políticos y económicos evalúan el impacto de la decisión del {Par}, que dejó más preguntas que respuestas.' },
+        { h:'El {Par} bajo la lupa: {P} deberá explicar los fundamentos de su elección', b:'Economistas y especialistas coinciden en que la decisión del ejecutivo no fue la más prudente en el contexto actual.' },
+        { h:'Crece el malestar en torno a la gestión de {P}: el {Par} en jaque', b:'Distintos sectores de la sociedad civil expresaron su desacuerdo. El gobierno prometió dar más detalles en las próximas horas.' },
       ],
     },
     voz: {
-      positive: [{ h:'{P} demuestra que hay conducción: el {Par} no improvisa', b:'El gobierno nacional calificó la decisión como "parte de un plan coherente y sostenible a largo plazo".' }],
-      negative: [{ h:'El gobierno de {P} enfrenta el momento difícil con valentía: el {Par} no da el brazo a torcer', b:'Desde el ejecutivo señalaron que "gobernar implica tomar decisiones que no siempre son populares pero sí necesarias".' }],
+      positive: [
+        { h:'{P} demuestra que hay conducción: el {Par} no improvisa', b:'El gobierno nacional calificó la decisión como "parte de un plan coherente y sostenible a largo plazo".' },
+        { h:'¡El {Par} cumple! Las promesas de {P} se convierten en hechos concretos', b:'Desde el gobierno destacaron que la medida es parte de un programa que ya muestra resultados tangibles.' },
+        { h:'{P} hace lo correcto: el {Par} pone al país primero', b:'El ejecutivo reafirmó su compromiso con la ciudadanía. "Gobernar es servir", subrayó el vocero presidencial.' },
+      ],
+      negative: [
+        { h:'El gobierno de {P} enfrenta el momento difícil con valentía: el {Par} no da el brazo a torcer', b:'Desde el ejecutivo señalaron que "gobernar implica tomar decisiones que no siempre son populares pero sí necesarias".' },
+        { h:'El {Par} defiende a {P}: "la oposición ataca sin proponer nada"', b:'Legisladores del oficialismo salieron a respaldar al ejecutivo ante las críticas. "Es fácil criticar desde afuera", señalaron.' },
+        { h:'{P} y el {Par} avanzan aunque duela: hay que hacer los cambios difíciles', b:'El gobierno apeló a la paciencia ciudadana. "Los resultados se van a ver, hay que darle tiempo al tiempo", sostuvo un ministro.' },
+      ],
     },
     tribuna: {
-      positive: [{ h:'La oposición celebra a medias: "bien, pero insuficiente", dice el bloque opositor', b:'"No podemos aplaudir lo que debería haber sido la normalidad desde el primer día del {Par}".' }],
-      negative: [{ h:'La oposición exige rendición de cuentas al gobierno de {P}', b:'"El {Par} tiene que explicarle al país por qué tomó esta decisión que perjudica a millones".' }],
+      positive: [
+        { h:'La oposición celebra a medias: "bien, pero insuficiente", dice el bloque opositor', b:'"No podemos aplaudir lo que debería haber sido la normalidad desde el primer día del {Par}".' },
+        { h:'Oposición alerta: la medida de {P} llega tarde y con fines electorales', b:'Referentes de la coalición opositora señalaron que el {Par} "actúa cuando le conviene, no cuando el país lo necesita".' },
+        { h:'El bloque opositor: "Un acierto aislado no hace una buena gestión, {P}"', b:'Legisladores advirtieron que la decisión puntual no cambia el rumbo general de una gestión que "suma más errores que logros".' },
+      ],
+      negative: [
+        { h:'La oposición exige rendición de cuentas al gobierno de {P}', b:'"El {Par} tiene que explicarle al país por qué tomó esta decisión que perjudica a millones".' },
+        { h:'¿Qué fue eso?: la oposición no puede creer el rumbo del {Par}', b:'"Estamos viendo cómo el gobierno de {P} toma decisiones sin medir consecuencias. El país lo va a pagar caro."' },
+        { h:'El bloque opositor pide informe urgente al Congreso por la decisión de {P}', b:'Parlamentarios de la oposición presentaron un pedido formal de explicaciones al ejecutivo del {Par}.' },
+      ],
     },
     tendencias: {
-      positive: [{ h:'Buen movimiento del gobierno de {P} 👍 Vamos a ver si se sostiene #ARG #Política', b:'' }],
-      negative: [{ h:'El {Par} no aprende nunca 🤦 ¿Hasta cuándo? #ArgentinaGobierna', b:'' }],
+      positive: [
+        { h:'Buen movimiento del gobierno de {P} 👍 Vamos a ver si se sostiene #ARG #Política', b:'' },
+        { h:'Por fin una decisión que tiene sentido! {P} sorprendió para bien 🙌 #Gobierno #ARG', b:'' },
+        { h:'No soy del {Par} pero hay que reconocerlo: estuvo bien lo de {P} 🤷 #Política', b:'' },
+      ],
+      negative: [
+        { h:'El {Par} no aprende nunca 🤦 ¿Hasta cuándo? #ArgentinaGobierna', b:'' },
+        { h:'Increíble lo que hizo {P} hoy. Cómo puede gobernar así?? #FueraElGobierno', b:'' },
+        { h:'El {Par} otra vez fallando. Todo lo que toca lo rompe 😤 #ArgentinaVota', b:'' },
+      ],
     },
     foro: {
-      positive: [{ h:'Reconozco que la decisión de {P} estuvo bien. No todo tiene que ser crítica.', b:'→ 134 respuestas | Hilo: "Análisis de la última semana política"' }],
-      negative: [{ h:'Estoy hasta la coronilla del gobierno de {P}. El {Par} no puede seguir así.', b:'→ 356 respuestas | Hilo: "¿Qué le falta al gobierno del {Par}?"' }],
+      positive: [
+        { h:'Reconozco que la decisión de {P} estuvo bien. No todo tiene que ser crítica.', b:'→ 134 respuestas | Hilo: "Análisis de la última semana política"' },
+        { h:'Esto es lo que pedíamos desde hace meses. {P} finalmente escuchó. Esperemos que se mantenga.', b:'→ 287 respuestas | Hilo: "Opiniones sobre la última medida del {Par}"' },
+        { h:'Le di like a algo del gobierno del {Par} por primera vez. No me acostumbro igual.', b:'→ 198 respuestas | Hilo: "Reacciones ciudadanas a la última decisión de {P}"' },
+      ],
+      negative: [
+        { h:'Estoy hasta la coronilla del gobierno de {P}. El {Par} no puede seguir así.', b:'→ 356 respuestas | Hilo: "¿Qué le falta al gobierno del {Par}?"' },
+        { h:'Cada vez entiendo menos qué quiere hacer este gobierno. {P} nos debe una explicación.', b:'→ 412 respuestas | Hilo: "Foro: los errores de la gestión {Par}"' },
+        { h:'¿Alguien puede explicarme la lógica detrás de lo que hizo {P}? Porque yo no la veo.', b:'→ 521 respuestas | Hilo: "Debate: ¿tiene sentido la última decisión del {Par}?"' },
+      ],
     },
   },
 };
@@ -651,6 +1027,7 @@ export const IND_NEWS = {
   deuda: {
     warn: [
       { source:'cronista', h:'La deuda externa genera señales de alerta: el mercado sigue de cerca a {P}', b:'Economistas advierten sobre la trayectoria del endeudamiento y exigen al {Par} una estrategia de largo plazo.' },
+      { source:'foro', h:'¿Cuánta deuda más puede acumular el gobierno de {P} antes de que sea imposible de pagar?', b:'→ 312 respuestas | Hilo: "Deuda externa y el futuro del país bajo el {Par}"' },
     ],
     danger: [
       { source:'cronista',   h:'La deuda externa llega a niveles insostenibles bajo la gestión de {P}', b:'El ratio deuda-PBI alcanzó valores que preocupan al FMI y a los principales acreedores internacionales.' },
@@ -660,6 +1037,7 @@ export const IND_NEWS = {
   reservas: {
     warn: [
       { source:'cronista', h:'Las reservas del Banco Central se achican: señal de alerta para el gobierno de {P}', b:'El nivel de reservas internacionales netas preocupa a analistas cambiarios y al equipo económico del {Par}.' },
+      { source:'tendencias', h:'El Banco Central perdiendo reservas bajo {P}... esto no termina bien 💸 #ReservasAR', b:'' },
     ],
     danger: [
       { source:'cronista',   h:'CRÍTICO: las reservas tocan mínimos históricos bajo la gestión del {Par}', b:'El Banco Central enfrenta su peor momento en años. Fuentes del sector financiero advierten sobre el riesgo de un salto cambiario incontrolado.' },
@@ -669,6 +1047,7 @@ export const IND_NEWS = {
   riesgo: {
     warn: [
       { source:'cronista', h:'El riesgo país sube y los inversores observan con cautela al gobierno de {P}', b:'La prima de riesgo soberano aumentó en los últimos días, encareciendo el crédito externo para el {Par}.' },
+      { source:'foro', h:'Los bonos cayeron otra vez. El {Par} está perdiendo confianza internacional semana a semana.', b:'→ 234 respuestas | Hilo: "Riesgo país y lo que nos dice sobre la gestión de {P}"' },
     ],
     danger: [
       { source:'cronista', h:'Riesgo país disparado: la confianza internacional en {P} está en mínimos históricos', b:'El spread soberano superó los niveles de la última crisis. Economistas comparan la situación con episodios críticos previos.' },
@@ -688,6 +1067,7 @@ export const IND_NEWS = {
   desocupacion: {
     warn: [
       { source:'cronista', h:'El desempleo crece: el gobierno de {P} no logra revertir la tendencia laboral', b:'Los últimos datos del mercado laboral confirman que la desocupación sigue en alza bajo la administración del {Par}.' },
+      { source:'foro', h:'Más personas sin trabajo mes a mes bajo el {Par}. {P} tiene que reaccionar ya.', b:'→ 523 respuestas | Hilo: "Desempleo creciente: ¿qué puede hacer el gobierno?"' },
     ],
     danger: [
       { source:'cronista', h:'Crisis de empleo: el desempleo alcanza niveles de emergencia bajo {P}', b:'Con la desocupación en zona crítica, el gobierno del {Par} enfrenta su mayor desafío social hasta la fecha.' },
@@ -697,6 +1077,7 @@ export const IND_NEWS = {
   produccion: {
     warn: [
       { source:'cronista', h:'La producción industrial cae: señal de alerta para el sector manufacturero bajo {P}', b:'Los índices de producción muestran una contracción sostenida que preocupa a industriales y analistas bajo el {Par}.' },
+      { source:'tendencias', h:'Menos producción, menos empleo, menos futuro. El {Par} tiene que reaccionar 🏭😤 #IndustriaAR', b:'' },
     ],
     danger: [
       { source:'cronista', h:'Colapso productivo: la industria nacional en su peor momento bajo la gestión de {P}', b:'La actividad industrial registra una caída histórica. Cámaras del sector advierten sobre quiebras masivas si el {Par} no actúa.' },

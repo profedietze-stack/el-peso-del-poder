@@ -104,7 +104,10 @@ export function generateNews(event, optionIdx, option, state) {
   const par  = (id.partyName || 'el Partido Gobernante').split('(')[0].trim().substring(0, 28);
   const turn = state.turn || 1;
   const ind  = state.indicadores;
-  const seed = turn * 7 + optionIdx * 3;
+  // Incorporar event.id al seed para que eventos distintos del mismo tipo
+  // generen titulares diferentes aunque el turno y la opción sean iguales
+  const eventEntropy = (event?.id || 0) * 13 + ((event?.tag?.charCodeAt(0) || 0) % 17);
+  const seed = turn * 7 + optionIdx * 3 + eventEntropy;
 
   const cat       = getTagCategory(event.tag);
   const sentiment = _sentiment(option, turn);

@@ -381,6 +381,12 @@ export function newState({ heritageId, mandateType, difficulty, ministers, ident
     // ── Control de eventos especiales ─────────────────────────────
     lastSpecialEventTurn: 0,
 
+    // ── Elecciones de medio término ────────────────────────────────
+    // midtermBonus:  bonus/malus de campaña elegido en turno 22 (-10 a +10)
+    // midtermDone:   true una vez resuelta la elección (turno 24)
+    midtermBonus: 0,
+    midtermDone:  false,
+
     // ── Historial de gabinete (renuncias/reemplazos) ───────────────
     // Cada clave contiene el array de IDs usados en ese slot (en orden).
     // El miembro actual siempre es el ÚLTIMO del array.

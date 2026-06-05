@@ -65,6 +65,8 @@ import { initResignations, openResignConfirm, closeResignConfirm,
          confirmResign, openReplacementModal, closeReplacementModal,
          selectReplacement, getResignationCount }  from './features/resignations.js';
 import { initTutorial }                           from './features/tutorial.js';
+import { buildWarningEvent, showElectionResult,
+         calcElectoralScore }                     from './features/midterm.js';
 import { showMinisterModal }                      from './ui/minister-modal.js';
 import { initSplash }                             from './ui/splash.js';
 import { preloadUpcomingImages }                  from './ui/image-preloader.js';
@@ -319,6 +321,41 @@ function _startTurn() {
   // Resetear asesores para el nuevo turno
   resetAdvisorsForTurn(G);
 
+  // ── Elecciones de medio término (turno 22: aviso; turno 24: resolución) ──
+  if (G.turn === 22 && !G.midtermDone) {
+    // Mostrar evento de campaña (reemplaza el evento normal de este turno)
+    const warnEvent = buildWarningEvent();
+    G.currentEvent = warnEvent;
+    showScreen('screen-game');
+    updateMandateBar(G.turn, CONFIG.TOTAL_TURNS, G.difficulty, _displayName);
+    renderDashboard(G.indicadores);
+    renderEvent(warnEvent, G);
+    onOptionSelected((idx, option) => _handleDecision(idx, option, warnEvent));
+    return;
+  }
+
+  if (G.turn === 24 && !G.midtermDone) {
+    // Resolución automática: calcular resultado ANTES del evento normal
+    G.midtermDone = true;
+    showScreen('screen-game');
+    updateMandateBar(G.turn, CONFIG.TOTAL_TURNS, G.difficulty, _displayName);
+    renderDashboard(G.indicadores);
+    showElectionResult(G, (result) => {
+      // Aplicar efectos del resultado electoral
+      const prevInd = { ...G.indicadores };
+      G.indicadores = applyEffects(G.indicadores, result.efectos, G.effectMods || {});
+      pushSparkline(G.indicadores);
+      animateIndicatorChanges(prevInd, G.indicadores);
+      renderDashboard(G.indicadores, prevInd);
+      const electionNews = _buildElectionNews(calcElectoralScore(G) + (G.midtermBonus ?? 0) >= 50);
+      if (electionNews) { addToNewsHistory(G, electionNews); renderNewsTicker(G); }
+      import('./engine/storage.js').then(m => m.saveToStorage(G));
+      // Continuar con el evento normal del turno 24
+      _resumeTurnAfterMidterm();
+    });
+    return;
+  }
+
   // Seleccionar evento (crisis auto primero, luego normal)
   let event;
   if (G.pendingCrises && G.pendingCrises.length > 0) {
@@ -427,6 +464,12 @@ function _handleDecision(idx, option, event) {
  */
 function _applyDecision(idx, option, event) {
   const prevInd = { ...G.indicadores };
+
+  // ── Bonus de campaña electoral (turno 22) ──────────────────────
+  if (event.isMidtermWarning && option._campaignBonus != null) {
+    G.midtermBonus = (G.midtermBonus || 0) + option._campaignBonus;
+    showNotif(`🗳️ Estrategia de campaña elegida. El resultado se conocerá en el turno 24.`, 'info', 5000);
+  }
 
   // Aplicar efectos (con modificadores de ministros)
   const newInd = applyEffects(G.indicadores, option.efectos || {}, G.effectMods || {});
@@ -938,6 +981,58 @@ function _getMinisterWarning(event, state) {
     return { avatar:'❤️', msg:`Ministerio de Desarrollo Social: "El impacto sobre la población vulnerable ya es visible. Necesitamos respuesta inmediata de emergencia social."` };
   }
   return null;
+}
+
+// ── ELECCIONES DE MEDIO TÉRMINO ──────────────────────────────
+
+/**
+ * Continúa el turno 24 con un evento normal, luego del modal de resultado.
+ */
+function _resumeTurnAfterMidterm() {
+  if (!G) return;
+  let event;
+  if (G.pendingCrises && G.pendingCrises.length > 0) {
+    event = G.pendingCrises.shift();
+  } else {
+    event = pickNextEvent(G);
+  }
+  G.currentEvent = event;
+  renderEvent(event, G);
+  onOptionSelected((idx, option) => _handleDecision(idx, option, event));
+  setTimeout(() => _checkEmergencyMeetings(event), 500);
+}
+
+/**
+ * Genera noticias sobre el resultado electoral.
+ * @param {boolean} won
+ */
+function _buildElectionNews(won) {
+  const id  = G.identity || {};
+  const p   = (id.presidentName || 'el Presidente').split(' ').slice(-1)[0];
+  const par = (id.partyName || 'el Partido').split('(')[0].trim().substring(0, 28);
+
+  if (won) {
+    return [
+      { source:'cronista', sourceName:'El Cronista Nacional', sourceIcon:'🗞️', sourceType:'paper', sourceColor:'#5b8dee',
+        headline:`${p} triunfa en las legislativas: el oficialismo retiene la mayoría`,
+        body:`El bloque del ${par} logró mantener el control del Congreso. Analistas señalan que la gestión económica y la imagen presidencial fueron claves para el resultado.`,
+        isForecast:false, forecastTag:null },
+      { source:'tendencias', sourceName:'@TendenciasPol', sourceIcon:'🐦', sourceType:'social', sourceColor:'#1da1f2',
+        headline:`#VictoriaLegislativa: el oficialismo celebra. ¿Qué viene ahora?`,
+        body:`Las redes explotan de reacciones. El triunfo del ${par} despeja el camino para la segunda mitad del mandato de ${p}.`,
+        isForecast:false, forecastTag:null },
+    ];
+  }
+  return [
+    { source:'cronista', sourceName:'El Cronista Nacional', sourceIcon:'🗞️', sourceType:'paper', sourceColor:'#5b8dee',
+      headline:`Derrota legislativa: la oposición toma el control del Congreso`,
+      body:`La elección dejó al gobierno de ${p} sin mayoría parlamentaria. El ${par} deberá negociar cada proyecto de ley en la segunda mitad del mandato.`,
+      isForecast:false, forecastTag:null },
+    { source:'tribuna', sourceName:'Tribuna Libre', sourceIcon:'⚡', sourceType:'paper', sourceColor:'#e74c3c',
+      headline:`Congreso opositor: el mandato de ${p} entra en una zona de alta turbulencia`,
+      body:`Con la oposición en el Congreso, el ejecutivo perderá iniciativa legislativa. Economistas advierten sobre posibles bloqueos al presupuesto.`,
+      isForecast:false, forecastTag:null },
+  ];
 }
 
 // ── CONTROLES GLOBALES ────────────────────────────────────────

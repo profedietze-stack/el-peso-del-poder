@@ -100,6 +100,13 @@ Object.assign(window, {
   goToEndScreen,
   toggleRecentLog,
   switchTrTab,
+  switchManTab: (panelId, btn) => {
+    document.querySelectorAll('.man-panel').forEach(p => p.classList.remove('active'));
+    document.querySelectorAll('.man-tab').forEach(b => b.classList.remove('active'));
+    const panel = document.getElementById(panelId);
+    if (panel) panel.classList.add('active');
+    if (btn) btn.classList.add('active');
+  },
   // switchHistTab: endscreen.js lo expone directamente a window.switchHistTab
   showTip,
   closeTip,

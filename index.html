@@ -365,93 +365,220 @@
     <button class="btn btn-outline btn-sm" style="margin-left:auto" onclick="showScreen('screen-start')">← Volver</button>
   </div>
 
+  <!-- Pestañas del manual -->
+  <div class="manual-tabs" id="manual-tabs">
+    <button class="man-tab active" onclick="switchManTab('man-eljuego',this)">📖 El Juego</button>
+    <button class="man-tab" onclick="switchManTab('man-indicadores',this)">📊 Indicadores</button>
+    <button class="man-tab" onclick="switchManTab('man-mecanicas',this)">🎮 Mecánicas</button>
+    <button class="man-tab" onclick="switchManTab('man-asesores',this)">👥 Asesores</button>
+    <button class="man-tab" onclick="switchManTab('man-especiales',this)">🗳️ Eventos</button>
+    <button class="man-tab man-tab-docente" onclick="switchManTab('man-docente',this)">👩‍🏫 Docente</button>
+  </div>
+
   <div class="manual-body">
-    <div class="manual-section">
-      <h2>📖 ¿De qué trata el juego?</h2>
-      <p>En <em>El Peso del Poder</em> asumís la presidencia de tu propio país y debés gobernar durante <strong>4 años (48 meses/turnos)</strong>. Cada mes enfrentás un evento crítico —económico, social, político o ambiental— y elegís entre distintas decisiones que afectan ocho indicadores macroeconómicos.</p>
-      <p>El juego simula las tensiones reales de la gestión pública: toda decisión tiene costos y beneficios, y rara vez existe una opción perfecta. El objetivo pedagógico es comprender que la economía política es un campo de dilemas éticos y técnicos permanentes.</p>
+
+    <!-- ── PESTAÑA: EL JUEGO ─────────────────────────────── -->
+    <div id="man-eljuego" class="man-panel active">
+      <div class="manual-section">
+        <h2>📖 ¿De qué trata el juego?</h2>
+        <p>En <em>El Peso del Poder</em> asumís la presidencia de un país y debés gobernar durante <strong>4 años (48 meses/turnos)</strong>. Cada mes enfrentás un evento crítico —económico, social, político o ambiental— y elegís entre distintas decisiones que afectan ocho indicadores macroeconómicos.</p>
+        <p>El juego simula las tensiones reales de la gestión pública: toda decisión tiene costos y beneficios, y rara vez existe una opción perfecta. El objetivo pedagógico es comprender que la economía política es un campo de dilemas éticos y técnicos permanentes.</p>
+      </div>
+      <div class="manual-section">
+        <h2>🏛️ Antes de gobernar elegís…</h2>
+        <ul>
+          <li>🗂️ <strong>Herencia de gobierno:</strong> el estado inicial del país (estable, en crisis, endeudado, etc.) que condiciona tu punto de partida.</li>
+          <li>👤 <strong>Identidad:</strong> nombre, partido político y vicepresidente/a — cada VP tiene habilidades propias.</li>
+          <li>👥 <strong>Gabinete inicial:</strong> elegís un ministro/a por cada cartera entre dos candidatos. Tu elección define los modificadores de efectos durante toda la partida.</li>
+          <li>⚙️ <strong>Dificultad:</strong> cuatro niveles que amplifican o suavizan el impacto de cada decisión.</li>
+        </ul>
+      </div>
+      <div class="manual-section">
+        <h2>🏆 Condiciones de fin de partida</h2>
+        <ul>
+          <li>✅ <strong>Victoria:</strong> completar los 48 meses de mandato con los indicadores bajo control.</li>
+          <li>❌ <strong>Derrota A:</strong> la Confianza llega a 0 (pérdida de apoyo ciudadano).</li>
+          <li>❌ <strong>Derrota B:</strong> la Pobreza supera el 80%.</li>
+          <li>❌ <strong>Derrota C:</strong> colapso de gabinete (3 renuncias en el mismo ministerio).</li>
+        </ul>
+        <p>Al terminar la partida se genera una <strong>pantalla de legado</strong> con tu puntaje, diploma, las 3 decisiones más impactantes y un historial exportable en .txt.</p>
+      </div>
     </div>
 
-    <div class="manual-section">
-      <h2>📊 Los 8 Indicadores Económicos</h2>
-      <p>Cada indicador se mide en una escala de <strong>0 a 100</strong> y posee zonas de color: 🟢 verde (zona segura), 🟡 amarillo (zona de alerta) y 🔴 rojo (zona de crisis).</p>
-      <table class="ind-table">
-        <tr><th>Indicador</th><th>Descripción</th><th>Meta deseable</th><th>Zona crítica</th></tr>
-        <tr><td>📈 IPC / Inflación</td><td>Variación de precios al consumidor. Cuanto mayor, peor.</td><td>&lt; 40</td><td>&gt; 65</td></tr>
-        <tr><td>💸 Deuda Externa</td><td>Endeudamiento del Estado con acreedores internacionales.</td><td>&lt; 50</td><td>&gt; 70</td></tr>
-        <tr><td>💰 Reservas Internacionales</td><td>Divisas del Banco Central. Mayor = mejor respaldo monetario.</td><td>&gt; 60</td><td>&lt; 30</td></tr>
-        <tr><td>⚠️ Riesgo País</td><td>Confianza de los mercados internacionales en el Estado.</td><td>&lt; 40</td><td>&gt; 65</td></tr>
-        <tr><td>📉 Índice de Pobreza</td><td>% de la población bajo la línea de pobreza.</td><td>&lt; 30</td><td>&gt; 55 (derrota: &gt;80)</td></tr>
-        <tr><td>👥 Tasa de Desocupación</td><td>% de la PEA que busca trabajo sin encontrarlo.</td><td>&lt; 10</td><td>&gt; 20</td></tr>
-        <tr><td>🏭 Producción Industrial</td><td>Índice de actividad manufacturera. Mayor = mejor.</td><td>&gt; 65</td><td>&lt; 35</td></tr>
-        <tr><td>🤝 Confianza en el Gobierno</td><td>Aprobación ciudadana. Si llega a 0 → derrota inmediata.</td><td>&gt; 55</td><td>&lt; 30 (derrota: = 0)</td></tr>
-      </table>
+    <!-- ── PESTAÑA: INDICADORES ─────────────────────────── -->
+    <div id="man-indicadores" class="man-panel">
+      <div class="manual-section">
+        <h2>📊 Los 8 Indicadores Macroeconómicos</h2>
+        <p>Cada indicador se mide en una escala de <strong>0 a 100</strong> con zonas de color: 🟢 verde (segura), 🟡 amarillo (alerta) y 🔴 rojo (crisis).</p>
+        <table class="ind-table">
+          <tr><th>Indicador</th><th>Descripción</th><th>Meta</th><th>Crisis</th></tr>
+          <tr><td>📈 IPC / Inflación</td><td>Variación de precios al consumidor. Cuanto mayor, peor.</td><td>&lt; 40</td><td>&gt; 65</td></tr>
+          <tr><td>💸 Deuda Externa</td><td>Endeudamiento del Estado con acreedores internacionales.</td><td>&lt; 50</td><td>&gt; 70</td></tr>
+          <tr><td>💰 Reservas</td><td>Divisas del Banco Central. Mayor = mejor respaldo monetario.</td><td>&gt; 60</td><td>&lt; 30</td></tr>
+          <tr><td>⚠️ Riesgo País</td><td>Confianza de los mercados internacionales en el Estado.</td><td>&lt; 40</td><td>&gt; 65</td></tr>
+          <tr><td>📉 Pobreza</td><td>% de la población bajo la línea de pobreza.</td><td>&lt; 30</td><td>&gt; 55 (derrota: &gt;80)</td></tr>
+          <tr><td>👥 Desocupación</td><td>% de la PEA que busca trabajo sin encontrarlo.</td><td>&lt; 10</td><td>&gt; 20</td></tr>
+          <tr><td>🏭 Producción</td><td>Índice de actividad manufacturera. Mayor = mejor.</td><td>&gt; 65</td><td>&lt; 35</td></tr>
+          <tr><td>🤝 Confianza</td><td>Aprobación ciudadana. Si llega a 0 → derrota inmediata.</td><td>&gt; 55</td><td>&lt; 30 (derrota: = 0)</td></tr>
+        </table>
+      </div>
+      <div class="manual-section">
+        <h2>🔄 Relaciones dinámicas entre indicadores</h2>
+        <p>Los indicadores no son independientes: el motor aplica <strong>efectos de inercia</strong> cada turno. Algunas relaciones clave:</p>
+        <ul>
+          <li>📉 Alta pobreza sostenida erosiona la Confianza automáticamente.</li>
+          <li>🏦 Reservas muy bajas generan presión inflacionaria y aumentan el Riesgo País.</li>
+          <li>🛒 Inflación alta con pobreza alta realimenta la pobreza (espiral).</li>
+          <li>🏗️ Alta producción con desempleo alto genera empleo gradualmente.</li>
+          <li>💹 Baja deuda + bajas reservas generan un ciclo virtuoso de estabilidad.</li>
+        </ul>
+        <p class="manual-tip">💡 No alcanza con "apagar el incendio" de un indicador: si no atendés las causas estructurales, el sistema vuelve a deteriorarse solo.</p>
+      </div>
     </div>
 
-    <div class="manual-section">
-      <h2>🎮 Reglas de Juego</h2>
-      <h3>Estructura de un turno</h3>
-      <ol>
-        <li>Se presenta un <strong>evento aleatorio</strong> (de un banco de 100 eventos) con contexto narrativo e imagen.</li>
-        <li>Opcionalmente podés <strong>consultar a tus asesores</strong> antes de decidir.</li>
-        <li>El jugador elige una de las opciones disponibles.</li>
-        <li>Los índices se actualizan según los efectos matemáticos de la decisión.</li>
-        <li>Si un indicador lleva 3+ turnos en zona roja, se activa una <strong>crisis automática</strong>.</li>
-        <li>La partida se <strong>guarda automáticamente</strong> en el navegador.</li>
-      </ol>
-      <h3>Condiciones de Fin de Partida</h3>
-      <ul>
-        <li>✅ <strong>Victoria:</strong> completar los 48 meses de mandato.</li>
-        <li>❌ <strong>Derrota A:</strong> la Confianza llega a 0.</li>
-        <li>❌ <strong>Derrota B:</strong> la Pobreza supera el 80%.</li>
-      </ul>
-      <h3>Niveles de Dificultad</h3>
-      <ul>
-        <li>🌱 <strong>Fácil (×0.7):</strong> efectos más suaves. Ideal para conocer el juego.</li>
-        <li>⚖️ <strong>Normal (×1.0):</strong> experiencia diseñada. Recomendado.</li>
-        <li>🔥 <strong>Difícil (×1.3):</strong> efectos amplificados. Para jugadores experimentados.</li>
-        <li>💀 <strong>Modo Ultra (×1.8):</strong> casi imposible. Eventos extremos frecuentes, arranque devastado. Solo para quienes dominaron Difícil.</li>
-      </ul>
-      <h3>Sistema de puntaje y diplomas</h3>
-      <ul>
-        <li>🥇 <strong>Diploma de Oro:</strong> puntaje ≥ 65</li>
-        <li>🥈 <strong>Diploma de Plata:</strong> puntaje 45–64</li>
-        <li>🥉 <strong>Diploma de Bronce:</strong> puntaje 25–44</li>
-        <li>📜 <strong>Gestión Criticada:</strong> puntaje &lt; 25</li>
-      </ul>
+    <!-- ── PESTAÑA: MECÁNICAS ───────────────────────────── -->
+    <div id="man-mecanicas" class="man-panel">
+      <div class="manual-section">
+        <h2>🎮 Estructura de un turno</h2>
+        <ol>
+          <li>Se aplica la <strong>inercia de indicadores</strong> (efectos automáticos del estado actual).</li>
+          <li>Se presenta un <strong>evento</strong> con contexto narrativo e imagen fotográfica.</li>
+          <li>Opcionalmente podés <strong>consultar a tus asesores</strong> antes de decidir.</li>
+          <li>Elegís una de las opciones disponibles. Un ministro comenta tu decisión antes de confirmar.</li>
+          <li>Los indicadores se actualizan y la <strong>prensa cubre el hecho</strong> con titulares generados dinámicamente.</li>
+          <li>La partida se <strong>guarda automáticamente</strong> en el navegador.</li>
+        </ol>
+      </div>
+      <div class="manual-section">
+        <h2>⚙️ Niveles de Dificultad</h2>
+        <ul>
+          <li>🌱 <strong>Fácil (×0.7):</strong> efectos más suaves. Ideal para conocer el juego.</li>
+          <li>⚖️ <strong>Normal (×1.0):</strong> experiencia diseñada. Recomendado para el aula.</li>
+          <li>🔥 <strong>Difícil (×1.3):</strong> efectos amplificados. Para jugadores experimentados.</li>
+          <li>💀 <strong>Ultra (×1.8):</strong> casi imposible. Arranque devastado y eventos extremos frecuentes.</li>
+        </ul>
+      </div>
+      <div class="manual-section">
+        <h2>🏅 Puntaje y Diplomas</h2>
+        <p>El puntaje final se calcula combinando el estado de los 8 indicadores al terminar el mandato.</p>
+        <ul>
+          <li>🥇 <strong>Diploma de Oro:</strong> puntaje ≥ 65</li>
+          <li>🥈 <strong>Diploma de Plata:</strong> puntaje 45–64</li>
+          <li>🥉 <strong>Diploma de Bronce:</strong> puntaje 25–44</li>
+          <li>📜 <strong>Gestión Criticada:</strong> puntaje &lt; 25</li>
+        </ul>
+      </div>
+      <div class="manual-section">
+        <h2>📰 Sistema de Prensa</h2>
+        <p>Después de cada decisión se generan automáticamente <strong>3 noticias</strong> de distintos medios (diarios, tabloides, redes sociales). Las noticias reflejan tu gestión y pueden incluir pronósticos de los medios especializados.</p>
+        <p>Las noticias marcadas con 🚨 <strong>URGENTE</strong> corresponden a eventos de alta gravedad. Podés acceder al archivo histórico completo desde la <em>Sala de Prensa</em>.</p>
+      </div>
+      <div class="manual-section">
+        <h2>📄 Exportar historial</h2>
+        <p>Al finalizar la partida (victoria o derrota), podés descargar una <strong>Bitácora de Mandato</strong> en formato .txt con todas tus decisiones, los efectos en indicadores turno a turno, y el resultado final. Útil para la evaluación docente.</p>
+      </div>
     </div>
 
-    <div class="manual-section">
-      <h2>👥 Sistema de Asesores</h2>
-      <p>Antes de cada decisión podés consultar a tus tres asesores. Cada uno analiza el evento desde su perspectiva y recomienda una opción:</p>
-      <ul>
-        <li>💼 <strong>Ministro de Economía</strong> — prioriza estabilidad fiscal y financiera.</li>
-        <li>🤝 <strong>Ministra de Desarrollo Social</strong> — prioriza reducción de pobreza y empleo.</li>
-        <li>🏛️ <strong>Jefe de Gabinete</strong> — prioriza confianza ciudadana y gobernabilidad.</li>
-      </ul>
-      <p>La credibilidad de cada asesor (1-5 ⭐) aumenta cuando sus consejos son correctos y disminuye cuando fallan.</p>
+    <!-- ── PESTAÑA: ASESORES ────────────────────────────── -->
+    <div id="man-asesores" class="man-panel">
+      <div class="manual-section">
+        <h2>👥 Tu Equipo de Gobierno</h2>
+        <p>Contás con <strong>5 asesores</strong>: el Vicepresidente/a y 4 ministros/as. Cada uno puede consultarse antes de decidir y te recomienda una opción justificada desde su perspectiva.</p>
+        <ul>
+          <li>🏛️ <strong>Vicepresidente/a</strong> — asesor principal. Se puede consultar hasta <strong>2 veces por turno</strong>. Credibilidad inicial alta (4/5 ⭐).</li>
+          <li>💰 <strong>Ministerio de Economía</strong> — prioriza estabilidad fiscal, inflación y deuda.</li>
+          <li>🤝 <strong>Ministerio de Desarrollo Social</strong> — prioriza pobreza, empleo y bienestar.</li>
+          <li>🏛️ <strong>Jefatura de Gabinete</strong> — prioriza confianza ciudadana y gobernabilidad.</li>
+          <li>🏭 <strong>Ministerio de Producción</strong> — prioriza actividad económica y reservas.</li>
+        </ul>
+        <p>Cada ministro/a puede consultarse <strong>1 vez por turno</strong>. La credibilidad (1–5 ⭐) sube cuando sus consejos resultan correctos y baja cuando fallan.</p>
+      </div>
+      <div class="manual-section">
+        <h2>🚪 Sistema de Renuncias</h2>
+        <p>Si un miembro del gabinete tiene un desempeño muy bajo o hay conflicto, podés <strong>pedirle la renuncia</strong> desde su modal. El flujo es:</p>
+        <ol>
+          <li>Se muestra el impacto negativo inmediato en indicadores (la renuncia tiene un costo político).</li>
+          <li>Se abre un selector con los candidatos disponibles para el cargo.</li>
+          <li>El nuevo miembro asume con su propio perfil y modifica los efectos del juego.</li>
+        </ol>
+        <div class="manual-tip-box warn">
+          <strong>⚠️ Límite de renuncias:</strong> cada cargo admite máximo <strong>2 reemplazos</strong>. Si intentás pedir una tercera renuncia en el mismo ministerio, <strong>todo el gabinete renuncia en solidaridad</strong> y el mandato termina.
+        </div>
+      </div>
     </div>
 
-    <div class="manual-section" style="border-color:rgba(201,168,76,.35)">
-      <h2>👩‍🏫 Sección de Evaluación Docente</h2>
-      <h3>🎯 El juego como disparador de debate</h3>
-      <p>Se recomienda que los estudiantes jueguen individualmente o en parejas. Al finalizar, el docente puede organizar un debate comparando las decisiones de cada grupo.</p>
-      <h3>📝 Ensayo de justificación post-partida</h3>
-      <p>Luego de completar la partida, redactar un ensayo de 400–600 palabras respondiendo:</p>
-      <ol>
-        <li><strong>Diagnóstico inicial:</strong> ¿en qué estado estaba el país al comenzar?</li>
-        <li><strong>Decisiones clave:</strong> describir al menos 3 decisiones cruciales y su justificación.</li>
-        <li><strong>Consecuencias:</strong> ¿qué indicadores mejoraron y cuáles empeoraron?</li>
-        <li><strong>Reflexión ética:</strong> ¿alguna decisión fue éticamente conflictiva?</li>
-        <li><strong>Conclusión:</strong> ¿qué aprendieron sobre la economía política?</li>
-      </ol>
-      <table class="ind-table">
-        <tr><th>Criterio</th><th>Descripción</th><th>Puntos</th></tr>
-        <tr><td>Comprensión conceptual</td><td>Uso correcto de términos económicos</td><td>30</td></tr>
-        <tr><td>Argumentación</td><td>Coherencia entre decisiones y justificación teórica</td><td>25</td></tr>
-        <tr><td>Reflexión crítica</td><td>Reconocimiento de dilemas éticos y trade-offs</td><td>25</td></tr>
-        <tr><td>Expresión escrita</td><td>Claridad, organización y ortografía</td><td>20</td></tr>
-      </table>
+    <!-- ── PESTAÑA: EVENTOS ESPECIALES ─────────────────── -->
+    <div id="man-especiales" class="man-panel">
+      <div class="manual-section">
+        <h2>🚨 Crisis Automáticas</h2>
+        <p>Si un indicador permanece en <strong>zona roja durante 3 o más turnos consecutivos</strong>, el sistema genera automáticamente un evento de crisis vinculado a ese indicador. Estas crisis tienen efectos previos que ya se aplican al tablero <em>antes</em> de que decidas, y sus opciones son más costosas que las de los eventos normales.</p>
+        <p class="manual-tip">💡 La mejor estrategia es evitar que un indicador llegue a la zona roja, no apagarlo una vez que ya está en crisis.</p>
+      </div>
+      <div class="manual-section">
+        <h2>🔗 Eventos Encadenados</h2>
+        <p>Algunas decisiones tienen <strong>consecuencias diferidas</strong>: al elegirlas, se programa un evento nuevo que aparecerá automáticamente varios meses después. Una notificación te avisa con 🔗 que tu decisión tendrá repercusiones futuras.</p>
+        <p>Cuando ese evento encadenado aparece, muestra el banner <em>"Consecuencia de: [decisión original]"</em> para que puedas relacionar causa y efecto.</p>
+        <p class="manual-tip">💡 Estas cadenas son una herramienta pedagógica clave: ilustran que en economía política, las consecuencias de una decisión rara vez se sienten de inmediato.</p>
+      </div>
+      <div class="manual-section">
+        <h2>⚡ Eventos Extremos y Severos</h2>
+        <p>Ciertos eventos tienen una gravedad especial y se anuncian con una alerta antes de que puedas decidir:</p>
+        <ul>
+          <li>🔴 <strong>Extremos:</strong> aplican daño inmediato a los indicadores <em>antes</em> de tu decisión. Son las situaciones más graves del juego (guerras, pandemias, golpes de estado).</li>
+          <li>🟠 <strong>Severos:</strong> no aplican daño previo, pero sus opciones tienen efectos más intensos que los eventos normales.</li>
+        </ul>
+      </div>
+      <div class="manual-section">
+        <h2>🗳️ Elecciones Legislativas de Medio Término</h2>
+        <p>En el <strong>turno 22</strong> (a mitad del mandato) se activa automáticamente el ciclo electoral:</p>
+        <ol>
+          <li><strong>Turno 22 — Aviso de campaña:</strong> elegís una estrategia de campaña (propositiva, de obras, o confrontacional). Cada opción tiene efectos inmediatos y suma un bonus al puntaje electoral.</li>
+          <li><strong>Turno 24 — Resolución automática:</strong> el sistema calcula el resultado en base a tus indicadores reales + el bonus de campaña. No hay elección: es consecuencia directa de tu gestión.</li>
+        </ol>
+        <p><strong>Puntaje electoral = </strong> Confianza (35%) + IPC inverso (25%) + Pobreza inversa (25%) + Desempleo inverso (15%) + bonus de campaña. Umbral de victoria: <strong>50 puntos</strong>.</p>
+        <ul>
+          <li>🟢 <strong>Victoria:</strong> tu bloque retiene el Congreso (+confianza, -riesgo, +producción).</li>
+          <li>🔴 <strong>Derrota:</strong> la oposición toma el control (-confianza, +riesgo, -producción).</li>
+        </ul>
+        <p class="manual-tip">💡 Las elecciones son el momento en que toda tu gestión económica tiene consecuencias políticas directas. Un mandato con inflación alta y mucha pobreza casi siempre pierde.</p>
+      </div>
+    </div>
+
+    <!-- ── PESTAÑA: DOCENTE ─────────────────────────────── -->
+    <div id="man-docente" class="man-panel">
+      <div class="manual-section" style="border-color:rgba(201,168,76,.35)">
+        <h2>🎯 El juego como disparador de debate</h2>
+        <p>Se recomienda que los estudiantes jueguen <strong>individualmente o en parejas</strong>. Al finalizar, el docente puede organizar un debate comparando:</p>
+        <ul>
+          <li>¿Qué decisiones tomó cada grupo? ¿Por qué?</li>
+          <li>¿Quién ganó las elecciones de medio término y por qué?</li>
+          <li>¿Qué eventos encadenados ocurrieron y cómo los gestionaron?</li>
+          <li>¿Qué indicador les costó más mantener bajo control?</li>
+        </ul>
+        <p>La función <strong>📄 Exportar Bitácora (.txt)</strong> en la pantalla final permite a cada estudiante entregar su historial completo de decisiones para evaluación.</p>
+      </div>
+      <div class="manual-section" style="border-color:rgba(201,168,76,.35)">
+        <h2>📝 Ensayo de justificación post-partida</h2>
+        <p>Luego de completar la partida, redactar un ensayo de <strong>400–600 palabras</strong> respondiendo:</p>
+        <ol>
+          <li><strong>Diagnóstico inicial:</strong> ¿en qué estado estaba el país al comenzar? ¿Qué herencia recibiste?</li>
+          <li><strong>Decisiones clave:</strong> describir al menos 3 decisiones cruciales y su justificación económica.</li>
+          <li><strong>Eventos encadenados:</strong> ¿alguna decisión tuvo consecuencias diferidas? ¿Las anticipaste?</li>
+          <li><strong>Elecciones de medio término:</strong> ¿ganaste o perdiste? ¿Cómo influyó en la segunda mitad?</li>
+          <li><strong>Reflexión ética:</strong> ¿alguna decisión fue éticamente conflictiva? ¿Cómo la justificás?</li>
+          <li><strong>Conclusión:</strong> ¿qué aprendiste sobre la economía política y la toma de decisiones?</li>
+        </ol>
+      </div>
+      <div class="manual-section" style="border-color:rgba(201,168,76,.35)">
+        <h2>📋 Rúbrica de Evaluación</h2>
+        <table class="ind-table">
+          <tr><th>Criterio</th><th>Descripción</th><th>Puntos</th></tr>
+          <tr><td>Comprensión conceptual</td><td>Uso correcto de términos económicos y políticos</td><td>30</td></tr>
+          <tr><td>Argumentación</td><td>Coherencia entre decisiones y justificación teórica</td><td>25</td></tr>
+          <tr><td>Reflexión crítica</td><td>Reconocimiento de dilemas éticos, trade-offs y consecuencias diferidas</td><td>25</td></tr>
+          <tr><td>Expresión escrita</td><td>Claridad, organización y ortografía</td><td>20</td></tr>
+        </table>
+      </div>
     </div>
 
     <div class="center mt20 mb16">

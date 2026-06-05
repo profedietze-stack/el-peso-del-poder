@@ -4345,3 +4345,48 @@ body.tut-open {
   transition: background .2s;
 }
 .midterm-close-btn:hover { background: #ffffff0d; }
+
+/* ============================================================
+   MANUAL DIDÁCTICO — Pestañas
+   ============================================================ */
+.manual-tabs {
+  display: flex; flex-wrap: wrap; gap: 6px;
+  padding: 14px 16px 0;
+  border-bottom: 1px solid #ffffff12;
+  background: var(--card-bg);
+  position: sticky; top: 0; z-index: 10;
+}
+.man-tab {
+  padding: 7px 14px; border-radius: 8px 8px 0 0;
+  border: 1px solid transparent; border-bottom: none;
+  background: transparent; color: var(--text-dim);
+  font-size: .82rem; cursor: pointer;
+  transition: background .18s, color .18s;
+}
+.man-tab:hover { background: #ffffff0d; color: var(--text); }
+.man-tab.active {
+  background: var(--navy); color: var(--gold);
+  border-color: #ffffff18; border-bottom-color: var(--navy);
+  font-weight: 600;
+}
+.man-tab-docente.active { color: #c9a84c; }
+
+.man-panel { display: none; }
+.man-panel.active { display: block; }
+
+/* Tips y cajas de aviso dentro del manual */
+.manual-tip {
+  font-size: .83rem; color: var(--text-dim);
+  background: #ffffff08; border-left: 3px solid var(--gold);
+  padding: 8px 12px; border-radius: 0 8px 8px 0;
+  margin-top: 10px;
+}
+.manual-tip-box {
+  font-size: .84rem; padding: 10px 14px;
+  border-radius: 8px; margin-top: 10px; line-height: 1.5;
+}
+.manual-tip-box.warn {
+  background: rgba(239,68,68,.08);
+  border: 1px solid rgba(239,68,68,.25);
+  color: #fca5a5;
+}

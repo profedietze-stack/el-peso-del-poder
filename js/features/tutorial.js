@@ -81,6 +81,12 @@ function _buildSteps(vp) {
     },
     {
       target: null,
+      icon:   '🏛️',
+      title:  'Opinión del Gabinete',
+      text:   `En los eventos más importantes, al elegir una opción aparecerá un análisis de tus ministros ANTES de confirmar. Podés leerlo y volver si cambiás de idea. No aparece en todos los eventos — solo en los de mayor impacto.`,
+    },
+    {
+      target: null,
       icon:   '🚀',
       title:  '¡Listo para gobernar!',
       text:   `Todo listo, Presidente/a. Recordá: no hay respuestas perfectas en política, solo consecuencias. Yo siempre estaré disponible para asesorarte. ¡Mucho éxito!`,

@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Preview Avatares — Sillón de Rivadavia</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;600;700&family=Barlow+Condensed:wght@700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --navy:      #07111f;
+      --navy-card: #112340;
+      --gold:      #c9a84c;
+      --gold-l:    #f0c866;
+      --text:      #dce8fa;
+      --dim:       #8aabcc;
+      --green:     #27ae60;
+      --blue:      #2563a8;
+      --purple:    #8e44ad;
+      --orange:    #e67e22;
+    }
+    * { box-sizing:border-box; margin:0; padding:0 }
+    body { background:var(--navy); color:var(--text); font-family:'Barlow',sans-serif; padding:32px 24px; }
+
+    h1 { font-family:'Playfair Display',serif; color:var(--gold-l); text-align:center; font-size:1.8rem; margin-bottom:6px; }
+    .subtitle { text-align:center; color:var(--dim); font-size:.85rem; margin-bottom:32px; }
+
+    /* Selector de estilo */
+    .style-tabs { display:flex; gap:10px; justify-content:center; margin-bottom:28px; flex-wrap:wrap; }
+    .style-tab {
+      padding:10px 24px; border-radius:24px; border:2px solid rgba(255,255,255,.12);
+      background:rgba(255,255,255,.05); color:var(--dim); font-family:'Barlow Condensed',sans-serif;
+      font-size:.88rem; font-weight:700; letter-spacing:1px; text-transform:uppercase;
+      cursor:pointer; transition:all .2s;
+    }
+    .style-tab:hover { border-color:var(--gold); color:var(--text); }
+    .style-tab.active { border-color:var(--gold); background:rgba(201,168,76,.15); color:var(--gold-l); }
+
+    /* Layout por cartera */
+    .slot-section { margin-bottom:36px; }
+    .slot-header {
+      font-family:'Barlow Condensed',sans-serif; font-size:.75rem; font-weight:700;
+      letter-spacing:2px; text-transform:uppercase; padding:7px 16px; border-radius:8px;
+      margin-bottom:16px; display:inline-flex; align-items:center; gap:8px;
+    }
+    .cards-row { display:grid; grid-template-columns:repeat(auto-fill,minmax(160px,1fr)); gap:14px; }
+
+    /* Tarjeta de ministro */
+    .card {
+      background:var(--navy-card); border:1.5px solid rgba(255,255,255,.08);
+      border-radius:16px; overflow:hidden; transition:all .2s; cursor:default;
+    }
+    .card:hover { transform:translateY(-3px); box-shadow:0 12px 32px rgba(0,0,0,.5); border-color:rgba(201,168,76,.4); }
+    .card-top {
+      display:flex; justify-content:center; align-items:center;
+      padding:16px 16px 0; position:relative;
+    }
+    .card-top::before {
+      content:''; position:absolute; inset:0;
+      background:radial-gradient(circle at 50% 70%, var(--slot-glow) 0%, transparent 70%);
+    }
+    .card-avatar {
+      width:80px; height:80px; border-radius:12px; overflow:hidden;
+      border:2px solid rgba(255,255,255,.1); position:relative; z-index:1;
+      box-shadow:0 6px 20px rgba(0,0,0,.5); flex-shrink:0;
+    }
+    .card-avatar img { width:100%; height:100%; display:block; object-fit:cover; }
+    .card-body { padding:12px 14px; }
+    .card-name { font-family:'Playfair Display',serif; font-size:.82rem; font-weight:700; color:var(--text); margin-bottom:2px; }
+    .card-profile { font-family:'Barlow Condensed',sans-serif; font-size:.68rem; font-weight:700; letter-spacing:.8px; text-transform:uppercase; margin-bottom:6px; }
+    .card-bio { font-size:.7rem; color:var(--dim); line-height:1.4; }
+
+    /* Slot colors */
+    .slot-economia  { background:rgba(37,99,168,.15); color:#60aaff; border:1px solid rgba(37,99,168,.4); --slot-glow:rgba(37,99,168,.2); }
+    .slot-social    { background:rgba(39,174,96,.12);  color:#5ddd8a; border:1px solid rgba(39,174,96,.4); --slot-glow:rgba(39,174,96,.18); }
+    .slot-gabinete  { background:rgba(142,68,173,.12); color:#c97fea; border:1px solid rgba(142,68,173,.4); --slot-glow:rgba(142,68,173,.2); }
+    .slot-produccion{ background:rgba(230,126,34,.12); color:#ffaa55; border:1px solid rgba(230,126,34,.4); --slot-glow:rgba(230,126,34,.2); }
+
+    /* Comparación lado a lado */
+    .compare-view { display:none; }
+    .compare-view.active { display:block; }
+    .single-view { display:block; }
+    .single-view.hidden { display:none; }
+
+    .compare-grid { display:grid; grid-template-columns:1fr 1fr; gap:24px; margin-bottom:32px; }
+    .compare-col h2 { font-family:'Playfair Display',serif; color:var(--gold); font-size:1.1rem; margin-bottom:14px; text-align:center; }
+
+    /* Loading state */
+    .card-avatar img { background:rgba(255,255,255,.05); }
+
+    /* Seed display */
+    .seed-tag {
+      font-family:'Barlow Condensed',sans-serif; font-size:.6rem; letter-spacing:.5px;
+      color:rgba(138,171,204,.4); margin-top:5px; text-align:right;
+    }
+
+    .footer-note { text-align:center; color:var(--dim); font-size:.78rem; margin-top:32px; padding-top:20px; border-top:1px solid rgba(255,255,255,.06); }
+    .footer-note a { color:var(--gold); }
+  </style>
+</head>
+<body>
+
+  <h1>🎭 Preview de Avatares — Ministros</h1>
+  <p class="subtitle">DiceBear · Comparación de estilos para los 12 ministros del gabinete</p>
+
+  <!-- Selector de modo -->
+  <div class="style-tabs">
+    <button class="style-tab"        onclick="setMode('personas')">👔 Personas</button>
+    <button class="style-tab active" onclick="setMode('avataaars')">🎩 Avataaars</button>
+    <button class="style-tab"        onclick="setMode('adventurer')">🧭 Adventurer</button>
+    <button class="style-tab"        onclick="setMode('big-ears')">👂 Big Ears</button>
+    <button class="style-tab"        onclick="setMode('lorelei')">🖼 Lorelei</button>
+    <button class="style-tab"        onclick="setMode('micah')">🎨 Micah</button>
+    <button class="style-tab"        onclick="setMode('compare')">⚖️ Personas vs Avataaars</button>
+  </div>
+
+  <!-- Vista única (un estilo a la vez) -->
+  <div class="single-view" id="single-view">
+    <div id="cards-container"></div>
+  </div>
+
+  <!-- Vista comparación -->
+  <div class="compare-view" id="compare-view">
+    <div class="compare-grid">
+      <div>
+        <h2>Personas <span style="font-size:.75rem;opacity:.6">(sin control de ropa)</span></h2>
+        <div id="compare-lorelei"></div>
+      </div>
+      <div>
+        <h2>Avataaars <span style="font-size:.75rem;opacity:.6">(blazer + traje forzado)</span></h2>
+        <div id="compare-personas"></div>
+      </div>
+    </div>
+  </div>
+
+  <p class="footer-note">
+    Avatares generados por <a href="https://dicebear.com" target="_blank">DiceBear</a> ·
+    Seed = ID del ministro · El mismo seed siempre produce el mismo avatar ·
+    Recargá la página para ver la misma versión determinista
+  </p>
+
+<script>
+  // ── Datos de ministros ──────────────────────────────────────
+
+  const SLOTS = [
+    { id:'economia',   label:'💰 Economía',            cls:'slot-economia' },
+    { id:'social',     label:'🤝 Desarrollo Social',    cls:'slot-social' },
+    { id:'gabinete',   label:'🏛️ Jefatura de Gabinete', cls:'slot-gabinete' },
+    { id:'produccion', label:'🏭 Producción',            cls:'slot-produccion' },
+  ];
+
+  // Seeds sincronizados con ministers.js
+  const SEED_BY_ID = {
+    ortodoxa:        'Ministra-Fiscal-Paz-001',
+    heterodoxa:      'Keynes-Industria-Medina-042',
+    tecnocrata_eco:  'PhD-FinanzasIntl-Chen-087',
+    asistencial:     'Sociologa-Equidad-Gutierrez-113',
+    laboral:         'Gremial-Sindicato-Fernandez-156',
+    focalizada:      'ImpactEval-Programas-Ramos-199',
+    dialoguista:     'Consenso-Politico-Estevez-234',
+    confrontacional: 'Constitucionalista-Combativa-Salas-277',
+    tecnocrata_gab:  'AdminPub-Institucional-Ibanez-318',
+    industrialista:  'Ingenieria-Manufactura-Torres-361',
+    agroexportador:  'Agronomia-Exportacion-Blanco-404',
+    innovacion:      'EconomiaDigital-Innovacion-Cruz-447',
+  };
+
+  const MINISTERS = [
+    { id:'ortodoxa',       slot:'economia',   name:'Dra. María Eugenia Paz',  profile:'Ortodoxa · Ajuste Fiscal',       bio:'IPC↓ Deuda↓ pero Confianza↓' },
+    { id:'heterodoxa',     slot:'economia',   name:'Dr. Axel Medina',         profile:'Heterodoxo · Industrialismo',    bio:'Producción↑ Confianza↑ pero IPC↑' },
+    { id:'tecnocrata_eco', slot:'economia',   name:'Dr. Roberto Chen',        profile:'Tecnocrático · Finanzas',        bio:'Reservas↑ Riesgo↓ pero Desocup.↑' },
+    { id:'asistencial',    slot:'social',     name:'Dra. Ana Gutiérrez',      profile:'Asistencial · Transferencias',   bio:'Pobreza↓↓ pero Deuda↑' },
+    { id:'laboral',        slot:'social',     name:'Dr. Hugo Fernández',      profile:'Laboral · Pro-Sindicatos',       bio:'Desocup.↓↓ pero IPC↑' },
+    { id:'focalizada',     slot:'social',     name:'Dra. Lucía Ramos',        profile:'Focalizada · Programas',         bio:'Balance neutro, efectos sostenibles' },
+    { id:'dialoguista',    slot:'gabinete',   name:'Dr. Carlos Estévez',      profile:'Dialoguista · Consenso',         bio:'Confianza↑ Riesgo↓' },
+    { id:'confrontacional',slot:'gabinete',   name:'Dra. Verónica Salas',     profile:'Confrontacional · Alto Riesgo',  bio:'×1.28 confianza — sube Y baja más' },
+    { id:'tecnocrata_gab', slot:'gabinete',   name:'Dr. Pablo Ibáñez',        profile:'Tecnocrático · Institucional',   bio:'Riesgo↓↓ pero Confianza↓' },
+    { id:'industrialista', slot:'produccion', name:'Ing. Ricardo Torres',     profile:'Industrialista · Manufactura',   bio:'Producción↑↑ pero Deuda↑' },
+    { id:'agroexportador', slot:'produccion', name:'Ing. Eduardo Blanco',     profile:'Agroexportador · Reservas',      bio:'Reservas↑ pero Desocup.↑' },
+    { id:'innovacion',     slot:'produccion', name:'Dra. Valentina Cruz',     profile:'Innovación · Economía Digital',  bio:'Lento pero sostenible' },
+  ];
+
+  // ── Generación de URLs ──────────────────────────────────────
+
+  const BG_BY_SLOT = {
+    economia:   '0d1e38',
+    social:     '0d2018',
+    gabinete:   '1a0d2e',
+    produccion: '1e1008',
+  };
+
+  // ── Parámetros formales para avataaars ──────────────────────
+  // Valores confirmados desde el schema oficial de DiceBear v9
+  const AVA_PARAMS = [
+    // Ropa: solo opciones formales (blazer, sweater, cuello)
+    'clothing[]=blazerAndShirt',
+    'clothing[]=blazerAndSweater',
+    'clothing[]=collarAndSweater',
+    // Bocas formales — valores exactos del schema
+    // Excluidos: tongue, eating, grimace, screamOpen, vomit, disbelief
+    'mouth[]=default',
+    'mouth[]=smile',
+    'mouth[]=serious',
+    'mouth[]=twinkle',
+    'mouth[]=concerned',
+    'mouth[]=sad',
+    // Ojos — valor correcto es "closed" (no "close")
+    // Excluidos: hearts, xDizzy, eyeRoll, winkWacky
+    'eyes[]=default',
+    'eyes[]=happy',
+    'eyes[]=squint',
+    'eyes[]=wink',
+    'eyes[]=side',
+    'eyes[]=closed',
+    // Cejas naturales/formales
+    'eyebrows[]=default',
+    'eyebrows[]=defaultNatural',
+    'eyebrows[]=raisedExcited',
+    'eyebrows[]=raisedExcitedNatural',
+    'eyebrows[]=flatNatural',
+    // Accesorios: 35% de probabilidad, solo lentes formales
+    // "blank" NO existe — se usa accessoriesProbability para controlar frecuencia
+    // Sin round (puede parecerse a lentes de sol) ni sunglasses/wayfarers/eyepatch
+    'accessoriesProbability=35',
+    'accessories[]=kurt',
+    'accessories[]=prescription01',
+    'accessories[]=prescription02',
+    // Barba: 30% de probabilidad, estilos sobrios
+    'facialHairProbability=30',
+    'facialHair[]=beardLight',
+    'facialHair[]=beardMedium',
+    'facialHair[]=beardMajestic',
+    'facialHair[]=moustacheFancy',
+    'facialHair[]=moustacheMagnum',
+  ].join('&');
+
+  function avatarUrl(style, ministerId, slot) {
+    const bg = BG_BY_SLOT[slot] || '0d1e35';
+
+    // Para personas usamos el seed real sincronizado con ministers.js
+    const seed = (style === 'personas' && SEED_BY_ID[ministerId])
+      ? SEED_BY_ID[ministerId]
+      : ministerId;
+
+    const base = `https://api.dicebear.com/9.x/${style}/svg?seed=${encodeURIComponent(seed)}&backgroundColor=${bg}`;
+
+    if (style === 'avataaars')  return `${base}&${AVA_PARAMS}`;
+    if (style === 'micah')      return `${base}&baseColor=f9c9b6,ac6651,d2b48c,f5d5b0`;
+    return base;
+  }
+
+  // ── Render ─────────────────────────────────────────────────
+
+  function renderCards(containerId, style) {
+    const container = document.getElementById(containerId);
+    if (!container) return;
+
+    let html = '';
+    SLOTS.forEach(slot => {
+      const ministers = MINISTERS.filter(m => m.slot === slot.id);
+      html += `
+        <div class="slot-section">
+          <div class="slot-header ${slot.cls}">${slot.label}</div>
+          <div class="cards-row">
+            ${ministers.map(m => `
+              <div class="card">
+                <div class="card-top" style="--slot-glow:transparent">
+                  <div class="card-avatar">
+                    <img src="${avatarUrl(style, m.id, m.slot)}"
+                         alt="${m.name}"
+                         loading="lazy"
+                         onerror="this.src='https://api.dicebear.com/9.x/shapes/svg?seed=fallback-${m.id}'">
+                  </div>
+                </div>
+                <div class="card-body">
+                  <div class="card-name">${m.name}</div>
+                  <div class="card-profile" style="color:${slotColor(m.slot)}">${m.profile}</div>
+                  <div class="card-bio">${m.bio}</div>
+                  <div class="seed-tag">seed: ${m.id}</div>
+                </div>
+              </div>
+            `).join('')}
+          </div>
+        </div>`;
+    });
+
+    container.innerHTML = html;
+  }
+
+  function slotColor(slot) {
+    return { economia:'#60aaff', social:'#5ddd8a', gabinete:'#c97fea', produccion:'#ffaa55' }[slot] || '#c9a84c';
+  }
+
+  // ── Control de modo ─────────────────────────────────────────
+
+  let currentMode = 'lorelei';
+
+  function setMode(mode) {
+    currentMode = mode;
+
+    // Actualizar tabs
+    document.querySelectorAll('.style-tab').forEach(t => t.classList.remove('active'));
+    event.target.classList.add('active');
+
+    const single  = document.getElementById('single-view');
+    const compare = document.getElementById('compare-view');
+
+    if (mode === 'compare') {
+      single.classList.add('hidden');
+      compare.classList.add('active');
+      renderCards('compare-lorelei',  'personas');
+      renderCards('compare-personas', 'avataaars');
+    } else {
+      single.classList.remove('hidden');
+      compare.classList.remove('active');
+      renderCards('cards-container', mode);
+    }
+  }
+
+  // ── Init ────────────────────────────────────────────────────
+  renderCards('cards-container', 'avataaars');
+</script>
+
+</body>
+</html>

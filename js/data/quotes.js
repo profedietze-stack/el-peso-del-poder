@@ -1,0 +1,62 @@
+"use strict";
+
+export const QUOTES = [
+  { text:"La inflación es la forma de tributación que el gobierno puede imponer sin legislación.", author:"Milton Friedman", tags:["📈 Inflación","💰 Presupuesto","🏦 FMI","🏦 Tensión con FMI","💱 Política Cambiaria","💱 Debate Monetario"] },
+  { text:"La economía es el método; el objetivo es cambiar el alma.", author:"Margaret Thatcher", tags:["📈 Inflación","💰 Presupuesto","🏛️ Reforma del Estado","🏦 Sistema Financiero","🏦 Banca Pública"] },
+  { text:"Un presupuesto no es solo una colección de números, sino la expresión de nuestros valores y aspiraciones.", author:"Jacob Lew", tags:["💰 Presupuesto","📊 Política Fiscal","🏦 FMI","🏦 Tensión con FMI"] },
+  { text:"No existe el almuerzo gratis.", author:"Milton Friedman", tags:["📊 Política Fiscal","💰 Presupuesto","🏦 FMI","🏦 Tensión con FMI","🏦 Sistema Financiero"] },
+  { text:"El déficit de hoy es el impuesto de mañana.", author:"James Madison", tags:["💰 Presupuesto","📊 Política Fiscal","🏦 FMI","🏦 Tensión con FMI"] },
+  { text:"La deuda es el esclavo del futuro.", author:"Victor Hugo", tags:["🏦 FMI","🏦 Tensión con FMI","🚨 Crisis Financiera","🏦 Banca Pública"] },
+  { text:"El trabajo dignifica al hombre.", author:"Domingo F. Sarmiento", tags:["✊ Conflicto Laboral","💼 Empleo","🚌 Transporte","🏋️ Deporte","🏃 Economía Informal"] },
+  { text:"No hay nada que enaltezca tanto a un pueblo como el amor al trabajo.", author:"Manuel Belgrano", tags:["✊ Conflicto Laboral","💼 Empleo","🏃 Economía Informal","🏭 Industria"] },
+  { text:"El pleno empleo no es un lujo: es la condición básica de una democracia sana.", author:"William Beveridge", tags:["💼 Empleo","✊ Conflicto Social","🏃 Economía Informal","🏭 Industria"] },
+  { text:"La pobreza no es accidental. Como la esclavitud, es obra del hombre.", author:"Nelson Mandela", tags:["✊ Conflicto Social","📉 Índice de Pobreza","🏠 Vivienda","🏙️ Urbanismo","🌾 Soberanía Alimentaria"] },
+  { text:"La injusticia en cualquier lugar es una amenaza a la justicia en todas partes.", author:"Martin Luther King Jr.", tags:["⚖️ Derechos Humanos","✊ Conflicto Social","🔴 Corrupción","⚖️ Seguridad"] },
+  { text:"Nadie es libre cuando otros sufren.", author:"Simone de Beauvoir", tags:["⚖️ Derechos Humanos","✊ Conflicto Social","🌍 Migración","🏠 Vivienda"] },
+  { text:"Una sociedad que no cuida a sus más vulnerables no puede llamarse civilizada.", author:"Mahatma Gandhi", tags:["🏠 Vivienda","🏙️ Urbanismo","🌾 Soberanía Alimentaria","🏥 Salud Pública","🏥 Crisis Sanitaria Social"] },
+  { text:"La democracia se alimenta de debate y participación ciudadana.", author:"Raúl Alfonsín", tags:["🗳️ Elecciones","🏛️ Instituciones","📡 Medios de Comunicación","🔴 Corrupción"] },
+  { text:"Cuando los gobiernos temen al pueblo, hay libertad. Cuando el pueblo teme al gobierno, hay tiranía.", author:"Thomas Jefferson", tags:["🏛️ Instituciones","🔴 Corrupción","⚖️ Seguridad","📡 Medios de Comunicación"] },
+  { text:"Un pueblo que no sabe para qué sirve su gobierno no puede ser libre.", author:"Juan B. Alberdi", tags:["🗳️ Elecciones","🏛️ Instituciones","🏛️ Reforma del Estado","🔴 Corrupción"] },
+  { text:"La corrupción es la traición más grande que puede cometerse contra un pueblo.", author:"Néstor Kirchner", tags:["🔴 Corrupción"] },
+  { text:"La impunidad es el mayor incentivo de la corrupción.", author:"Transparencia Internacional", tags:["🔴 Corrupción","📊 Estadísticas"] },
+  { text:"La prensa libre es la madre de todas las libertades.", author:"Camille Desmoulins", tags:["📡 Medios de Comunicación","🔴 Corrupción","🏛️ Instituciones"] },
+  { text:"No heredamos la tierra de nuestros antepasados; la tomamos prestada de nuestros hijos.", author:"Antoine de Saint-Exupéry", tags:["🌱 Medio Ambiente","🌡️ Cambio Climático","⛏️ Minería","🌊 Pesca","🧬 Biotecnología","💊 Adicciones"] },
+  { text:"El desarrollo sostenible satisface las necesidades del presente sin comprometer las del futuro.", author:"Gro Harlem Brundtland", tags:["🌱 Medio Ambiente","🌡️ Cambio Climático","⛏️ Minería","⛽ Recursos Naturales","🌿 Agroecología"] },
+  { text:"Si destruimos los recursos naturales, destruimos nuestra capacidad de desarrollo.", author:"Franklin D. Roosevelt", tags:["🌱 Medio Ambiente","⛏️ Minería","🌊 Pesca","🌾 Sector Agropecuario","🌿 Agroecología"] },
+  { text:"La educación es el arma más poderosa que podés usar para cambiar el mundo.", author:"Nelson Mandela", tags:["🎓 Educación","🎓 Reforma Educativa","🎓 Deserción Escolar","🧪 Ciencia y Tecnología","🔬 Investigación"] },
+  { text:"Invertir en conocimiento paga el mejor interés.", author:"Benjamin Franklin", tags:["🎓 Educación","🎓 Reforma Educativa","💡 Economía del Conocimiento","🧪 Ciencia y Tecnología","🔬 Investigación"] },
+  { text:"Una nación que no invierte en sus científicos no tiene futuro.", author:"Carl Sagan", tags:["🧪 Ciencia y Tecnología","🔬 Investigación","💡 Economía del Conocimiento","🧬 Biotecnología"] },
+  { text:"La ciencia no conoce fronteras, porque el conocimiento pertenece a la humanidad.", author:"Louis Pasteur", tags:["🧪 Ciencia y Tecnología","🔬 Investigación","🌐 Internet","⚗️ Industria Farmacéutica"] },
+  { text:"Seamos libres, que lo demás no importa nada.", author:"General José de San Martín", tags:["🌍 Geopolítica","🤝 Integración Regional","🛡️ Defensa","🏛️ Instituciones","🤝 Diplomacia"] },
+  { text:"No son los gobernantes los que hacen las naciones, son las naciones las que hacen a sus gobernantes.", author:"Simón Bolívar", tags:["🌍 Geopolítica","🗳️ Elecciones","🤝 Integración Regional","🤝 Diplomacia"] },
+  { text:"La soberanía no se negocia, se ejerce.", author:"Juan Domingo Perón", tags:["🌍 Geopolítica","🛡️ Defensa","🌊 Pesca","🏦 FMI","🤝 Diplomacia"] },
+  { text:"El precio de la libertad es la eterna vigilancia.", author:"Thomas Jefferson", tags:["🛡️ Defensa","🏛️ Instituciones","💻 Ciberseguridad","📡 Medios de Comunicación"] },
+  { text:"La ley es igual para todos o no es ley.", author:"Montesquieu", tags:["⚖️ Seguridad","⚖️ Derechos Humanos","🔴 Corrupción","🏛️ Instituciones","💊 Adicciones"] },
+  { text:"La seguridad real viene del desarrollo, no de la represión.", author:"Adolfo Pérez Esquivel", tags:["⚖️ Seguridad","💊 Adicciones","✊ Conflicto Social","🏙️ Urbanismo"] },
+  { text:"La salud no lo es todo, pero sin ella todo lo demás es nada.", author:"Arthur Schopenhauer", tags:["🏥 Salud Pública","🏥 Crisis Sanitaria Social","💊 Salud","🦠 Pandemia","⚗️ Industria Farmacéutica","🌐 Soberanía Sanitaria"] },
+  { text:"Prevenir es mejor que curar.", author:"Hipócrates", tags:["🏥 Salud Pública","🦠 Pandemia","🌾 Soberanía Alimentaria","💊 Adicciones"] },
+  { text:"La infraestructura es la columna vertebral del desarrollo económico.", author:"Franklin D. Roosevelt", tags:["⚡ Energía","⚡ Crisis de Gas","🚆 Infraestructura","🌐 Internet","🔬 Investigación"] },
+  { text:"El futuro pertenece a quienes se preparan para él hoy.", author:"Malcolm X", tags:["⚡ Energía","🚆 Infraestructura","🌐 Internet","🧪 Ciencia y Tecnología","🔬 Investigación","👶 Demografía"] },
+  { text:"El campo es la base de la nación.", author:"Juan Bautista Alberdi", tags:["🌾 Sector Agropecuario","🌾 Agroexportaciones","🌿 Agroecología","🧬 Biotecnología"] },
+  { text:"El libre comercio es el evangelio de nuestra era.", author:"Richard Cobden", tags:["🏭 Industria","🤝 Integración Regional","💼 Inversión Extranjera","🌍 Geopolítica"] },
+  { text:"Nadie es extranjero en la tierra de los hombres libres.", author:"José Martí", tags:["🌍 Migración","⚖️ Derechos Humanos","👶 Demografía"] },
+  { text:"La automatización no elimina el trabajo; lo transforma. El desafío es quién asume el costo de esa transformación.", author:"Erik Brynjolfsson", tags:["🤖 Inteligencia Artificial","💼 Empleo","🏭 Industria"] },
+  { text:"El agua es el petróleo del siglo XXI.", author:"Mark Zeitoun", tags:["💧 Crisis Hídrica","🌱 Medio Ambiente","🌡️ Cambio Climático"] },
+  { text:"Los derechos de las mujeres son derechos humanos.", author:"Hillary Clinton", tags:["♀️ Género y Diversidad","⚖️ Derechos Humanos"] },
+  { text:"La economía del cuidado sostiene a todas las demás economías pero permanece invisible.", author:"Marilyn Waring", tags:["🤲 Economía del Cuidado","♀️ Género y Diversidad"] },
+  { text:"La tierra no es una herencia de nuestros padres sino un préstamo de nuestros hijos.", author:"Antoine de Saint-Exupéry", tags:["🏔️ Pueblos Originarios","🌱 Medio Ambiente"] },
+  { text:"Las Malvinas fueron, son y serán argentinas.", author:"Preámbulo Constitucional 1994", tags:["🗺️ Soberanía Territorial"] },
+  { text:"El éxito no es definitivo, el fracaso no es fatal: lo que cuenta es el coraje de continuar.", author:"Winston Churchill", tags:[] },
+  { text:"Nunca dudes de que un grupo de ciudadanos comprometidos puede cambiar el mundo.", author:"Margaret Mead", tags:[] },
+  { text:"Gobernar es elegir.", author:"Pierre Mendès France", tags:[] },
+  { text:"Toda decisión de gobierno tiene ganadores y perdedores. La ética está en saber quiénes son.", author:"Joseph Stiglitz", tags:[] },
+  { text:"La política económica es, ante todo, una política: una elección sobre quién gana y quién pierde.", author:"Ha-Joon Chang", tags:[] },
+  { text:"El amor a la patria es el primer deber del ciudadano.", author:"Manuel Belgrano", tags:[] },
+];
+
+export function getQuoteForTag(tag) {
+  const matching = QUOTES.filter(q => q.tags.includes(tag));
+  if (matching.length > 0) return matching[Math.floor(Math.random() * matching.length)];
+  const generic = QUOTES.filter(q => q.tags.length === 0);
+  return generic[Math.floor(Math.random() * generic.length)];
+}

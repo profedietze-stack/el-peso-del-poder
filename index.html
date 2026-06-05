@@ -1,0 +1,967 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, viewport-fit=cover">
+  <meta name="description" content="El Peso del Poder — Simulador de Economía Política. Creado por ProfeD.">
+  <meta name="theme-color" content="#07111f">
+  <!-- iOS PWA / pantalla completa -->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="El Peso del Poder">
+  <meta name="mobile-web-app-capable" content="yes">
+  <title>El Peso del Poder</title>
+
+  <link rel="manifest" href="manifest.json">
+  <link rel="icon" href="icon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="icon.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600;700&family=Barlow+Condensed:wght@400;600;700&family=Playfair+Display:wght@700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/main.css">
+</head>
+<body>
+
+<!-- =====================================================
+     SPLASH SCREEN — Carga inicial + pantalla completa
+     Visible por defecto; js/ui/splash.js lo controla.
+     ===================================================== -->
+<div id="splash-overlay" class="splash-overlay" role="dialog" aria-modal="true" aria-label="Cargando juego">
+
+  <!-- Fondo animado -->
+  <div class="sp-bg" aria-hidden="true">
+    <div class="sp-bg-orb sp-orb-1"></div>
+    <div class="sp-bg-orb sp-orb-2"></div>
+    <div class="sp-bg-orb sp-orb-3"></div>
+  </div>
+
+  <div class="sp-box">
+
+    <!-- Logo y título -->
+    <div class="sp-logo">
+      <div class="sp-logo-icon" aria-hidden="true">🏛️</div>
+      <h1 class="sp-title">El Peso del Poder</h1>
+      <p class="sp-subtitle">Simulador de Economía Política</p>
+      <p class="sp-byline">✦ Creado por ProfeD ✦</p>
+    </div>
+
+    <div class="sp-divider" aria-hidden="true"></div>
+
+    <!-- Barra de progreso -->
+    <div class="sp-progress-wrap" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+      <div class="sp-progress-track">
+        <div class="sp-progress-fill" id="sp-progress-fill"></div>
+      </div>
+      <div class="sp-status-label" id="sp-status-label">Cargando…</div>
+    </div>
+
+    <!-- Checklist de carga -->
+    <div id="sp-checks" class="sp-checks" aria-live="polite"></div>
+
+    <div class="sp-divider" aria-hidden="true"></div>
+
+    <!-- Hint de iOS (oculto por defecto, se muestra si aplica) -->
+    <div id="sp-ios-hint" class="sp-ios-hint" style="display:none" aria-live="polite"></div>
+
+    <!-- Botón principal -->
+    <button
+      id="sp-continue-btn"
+      class="sp-continue-btn"
+      onclick="window.__splashContinue()"
+      disabled
+      aria-label="Continuar al juego">
+      ▶ Continuar
+    </button>
+
+    <p class="sp-credit" aria-hidden="true">v12 · 2025</p>
+
+  </div>
+</div>
+
+<!-- =====================================================
+     PANTALLA INICIO
+     ===================================================== -->
+<div id="screen-start" class="screen active">
+  <div class="glow-orb glow-orb-1"></div>
+  <div class="glow-orb glow-orb-2"></div>
+  <div class="start-card">
+    <div class="start-emblem">🏛️</div>
+    <h1 class="start-title">El Peso del Poder</h1>
+    <div class="start-subtitle">Simulador de Economía Política</div>
+    <div class="start-byline">✦ Creado por ProfeD ✦</div>
+    <div class="divider"></div>
+    <img class="start-img"
+      src="https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?w=800&q=70"
+      alt="Mercados financieros"
+      onerror="this.src='https://picsum.photos/seed/econpol/800/300'">
+
+    <div class="btn-row">
+      <button class="btn btn-primary" onclick="startGame()">🎮 Iniciar Juego</button>
+      <button class="btn btn-gold" id="load-btn" onclick="loadGame()" style="display:none">💾 Cargar Partida</button>
+      <button class="btn btn-outline" onclick="openTrophies()">🏅 Logros y Stats</button>
+      <button class="btn btn-outline" onclick="openManual()">📚 Manual Didáctico</button>
+    </div>
+
+    <button class="reset-progress-btn" onclick="window.__openResetModal()">
+      🗑️ Borrar todo el progreso
+    </button>
+  </div>
+</div>
+
+<!-- =====================================================
+     MODAL — Confirmación de borrado de progreso
+     ===================================================== -->
+<div id="reset-modal-overlay" class="reset-modal-overlay" onclick="if(event.target===this)window.__closeResetModal()">
+  <div class="reset-modal-box">
+    <div class="reset-modal-icon">⚠️</div>
+    <h2 class="reset-modal-title">¿Borrar todo el progreso?</h2>
+    <p class="reset-modal-text">
+      Esta acción eliminará <strong>permanentemente</strong>:
+    </p>
+    <ul class="reset-modal-list">
+      <li>💾 La partida guardada actual</li>
+      <li>🏅 Todos los logros y estadísticas</li>
+      <li>📖 El historial del tutorial</li>
+    </ul>
+    <p class="reset-modal-warning">No se puede deshacer.</p>
+    <div class="reset-modal-btns">
+      <button class="btn btn-outline" onclick="window.__closeResetModal()">Cancelar</button>
+      <button class="btn btn-danger" onclick="window.__confirmReset()">🗑️ Sí, borrar todo</button>
+    </div>
+  </div>
+</div>
+
+<!-- =====================================================
+     PANTALLA IDENTIDAD POLÍTICA (nueva)
+     Aparece entre el menú y la herencia.
+     ===================================================== -->
+<div id="screen-identity" class="screen">
+  <div class="ident-wrap">
+
+    <!-- Header -->
+    <div class="ident-header">
+      <div class="ident-header-icon">🏛️</div>
+      <div>
+        <div class="ident-header-title">Tu Identidad Política</div>
+        <div class="ident-header-sub">Antes de asumir el poder, definí quién sos. Tu nombre, tu partido y tu vice marcarán el rumbo desde el primer día.</div>
+      </div>
+      <button class="btn btn-outline btn-sm ident-back-btn" onclick="showScreen('screen-start')">← Volver</button>
+    </div>
+
+    <div class="ident-body">
+
+      <!-- Sección 1: Nombre del Presidente -->
+      <div class="ident-section">
+        <div class="ident-section-label">👤 Nombre del Presidente/a</div>
+        <div class="ident-section-sub">¿Cómo se llama el/la mandatario/a? Podés usar tu nombre, uno histórico o inventado.</div>
+        <input type="text"
+               id="ident-president-input"
+               class="ident-input"
+               placeholder="Ej: María García, Juan Peralta…"
+               maxlength="40"
+               list="dl-presidents"
+               autocomplete="off">
+        <datalist id="dl-presidents">
+          <option value="Salvador Allende">
+          <option value="Hugo Chávez">
+          <option value="Cristina Fernández">
+          <option value="Lula da Silva">
+          <option value="Evo Morales">
+          <option value="Rafael Correa">
+          <option value="Michelle Bachelet">
+          <option value="Andrés Manuel López Obrador">
+          <option value="Gabriel Boric">
+          <option value="Gustavo Petro">
+          <option value="Néstor Kirchner">
+          <option value="Carlos Menem">
+          <option value="Alberto Fernández">
+          <option value="Javier Milei">
+          <option value="Nayib Bukele">
+          <option value="Luis Lacalle Pou">
+          <option value="Álvaro Uribe">
+          <option value="Martín Vizcarra">
+          <option value="Dilma Rousseff">
+          <option value="Isabel Perón">
+          <option value="Violeta Chamorro">
+          <option value="Mireya Moscoso">
+          <option value="Benito Juárez">
+          <option value="Omar Torrijos">
+        </datalist>
+      </div>
+
+      <!-- Sección 2: Nombre del Partido -->
+      <div class="ident-section">
+        <div class="ident-section-label">🗳️ Nombre del Partido Político</div>
+        <div class="ident-section-sub">El movimiento que te llevó al poder. Puede ser real, ficticio o inspirado en uno existente.</div>
+        <input type="text"
+               id="ident-party-input"
+               class="ident-input"
+               placeholder="Ej: Partido Renovación, Frente Popular…"
+               maxlength="50"
+               list="dl-parties"
+               autocomplete="off">
+        <datalist id="dl-parties">
+          <option value="Partido de los Trabajadores (PT)">
+          <option value="Partido Justicialista (Peronismo)">
+          <option value="Frente Amplio">
+          <option value="MORENA">
+          <option value="Partido Acción Nacional (PAN)">
+          <option value="Unión Demócrata Independiente (UDI)">
+          <option value="PSUV – Partido Socialista Unido">
+          <option value="Movimiento al Socialismo (MAS)">
+          <option value="Partido Socialista">
+          <option value="Renovación Nacional">
+          <option value="PRO – Propuesta Republicana">
+          <option value="La Libertad Avanza">
+          <option value="Partido Colorado">
+          <option value="Partido Nacional">
+          <option value="Fuerza Popular">
+          <option value="Pacto Histórico">
+          <option value="FSLN – Frente Sandinista">
+          <option value="Partido Comunista">
+          <option value="Partido Revolucionario Institucional (PRI)">
+          <option value="Cambio Democrático">
+          <option value="Alianza País">
+          <option value="Convergencia Nacional">
+        </datalist>
+      </div>
+
+      <!-- Sección 3: Vicepresidente -->
+      <div class="ident-section">
+        <div class="ident-section-label">⭐ Elegí tu Vicepresidente/a</div>
+        <div class="ident-section-sub">Será tu asesor/a principal durante todo el mandato — puede consultarse <strong>2 veces por turno</strong>. Su perfil también modifica los indicadores desde el inicio.</div>
+        <div class="ident-vp-grid" id="ident-vp-grid">
+          <!-- Generado por JS -->
+        </div>
+      </div>
+
+    </div><!-- /ident-body -->
+
+    <!-- Footer con botón -->
+    <div class="ident-footer">
+      <button class="btn btn-gold ident-confirm-btn" onclick="confirmIdentity()">
+        🏛️ Continuar con mi Identidad →
+      </button>
+      <div class="ident-footer-note">✦ Creado por ProfeD ✦</div>
+    </div>
+
+  </div>
+</div>
+
+<!-- =====================================================
+     PANTALLA HERENCIA
+     ===================================================== -->
+<div id="screen-heritage" class="screen">
+  <div class="heritage-wrap">
+    <div style="text-align:center;margin-bottom:20px">
+      <div style="font-size:2.8rem;margin-bottom:6px">🏛️</div>
+      <div class="heritage-title">¿Qué gobierno te precedió?</div>
+      <div class="heritage-sub">La situación que heredás define el punto de partida de tu mandato.<br>No hay dos herencias iguales — elegí con cuidado.</div>
+    </div>
+
+    <div class="heritage-grid" id="heritage-grid"><!-- Generado por JS --></div>
+
+    <div class="heritage-question">
+      <h3>🗳️ ¿Con qué respaldo llegaste al poder?</h3>
+      <div class="mandate-options" id="mandate-options">
+        <div class="mandate-opt selected" data-mandate="amplio" onclick="selectMandate(this)">
+          <div class="mandate-opt-dot"></div>
+          <div><strong>Victoria amplia</strong> — más del 55% de los votos. Alta confianza inicial, pero grandes expectativas.</div>
+        </div>
+        <div class="mandate-opt" data-mandate="ajustado" onclick="selectMandate(this)">
+          <div class="mandate-opt-dot"></div>
+          <div><strong>Victoria ajustada</strong> — entre 45% y 55%. Mandato legítimo pero con oposición fuerte desde el día 1.</div>
+        </div>
+        <div class="mandate-opt" data-mandate="coalicion" onclick="selectMandate(this)">
+          <div class="mandate-opt-dot"></div>
+          <div><strong>Coalición frágil</strong> — ganaste aliando fuerzas dispares. Más recursos, pero menos cohesión interna.</div>
+        </div>
+      </div>
+    </div>
+
+    <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap">
+      <button class="btn btn-outline" onclick="showScreen('screen-identity')">← Volver</button>
+      <button class="btn btn-gold" onclick="confirmHeritage()">Asumir la Presidencia →</button>
+    </div>
+
+    <div style="font-size:.72rem;color:var(--text-dim);text-align:center;margin-top:14px;opacity:.7">
+      ✦ Creado por ProfeD ✦
+    </div>
+  </div>
+</div>
+
+<!-- =====================================================
+     PANTALLA GABINETE (NUEVA en v12)
+     ===================================================== -->
+<div id="screen-ministers" class="screen">
+  <div class="min-wrap">
+
+    <!-- Header sticky -->
+    <div class="min-header">
+      <div class="min-header-inner">
+        <div class="min-header-icon">🏛️</div>
+        <div>
+          <div class="min-header-title">Armá tu Gabinete</div>
+          <div class="min-header-sub">Elegí un ministro/a para cada cartera. Cada perfil tiene fortalezas, debilidades y trade-offs reales.</div>
+        </div>
+        <button class="btn btn-outline btn-sm min-back-btn" onclick="showScreen('screen-heritage')">← Volver</button>
+      </div>
+    </div>
+
+    <!-- Cuatro carteras con candidatos -->
+    <div class="min-body">
+      <div id="ministers-grid"><!-- Generado por JS --></div>
+    </div>
+
+    <!-- Barra resumen + botón confirmar (sticky al fondo) -->
+    <div class="min-footer">
+      <div id="min-summary-bar"><!-- Generado por JS --></div>
+      <div class="min-footer-actions">
+        <button class="btn btn-gold" id="btn-confirm-ministers" disabled
+                onclick="confirmMinistersSelection()">
+          Completá tu gabinete…
+        </button>
+      </div>
+      <div class="min-footer-note">✦ Creado por ProfeD ✦</div>
+    </div>
+
+  </div>
+</div>
+
+<!-- =====================================================
+     PANTALLA DIFICULTAD (NUEVA en v12)
+     ===================================================== -->
+<div id="screen-difficulty" class="screen">
+  <div class="difficulty-wrap">
+    <div style="text-align:center;margin-bottom:24px">
+      <div style="font-size:2.8rem;margin-bottom:6px">⚙️</div>
+      <div class="heritage-title">¿A qué dificultad querés jugar?</div>
+      <div class="heritage-sub">La dificultad ajusta la intensidad de los efectos de cada decisión.<br>Podés cambiarla en cada nueva partida.</div>
+    </div>
+
+    <div class="difficulty-grid" id="difficulty-grid"><!-- Generado por JS --></div>
+
+    <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:24px">
+      <button class="btn btn-outline" onclick="showScreen('screen-heritage')">← Volver</button>
+      <button class="btn btn-gold" id="btn-confirm-difficulty">▶ Jugar en modo Normal</button>
+    </div>
+
+    <div style="font-size:.72rem;color:var(--text-dim);text-align:center;margin-top:14px;opacity:.7">
+      ✦ Creado por ProfeD ✦
+    </div>
+  </div>
+</div>
+
+<!-- =====================================================
+     PANTALLA MANUAL DIDÁCTICO
+     ===================================================== -->
+<div id="screen-manual" class="screen" style="flex-direction:column;overflow-y:auto;">
+  <div class="manual-header">
+    <span style="font-size:1.8rem">📚</span>
+    <div>
+      <h1>Manual Didáctico</h1>
+      <div style="font-size:.78rem;color:var(--text-dim)">El Peso del Poder · Simulador de Economía Política · Creado por ProfeD</div>
+    </div>
+    <button class="btn btn-outline btn-sm" style="margin-left:auto" onclick="showScreen('screen-start')">← Volver</button>
+  </div>
+
+  <div class="manual-body">
+    <div class="manual-section">
+      <h2>📖 ¿De qué trata el juego?</h2>
+      <p>En <em>El Peso del Poder</em> asumís la presidencia de tu propio país y debés gobernar durante <strong>4 años (48 meses/turnos)</strong>. Cada mes enfrentás un evento crítico —económico, social, político o ambiental— y elegís entre distintas decisiones que afectan ocho indicadores macroeconómicos.</p>
+      <p>El juego simula las tensiones reales de la gestión pública: toda decisión tiene costos y beneficios, y rara vez existe una opción perfecta. El objetivo pedagógico es comprender que la economía política es un campo de dilemas éticos y técnicos permanentes.</p>
+    </div>
+
+    <div class="manual-section">
+      <h2>📊 Los 8 Indicadores Económicos</h2>
+      <p>Cada indicador se mide en una escala de <strong>0 a 100</strong> y posee zonas de color: 🟢 verde (zona segura), 🟡 amarillo (zona de alerta) y 🔴 rojo (zona de crisis).</p>
+      <table class="ind-table">
+        <tr><th>Indicador</th><th>Descripción</th><th>Meta deseable</th><th>Zona crítica</th></tr>
+        <tr><td>📈 IPC / Inflación</td><td>Variación de precios al consumidor. Cuanto mayor, peor.</td><td>&lt; 40</td><td>&gt; 65</td></tr>
+        <tr><td>💸 Deuda Externa</td><td>Endeudamiento del Estado con acreedores internacionales.</td><td>&lt; 50</td><td>&gt; 70</td></tr>
+        <tr><td>💰 Reservas Internacionales</td><td>Divisas del Banco Central. Mayor = mejor respaldo monetario.</td><td>&gt; 60</td><td>&lt; 30</td></tr>
+        <tr><td>⚠️ Riesgo País</td><td>Confianza de los mercados internacionales en el Estado.</td><td>&lt; 40</td><td>&gt; 65</td></tr>
+        <tr><td>📉 Índice de Pobreza</td><td>% de la población bajo la línea de pobreza.</td><td>&lt; 30</td><td>&gt; 55 (derrota: &gt;80)</td></tr>
+        <tr><td>👥 Tasa de Desocupación</td><td>% de la PEA que busca trabajo sin encontrarlo.</td><td>&lt; 10</td><td>&gt; 20</td></tr>
+        <tr><td>🏭 Producción Industrial</td><td>Índice de actividad manufacturera. Mayor = mejor.</td><td>&gt; 65</td><td>&lt; 35</td></tr>
+        <tr><td>🤝 Confianza en el Gobierno</td><td>Aprobación ciudadana. Si llega a 0 → derrota inmediata.</td><td>&gt; 55</td><td>&lt; 30 (derrota: = 0)</td></tr>
+      </table>
+    </div>
+
+    <div class="manual-section">
+      <h2>🎮 Reglas de Juego</h2>
+      <h3>Estructura de un turno</h3>
+      <ol>
+        <li>Se presenta un <strong>evento aleatorio</strong> (de un banco de 100 eventos) con contexto narrativo e imagen.</li>
+        <li>Opcionalmente podés <strong>consultar a tus asesores</strong> antes de decidir.</li>
+        <li>El jugador elige una de las opciones disponibles.</li>
+        <li>Los índices se actualizan según los efectos matemáticos de la decisión.</li>
+        <li>Si un indicador lleva 3+ turnos en zona roja, se activa una <strong>crisis automática</strong>.</li>
+        <li>La partida se <strong>guarda automáticamente</strong> en el navegador.</li>
+      </ol>
+      <h3>Condiciones de Fin de Partida</h3>
+      <ul>
+        <li>✅ <strong>Victoria:</strong> completar los 48 meses de mandato.</li>
+        <li>❌ <strong>Derrota A:</strong> la Confianza llega a 0.</li>
+        <li>❌ <strong>Derrota B:</strong> la Pobreza supera el 80%.</li>
+      </ul>
+      <h3>Niveles de Dificultad</h3>
+      <ul>
+        <li>🌱 <strong>Fácil (×0.7):</strong> efectos más suaves. Ideal para conocer el juego.</li>
+        <li>⚖️ <strong>Normal (×1.0):</strong> experiencia diseñada. Recomendado.</li>
+        <li>🔥 <strong>Difícil (×1.3):</strong> efectos amplificados. Para jugadores experimentados.</li>
+        <li>💀 <strong>Modo Ultra (×1.8):</strong> casi imposible. Eventos extremos frecuentes, arranque devastado. Solo para quienes dominaron Difícil.</li>
+      </ul>
+      <h3>Sistema de puntaje y diplomas</h3>
+      <ul>
+        <li>🥇 <strong>Diploma de Oro:</strong> puntaje ≥ 65</li>
+        <li>🥈 <strong>Diploma de Plata:</strong> puntaje 45–64</li>
+        <li>🥉 <strong>Diploma de Bronce:</strong> puntaje 25–44</li>
+        <li>📜 <strong>Gestión Criticada:</strong> puntaje &lt; 25</li>
+      </ul>
+    </div>
+
+    <div class="manual-section">
+      <h2>👥 Sistema de Asesores</h2>
+      <p>Antes de cada decisión podés consultar a tus tres asesores. Cada uno analiza el evento desde su perspectiva y recomienda una opción:</p>
+      <ul>
+        <li>💼 <strong>Ministro de Economía</strong> — prioriza estabilidad fiscal y financiera.</li>
+        <li>🤝 <strong>Ministra de Desarrollo Social</strong> — prioriza reducción de pobreza y empleo.</li>
+        <li>🏛️ <strong>Jefe de Gabinete</strong> — prioriza confianza ciudadana y gobernabilidad.</li>
+      </ul>
+      <p>La credibilidad de cada asesor (1-5 ⭐) aumenta cuando sus consejos son correctos y disminuye cuando fallan.</p>
+    </div>
+
+    <div class="manual-section" style="border-color:rgba(201,168,76,.35)">
+      <h2>👩‍🏫 Sección de Evaluación Docente</h2>
+      <h3>🎯 El juego como disparador de debate</h3>
+      <p>Se recomienda que los estudiantes jueguen individualmente o en parejas. Al finalizar, el docente puede organizar un debate comparando las decisiones de cada grupo.</p>
+      <h3>📝 Ensayo de justificación post-partida</h3>
+      <p>Luego de completar la partida, redactar un ensayo de 400–600 palabras respondiendo:</p>
+      <ol>
+        <li><strong>Diagnóstico inicial:</strong> ¿en qué estado estaba el país al comenzar?</li>
+        <li><strong>Decisiones clave:</strong> describir al menos 3 decisiones cruciales y su justificación.</li>
+        <li><strong>Consecuencias:</strong> ¿qué indicadores mejoraron y cuáles empeoraron?</li>
+        <li><strong>Reflexión ética:</strong> ¿alguna decisión fue éticamente conflictiva?</li>
+        <li><strong>Conclusión:</strong> ¿qué aprendieron sobre la economía política?</li>
+      </ol>
+      <table class="ind-table">
+        <tr><th>Criterio</th><th>Descripción</th><th>Puntos</th></tr>
+        <tr><td>Comprensión conceptual</td><td>Uso correcto de términos económicos</td><td>30</td></tr>
+        <tr><td>Argumentación</td><td>Coherencia entre decisiones y justificación teórica</td><td>25</td></tr>
+        <tr><td>Reflexión crítica</td><td>Reconocimiento de dilemas éticos y trade-offs</td><td>25</td></tr>
+        <tr><td>Expresión escrita</td><td>Claridad, organización y ortografía</td><td>20</td></tr>
+      </table>
+    </div>
+
+    <div class="center mt20 mb16">
+      <button class="btn btn-primary" onclick="showScreen('screen-start')">← Volver al Menú</button>
+    </div>
+  </div>
+</div>
+
+<!-- =====================================================
+     PANTALLA TROFEOS & STATS
+     ===================================================== -->
+<div id="screen-trophies" class="screen">
+  <div class="trophies-header">
+    <span style="font-size:1.8rem">🏅</span>
+    <div>
+      <h1>Logros &amp; Estadísticas</h1>
+      <div class="th-sub">El Peso del Poder · Panel del Jugador y del Docente</div>
+    </div>
+    <button class="btn btn-outline btn-sm" style="margin-left:auto" onclick="showScreen('screen-start')">← Volver</button>
+  </div>
+
+  <div class="trophies-body">
+    <div class="tr-tabs">
+      <button class="tr-tab active" data-tab="tr-profile"      onclick="switchTrTab(this)">👤 Perfil</button>
+      <button class="tr-tab"        data-tab="tr-achievements" onclick="switchTrTab(this)">🏅 Logros</button>
+      <button class="tr-tab"        data-tab="tr-history"      onclick="switchTrTab(this)">📜 Historial</button>
+      <button class="tr-tab"        data-tab="tr-docente"      onclick="switchTrTab(this)">👩‍🏫 Análisis Docente</button>
+    </div>
+
+    <div id="tr-profile" class="tr-panel active">
+      <div class="profile-hero" id="tr-profile-hero">
+        <div class="profile-avatar" id="tr-avatar">🎮</div>
+        <div class="profile-info">
+          <div class="profile-name" id="tr-profile-name">—</div>
+          <div class="profile-rank" id="tr-profile-rank">🌱 Sin partidas</div>
+        </div>
+      </div>
+      <div class="kpi-grid" id="tr-kpi-grid"></div>
+      <div class="docente-box" id="tr-docente-quick">
+        <h3>📊 Estadísticas por Dificultad</h3>
+        <div id="tr-docente-quick-content"></div>
+      </div>
+      <div class="radar-section">
+        <h3>📊 Stats por Herencia de Gobierno</h3>
+        <div class="avg-ind-grid" id="tr-avg-ind-grid"></div>
+      </div>
+    </div>
+
+    <div id="tr-achievements" class="tr-panel">
+      <div class="ach-progress-bar" style="margin-bottom:20px">
+        <div class="ach-progress-label">
+          <span>Logros desbloqueados</span>
+          <span id="tr-ach-unlocked-count" style="color:var(--gold)">0 / 20</span>
+        </div>
+        <div class="ach-progress-track">
+          <div class="ach-progress-fill" id="tr-ach-bar" style="width:0%"></div>
+        </div>
+      </div>
+      <div class="ach-full-grid" id="tr-ach-grid"></div>
+    </div>
+
+    <div id="tr-history" class="tr-panel">
+      <div id="tr-history-content"></div>
+    </div>
+
+    <div id="tr-docente" class="tr-panel">
+      <div id="tr-docente-content"></div>
+    </div>
+  </div>
+</div>
+
+<!-- =====================================================
+     PANTALLA DE JUEGO
+     ===================================================== -->
+<div id="screen-game" class="screen">
+
+  <!-- Barra de mandato -->
+  <div class="mandate-bar">
+    <div class="mandate-info">
+      <span class="mandate-title">🏛️ Mandato</span>
+      <span class="mandate-month" id="month-label">Mes 1 / 48</span>
+      <span id="difficulty-badge-slot"></span>
+    </div>
+    <div class="mandate-track">
+      <div class="mandate-fill" id="mandate-fill" style="width:0%"></div>
+    </div>
+    <div class="year-markers" id="year-markers"></div>
+    <div class="events-remaining" id="events-remaining"></div>
+    <div class="top-actions">
+      <div class="autosave-indicator" id="autosave-indicator">💾 Guardado</div>
+      <button class="btn btn-outline btn-sm btn-cabinet" onclick="openCabinetModal()" title="Ver Gabinete Completo">🏛️ Gabinete</button>
+      <button class="btn btn-outline btn-sm btn-press" onclick="openNewsRoom()" title="Sala de Prensa">📰 Prensa</button>
+      <button class="btn btn-outline btn-sm" onclick="doQuit()">🚪 Salir</button>
+    </div>
+  </div>
+
+  <!-- Cuerpo del juego -->
+  <div class="game-body">
+
+    <!-- Panel evento -->
+    <div class="event-panel" id="event-panel">
+      <div id="notif-strip" class="notif-strip" style="display:none"></div>
+      <div class="event-card" id="event-card">
+        <div id="ev-img-wrap"></div>
+        <div class="event-content">
+          <div class="event-tag" id="ev-tag">—</div>
+          <div class="event-title" id="ev-title">Cargando…</div>
+          <div class="event-desc" id="ev-desc"></div>
+          <div class="options-label">⚖️ TU DECISIÓN:</div>
+          <div class="options-grid" id="ev-options"></div>
+        </div>
+      </div>
+      <div id="advisors-panel-container"></div>
+      <div style="text-align:center;color:var(--text-dim);font-size:.78rem;padding-bottom:4px" id="country-game-label"></div>
+    </div>
+
+    <!-- Dashboard -->
+    <div class="dashboard">
+      <div class="dash-header">📊 Panel de Indicadores Macroeconómicos</div>
+      <div id="indicators-wrap"></div>
+
+      <!-- Panel de efectos persistentes activos -->
+      <div id="active-effects-panel" class="active-effects-panel" style="display:none"></div>
+
+      <!-- Ticker de noticias -->
+      <div class="news-ticker-section">
+        <div class="news-ticker-header">
+          <span>📰 Últimas Noticias</span>
+          <button class="news-ticker-more" onclick="openNewsRoom()" title="Abrir Sala de Prensa">Ver Sala de Prensa →</button>
+        </div>
+        <div id="news-ticker-items">
+          <div class="news-empty">📰 Las noticias aparecerán luego de tu primera decisión</div>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /game-body -->
+
+  <!-- Log de decisiones recientes -->
+  <button class="recent-log-toggle" id="log-toggle" onclick="toggleRecentLog()">
+    🕐 Últimas decisiones <span id="log-toggle-arrow">▼</span>
+  </button>
+  <div class="recent-log" id="recent-log">
+    <div id="recent-log-entries"></div>
+  </div>
+
+  <div class="game-footer" id="game-footer">💬 <em>Cargando frase…</em></div>
+</div>
+
+<!-- =====================================================
+     PANTALLA DE LEGADO HISTÓRICO (2do Mandato)
+     Todo el contenido se inyecta dinámicamente por endscreen.js
+     ===================================================== -->
+<div id="screen-legacy" class="screen">
+  <div class="legacy-root" id="legacy-root">
+    <!-- Inyectado por _showLegacyScreen() -->
+  </div>
+  <!-- Share card oculta para captura — igual que en screen-end -->
+  <div id="legacy-share-card" class="share-card" style="position:fixed;left:-9999px;top:0;opacity:0;pointer-events:none;width:800px;height:460px"></div>
+</div>
+
+<!-- =====================================================
+     PANTALLA FINAL
+     ===================================================== -->
+<div id="screen-end" class="screen">
+  <div class="end-card">
+
+    <!-- Sección Mandato Histórico (visible solo en 2do mandato ganado) -->
+    <div id="second-term-glory" class="second-term-glory" style="display:none"></div>
+
+    <div class="diploma" id="diploma-box">
+      <span class="dip-medal" id="dip-medal">🥇</span>
+      <div class="dip-tipo" id="dip-tipo">DIPLOMA DE GESTIÓN</div>
+      <div class="dip-title" id="dip-title">Gestión Ejemplar</div>
+      <div class="dip-country" id="dip-country">República Ejemplo</div>
+      <div class="dip-score" id="dip-score">—</div>
+      <div class="dip-score-lbl">PUNTAJE FINAL DE GESTIÓN</div>
+      <div class="dip-score-adj" id="dip-score-adj"></div>
+    </div>
+
+    <div class="report-section">
+      <h3>📋 Análisis de tu Gestión</h3>
+      <div id="analysis-text"></div>
+    </div>
+
+    <div class="report-section" id="reelection-section">
+      <h3>🗳️ ¿Te Reelegirían?</h3>
+      <div id="reelection-content"></div>
+    </div>
+
+    <div class="report-section">
+      <h3>📊 Indicadores Finales</h3>
+      <div class="stats-grid" id="final-stats"></div>
+    </div>
+
+    <div class="report-section">
+      <h3>🏅 Logros Obtenidos</h3>
+      <div class="achievements-grid" id="ach-grid"></div>
+    </div>
+
+    <div class="report-section">
+      <h3>📜 Bitácora de Decisiones</h3>
+      <p style="font-size:.82rem;color:var(--text-dim);margin-bottom:12px">
+        Todas tus decisiones, agrupadas por año. Los <span style="color:var(--gold)">★ Eventos clave</span> aparecen en toda partida.
+        Usá esta bitácora para el ensayo de justificación post-partida.
+      </p>
+      <div id="history-tabs" style="display:flex;gap:6px;margin-bottom:12px;flex-wrap:wrap"></div>
+      <div id="history-panel"></div>
+    </div>
+
+    <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-bottom:10px">
+      <button class="btn btn-gold" id="capture-btn" onclick="captureResults()">📸 Generar Imagen</button>
+    </div>
+    <div id="capture-status" style="text-align:center;font-size:.78rem;color:var(--text-dim);margin-bottom:10px;min-height:1.2em"></div>
+    <!-- Opciones de compartir — aparecen después de capturar -->
+    <div id="share-options" style="display:none;gap:10px;justify-content:center;flex-wrap:wrap;margin-bottom:16px"></div>
+    <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-bottom:40px">
+      <button class="btn btn-primary" onclick="restartGame()">🔄 Jugar de Nuevo</button>
+      <button class="btn btn-outline" onclick="openManual()">📚 Manual Didáctico</button>
+    </div>
+  </div>
+</div>
+
+<!-- =====================================================
+     MODALES
+     ===================================================== -->
+
+<!-- ══ ALERTA DE EVENTO EXTREMO ══════════════════════════════════ -->
+<!-- Se abre automáticamente cuando aparece un evento isExtreme o isSevere -->
+<div class="modal-overlay extreme-alert-overlay" id="extreme-alert-overlay">
+  <div class="extreme-alert-modal">
+    <div class="extreme-alert-header">
+      <div class="extreme-alert-siren">🚨</div>
+      <div class="extreme-alert-severity" id="ea-severity-badge">CRISIS GRAVÍSIMA</div>
+      <div class="extreme-alert-title" id="ea-title">Crisis de Emergencia Nacional</div>
+    </div>
+    <div class="extreme-alert-body">
+      <div class="extreme-alert-icon" id="ea-icon">⚠️</div>
+      <p class="extreme-alert-desc" id="ea-desc">Descripción de la crisis.</p>
+      <!-- Pre-efectos: sólo se muestran para eventos isExtreme -->
+      <div class="extreme-alert-preeffects" id="ea-preeffects" style="display:none">
+        <div class="ea-preeffects-title">⚡ Impacto inmediato — antes de tu decisión:</div>
+        <div class="ea-preeffects-list" id="ea-preeffects-list"></div>
+      </div>
+      <!-- Advertencias de asesores -->
+      <div class="extreme-alert-advisors" id="ea-advisors">
+        <div class="ea-advisor-title">🏛️ Advertencia del Gabinete:</div>
+        <div class="ea-advisor-list" id="ea-advisor-list"></div>
+      </div>
+    </div>
+    <div class="extreme-alert-footer">
+      <button class="btn btn-extreme-confirm" id="ea-confirm-btn" onclick="window.__closeExtremeAlert()">
+        Entendido — Tomar Decisiones →
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal Gabinete Completo -->
+<div class="modal-overlay cabinet-overlay" id="cabinet-overlay">
+  <div class="cabinet-modal">
+    <div class="cabinet-header">
+      <div class="cab-header-left">
+        <span class="cab-header-icon">🏛️</span>
+        <span class="cab-header-title">Tu Gabinete</span>
+        <span class="cab-header-sub" id="cab-header-sub"></span>
+      </div>
+      <button class="cab-close-btn" onclick="closeCabinetModal()">✕</button>
+    </div>
+    <div id="cabinet-content" class="cabinet-content">
+      <p class="cab-empty">Cargando gabinete…</p>
+    </div>
+  </div>
+</div>
+
+<!-- Sala de Prensa -->
+<div class="modal-overlay newsroom-overlay" id="newsroom-overlay">
+  <div class="newsroom-modal">
+    <div class="newsroom-header">
+      <div class="nr-header-left">
+        <span class="nr-header-icon">🗞️</span>
+        <span class="nr-header-title">Sala de Prensa</span>
+      </div>
+      <button class="nr-close-btn" onclick="closeNewsRoom()">✕</button>
+    </div>
+    <div id="newsroom-content" class="newsroom-content">
+      <p class="nr-empty">Cargando noticias…</p>
+    </div>
+  </div>
+</div>
+
+<!-- Modal de consecuencias de decisión -->
+<div class="modal-overlay" id="modal">
+  <div class="modal-box">
+    <div class="modal-icon"  id="m-icon">📋</div>
+    <div class="modal-title" id="m-title">Consecuencias de tu decisión</div>
+    <div class="modal-body"  id="m-body">—</div>
+    <div id="m-press-reaction" class="m-press-reaction" style="display:none"></div>
+    <div class="effects-list" id="m-effects"></div>
+    <div class="modal-btns">
+      <button class="btn btn-primary" id="m-confirm-btn">Continuar →</button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal de asesor -->
+<div class="modal-overlay" id="advisor-modal">
+  <div class="modal-box">
+    <div class="advisor-modal-header">
+      <div class="modal-icon" id="advisor-modal-title">💼</div>
+      <div class="advisor-modal-role" id="advisor-modal-role">Economía</div>
+    </div>
+    <div class="advisor-modal-cred" id="advisor-modal-cred">⭐⭐⭐</div>
+    <div class="advisor-modal-conf" id="advisor-modal-conf">Alta confianza</div>
+    <div class="modal-body" id="advisor-modal-text"></div>
+    <!-- Área dinámica del botón Pedir Renuncia -->
+    <div id="advisor-resign-area" class="advisor-resign-area"></div>
+    <div class="modal-btns">
+      <button class="btn btn-outline" id="advisor-modal-close-btn" onclick="closeAdvisorModal()">✓ Entendido</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══ MODAL: CONFIRMAR RENUNCIA ════════════════════════════════ -->
+<div class="modal-overlay resign-confirm-overlay" id="resign-confirm-overlay">
+  <div class="resign-confirm-modal">
+    <div class="resign-modal-header">
+      <span class="resign-modal-icon">🚪</span>
+      <span class="resign-modal-title" id="rc-title">Pedir Renuncia</span>
+    </div>
+    <div class="resign-modal-body" id="rc-content">
+      <!-- Inyectado dinámicamente por resignations.js -->
+    </div>
+    <div class="resign-modal-btns">
+      <button class="btn btn-outline rc-cancel-btn"
+              onclick="window.__closeResignConfirm()">✕ Cancelar</button>
+      <button class="btn btn-resign-confirm" id="rc-confirm-btn"
+              onclick="window.__confirmResign()">Sí, pedir la renuncia</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══ MODAL: SELECCIÓN DE REEMPLAZO ════════════════════════════ -->
+<div class="modal-overlay resign-replace-overlay" id="resign-replace-overlay">
+  <div class="resign-replace-modal">
+    <div class="resign-modal-header">
+      <span class="resign-modal-icon">👤</span>
+      <span class="resign-modal-title" id="rr-title">Seleccioná el reemplazo</span>
+    </div>
+    <div class="rr-subtitle">
+      Elegí el nuevo miembro del gabinete para este cargo. No podrás cambiar esta decisión.
+    </div>
+    <div class="rr-list" id="rr-list">
+      <!-- Inyectado dinámicamente por resignations.js -->
+    </div>
+    <div class="resign-modal-btns">
+      <button class="btn btn-outline rc-cancel-btn"
+              onclick="window.__closeReplacementModal()">✕ Cancelar</button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal Reunión de Urgencia (Nivel 3) -->
+<div class="emergency-overlay" id="emergency-overlay">
+  <div class="emergency-modal" id="em-title">
+
+    <div class="em-header">
+      <span class="em-badge">🚨 REUNIÓN DE URGENCIA</span>
+      <span class="em-badge-sub">solicita una reunión inmediata</span>
+    </div>
+
+    <div class="em-body">
+      <div class="em-avatar-wrap" id="em-avatar">🏛️</div>
+      <div class="em-info">
+        <div class="em-name"  id="em-name">Ministro</div>
+        <div class="em-profile" id="em-profile"></div>
+        <div class="em-message" id="em-message"></div>
+      </div>
+    </div>
+
+    <div class="em-btns">
+      <button class="btn btn-danger em-btn-grant" id="btn-em-grant">
+        🚨 Otorgar reunión
+      </button>
+      <button class="btn btn-outline em-btn-reject" id="btn-em-reject"
+              onclick="closeEmergencyModal()">
+        ✗ Rechazar por ahora
+      </button>
+    </div>
+
+    <div class="em-note">Si rechazás, el ministro seguirá disponible en el panel de asesores.</div>
+  </div>
+</div>
+
+<!-- Crisis / Game Over -->
+<div class="crisis-overlay" id="crisis-overlay">
+  <div class="crisis-icon"  id="cr-icon">💀</div>
+  <div class="crisis-title" id="cr-title">FIN DE MANDATO</div>
+  <div class="crisis-desc"  id="cr-desc">—</div>
+  <button class="btn btn-danger" onclick="goToEndScreen()">📋 Ver Resultados</button>
+</div>
+
+<!-- =====================================================
+     SHARE CARD — Capturada por html2canvas, off-screen
+     ===================================================== -->
+<div id="share-card" class="share-card" style="position:fixed;left:-9999px;top:0;width:800px;height:420px;opacity:1;z-index:-1">
+  <!-- Contenido inyectado por endscreen.js → _populateShareCard() -->
+</div>
+
+<!-- =====================================================
+     TUTORIAL OVERLAY — Guía del primer turno por el VP
+     ===================================================== -->
+<div id="tutorial-overlay" class="tutorial-overlay"></div>
+
+<!-- Spotlight: fuera del overlay para poder mostrar el contenido real del tablero -->
+<div id="tutorial-spotlight" class="tutorial-spotlight"></div>
+
+<!-- Globo de diálogo del VP -->
+<div id="tutorial-bubble" class="tutorial-bubble">
+
+    <!-- Cabecera con avatar + nombre del VP -->
+    <div class="tut-bubble-header">
+      <img id="tut-vp-img" class="tut-vp-avatar" src="" alt="VP">
+      <div class="tut-vp-info">
+        <div class="tut-vp-name" id="tut-vp-name">Vicepresidente/a</div>
+        <div class="tut-vp-role" id="tut-vp-role">Asesor/a Principal</div>
+      </div>
+      <span class="tut-step-label" id="tut-step-label">1 / 8</span>
+    </div>
+
+    <!-- Icono + Título del paso -->
+    <div class="tut-step-header">
+      <span class="tut-step-icon" id="tut-step-icon">🏛️</span>
+      <span class="tut-step-title" id="tut-step-title">Bienvenido/a</span>
+    </div>
+
+    <!-- Texto explicativo -->
+    <p class="tut-bubble-text" id="tut-bubble-text">Cargando…</p>
+
+    <!-- Dots de progreso -->
+    <div class="tut-progress-dots" id="tut-progress-dots"></div>
+
+    <!-- Botones -->
+    <div class="tut-bubble-btns">
+      <button class="btn tut-skip-btn" onclick="window.__tutorialSkip()">
+        Saltear
+      </button>
+      <button class="btn btn-gold tut-next-btn" id="tut-next-btn"
+              onclick="window.__tutorialNext()">
+        Siguiente →
+      </button>
+    </div>
+
+  </div><!-- /tutorial-bubble -->
+
+<!-- =====================================================
+     MINISTER MODAL — Comentario post-decisión / pre-consecuencias
+     ===================================================== -->
+<div id="minister-modal-overlay" class="minister-modal-overlay"
+     onclick="if(event.target===this)window.__closeMinisterModal()">
+  <div class="minister-modal-box">
+
+    <div class="mm-header">
+      <span class="mm-header-icon">🏛️</span>
+      <div class="mm-header-text">
+        <div class="mm-header-title">Opinión del Gabinete</div>
+        <div class="mm-header-sub">Análisis de las posibles consecuencias</div>
+      </div>
+    </div>
+
+    <div id="minister-modal-body" class="minister-modal-body">
+      <!-- Tarjetas inyectadas por minister-modal.js -->
+    </div>
+
+    <div class="mm-footer">
+      <button id="mm-back-btn" class="btn btn-outline mm-back-btn"
+              onclick="window.__backMinisterModal()">
+        ← Volver a las opciones
+      </button>
+      <button class="btn btn-gold mm-continue-btn"
+              onclick="window.__continueMinisterModal()">
+        Entendido, continuar →
+      </button>
+    </div>
+
+  </div>
+</div>
+
+<!-- =====================================================
+     SCRIPT PRINCIPAL (ES Module)
+     ===================================================== -->
+<script type="module" src="js/main.js"></script>
+
+<!-- =====================================================
+     TOOLTIP MODAL — Glosario interactivo
+     Activado por data-tip-key="clave" o data-tip="texto"
+     ===================================================== -->
+<div id="ttip-overlay" class="ttip-overlay" onclick="window.closeTip()">
+  <div class="ttip-box" onclick="event.stopPropagation()" role="dialog" aria-modal="true" aria-labelledby="ttip-title">
+    <button class="ttip-close" onclick="window.closeTip()" aria-label="Cerrar">✕</button>
+    <div class="ttip-header">
+      <span class="ttip-icon" id="ttip-icon"></span>
+      <span class="ttip-title" id="ttip-title"></span>
+    </div>
+    <div class="ttip-body" id="ttip-body"></div>
+    <div class="ttip-zona" id="ttip-zona"></div>
+  </div>
+</div>
+
+<!-- Todas las funciones inline están expuestas a window por js/main.js -->
+
+</body>
+</html>

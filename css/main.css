@@ -4401,3 +4401,80 @@ body.tut-open {
   border: 1px solid rgba(239,68,68,.25);
   color: #fca5a5;
 }
+
+/* ============================================================
+   OPTIMIZACIÓN PARA DISPOSITIVOS MÓVILES ANTIGUOS
+   backdrop-filter:blur() es el mayor causante de artifacts y
+   lentitud en celulares con GPU Adreno/Mali de 2015-2019.
+   En móvil lo reemplazamos con fondos sólidos semitransparentes
+   — visualmente casi idéntico, sin costo de GPU.
+   ============================================================ */
+@media (max-width: 600px) {
+  /* Eliminar todos los backdrop-filter del juego */
+  .start-card,
+  .minister-modal-overlay,
+  .modal-overlay,
+  .reset-modal-overlay,
+  .advisors-panel,
+  .adv-modal-overlay,
+  .resign-modal-overlay,
+  .replacement-modal-overlay,
+  .tooltip-overlay,
+  .cabinet-modal-overlay,
+  .newsroom-overlay,
+  .crisis-overlay,
+  .emergency-modal-overlay,
+  .chain-event-overlay,
+  .midterm-overlay,
+  .tutorial-overlay {
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+  }
+
+  /* Compensar con fondos más sólidos para mantener legibilidad */
+  .advisors-panel       { background: rgba(7, 17, 31, .97) !important; }
+  .minister-modal-overlay { background: rgba(0, 0, 0, .92) !important; }
+  .modal-overlay        { background: rgba(0, 0, 0, .88) !important; }
+  .crisis-overlay       { background: rgba(120, 0, 0, .96) !important; }
+  .midterm-overlay      { background: rgba(0, 0, 0, .93) !important; }
+  .tutorial-overlay     { background: rgba(0, 0, 0, .85) !important; }
+
+  /* Reducir complejidad de sombras (cada box-shadow es un repaint) */
+  .start-card,
+  .event-card,
+  .minister-modal-box,
+  .modal-box {
+    box-shadow: 0 8px 24px rgba(0,0,0,.5) !important;
+  }
+}
+
+/* Animaciones infinitas que consumen GPU en loop — pausarlas cuando
+   el usuario o el sistema elige "reducir movimiento" */
+@media (prefers-reduced-motion: reduce) {
+  .ultra-pulse,
+  .pulseCrisis,
+  *[class*="urgency-pulse"],
+  .lstarPulse,
+  .spOrbFloat,
+  .spLogoPulse,
+  .severity-pulse,
+  .ae-pulse,
+  .resign-danger-pulse,
+  .breakingPulse,
+  .tag-blink,
+  .siren-spin {
+    animation: none !important;
+  }
+  /* Transiciones más rápidas para no hacer esperar */
+  * { transition-duration: .1s !important; }
+}
+
+/* Desactivar animaciones infinitas también en pantallas pequeñas
+   (independiente de prefers-reduced-motion) para aliviar GPU */
+@media (max-width: 600px) {
+  .difficulty-badge.ultra { animation: none !important; }
+
+  /* Simplificar la animación del orbe del splash en móvil */
+  .glow-orb-1,
+  .glow-orb-2 { display: none; }
+}

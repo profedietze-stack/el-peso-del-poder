@@ -621,20 +621,29 @@ function _checkAndUnlockAchievements() {
  * Actualiza el dashboard, muestra notificación y guarda.
  */
 function _onResignationApplied(slotId, newId, fx) {
-  // Actualizar visuales
+  // 1. Cerrar el modal del asesor/ministro despedido
+  import('./features/advisors.js').then(m => m.closeAdvisorModal());
+
+  // 2. Actualizar visuales de indicadores
   const prevInd = { ...G.indicadores }; // ya actualizado por resignations.js
   pushSparkline(G.indicadores);
   animateIndicatorChanges(prevInd, G.indicadores);
   renderDashboard(G.indicadores, prevInd);
 
-  // Regenerar noticias sobre la renuncia
+  // 3. Refrescar el panel de asesores (nombres, estrellas, botones)
+  import('./features/advisors.js').then(m => {
+    const advPanel = document.getElementById('advisors-panel-container');
+    if (advPanel) advPanel.innerHTML = m.buildAdvisorsHTML(G);
+  });
+
+  // 4. Regenerar noticias sobre la renuncia
   const resignNews = _buildResignationNews(slotId, newId);
   if (resignNews) {
     addToNewsHistory(G, resignNews);
     renderNewsTicker(G);
   }
 
-  // Actualizar modal de gabinete si está abierto
+  // 5. Actualizar modal de gabinete si está abierto
   const cabinetOverlay = document.getElementById('cabinet-overlay');
   if (cabinetOverlay?.classList.contains('open') && G.currentEvent) {
     openCabinetModal(G.currentEvent, G);

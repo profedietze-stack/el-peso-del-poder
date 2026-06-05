@@ -188,7 +188,9 @@ body.fs-active .screen.active {
 .minister-modal-body {
   padding: 16px 18px;
   overflow-y: auto;
+  -webkit-overflow-scrolling: touch; /* scroll suave en iOS */
   flex: 1;
+  min-height: 0;          /* fix crítico: permite scroll en flex container (Safari móvil) */
   display: flex;
   flex-direction: column;
   gap: 14px;

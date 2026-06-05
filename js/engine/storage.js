@@ -41,45 +41,66 @@ function deserializeState(json) {
 // ── PARTIDA ───────────────────────────────────────────────────
 
 /**
- * Guarda el estado actual en localStorage.
+ * Guarda el estado actual en localStorage (con fallback a sessionStorage).
  * @param {object} state
+ * @returns {boolean} true si el guardado fue exitoso
  */
 export function saveToStorage(state) {
+  const data = serializeState(state);
+  // Intentar localStorage primero (persiste entre sesiones)
   try {
-    localStorage.setItem(SAVE_KEY, serializeState(state));
+    localStorage.setItem(SAVE_KEY, data);
+    // Verificar que realmente se guardó (iOS Safari puede aceptar sin error y luego fallar)
+    if (localStorage.getItem(SAVE_KEY) === data) return true;
+  } catch (_) { /* localStorage no disponible o cuota excedida */ }
+
+  // Fallback: sessionStorage (se pierde al cerrar la pestaña, pero protege la partida actual)
+  try {
+    sessionStorage.setItem(SAVE_KEY, data);
+    console.warn('[storage] localStorage no disponible. Usando sessionStorage como fallback.');
+    return true;
   } catch (e) {
-    console.warn('[storage] No se pudo guardar la partida:', e);
+    console.error('[storage] No se pudo guardar la partida:', e);
+    return false;
   }
 }
 
 /**
- * Carga la partida guardada desde localStorage.
+ * Carga la partida guardada desde localStorage (con fallback a sessionStorage).
  * @returns {object|null} estado restaurado o null si no hay guardado
  */
 export function loadFromStorage() {
+  // Intentar localStorage
   try {
     const raw = localStorage.getItem(SAVE_KEY);
-    if (!raw) return null;
-    return deserializeState(raw);
-  } catch (e) {
-    console.warn('[storage] No se pudo cargar la partida:', e);
-    return null;
-  }
+    if (raw) return deserializeState(raw);
+  } catch (_) { /* localStorage no disponible */ }
+
+  // Fallback: sessionStorage
+  try {
+    const raw = sessionStorage.getItem(SAVE_KEY);
+    if (raw) return deserializeState(raw);
+  } catch (_) { /* sessionStorage tampoco disponible */ }
+
+  return null;
 }
 
 /**
- * Elimina la partida guardada.
+ * Elimina la partida guardada (localStorage y sessionStorage).
  */
 export function clearSave() {
-  try { localStorage.removeItem(SAVE_KEY); } catch (_) { /* iOS Safari privado */ }
+  try { localStorage.removeItem(SAVE_KEY); }  catch (_) {}
+  try { sessionStorage.removeItem(SAVE_KEY); } catch (_) {}
 }
 
 /**
- * Verifica si existe una partida guardada.
+ * Verifica si existe una partida guardada (localStorage o sessionStorage).
  * @returns {boolean}
  */
 export function hasSave() {
-  try { return localStorage.getItem(SAVE_KEY) !== null; } catch (_) { return false; }
+  try { if (localStorage.getItem(SAVE_KEY) !== null) return true; } catch (_) {}
+  try { if (sessionStorage.getItem(SAVE_KEY) !== null) return true; } catch (_) {}
+  return false;
 }
 
 // ── ESTADÍSTICAS GLOBALES ─────────────────────────────────────

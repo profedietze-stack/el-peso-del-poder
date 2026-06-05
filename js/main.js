@@ -601,8 +601,13 @@ function _advanceTurn(option) {
 
   // Autosave y avanzar turno
   G.turn++;
-  saveToStorage(G);
-  flashAutosave();
+  const saved = saveToStorage(G);
+  if (saved) {
+    flashAutosave();
+    showNotif('💾 Partida guardada', 'success', 2000);
+  } else {
+    showNotif('⚠️ No se pudo guardar la partida (almacenamiento no disponible)', 'warn', 5000);
+  }
 
   // Sonido de feedback según zona de indicadores
   const hasDanger = IND_META.some(m => _getZoneInline(m.key, G.indicadores[m.key]) === 'danger');

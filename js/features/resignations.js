@@ -156,17 +156,18 @@ export function closeReplacementModal() {
  */
 export function confirmResign() {
   if (!_state || !_pendingSlot) return;
-  const count = getResignationCount(_pendingSlot, _state);
+  const slotId = _pendingSlot;  // guardar ANTES de closeResignConfirm (que nullea _pendingSlot)
+  const count  = getResignationCount(slotId, _state);
   closeResignConfirm();
 
   if (count >= 2) {
     // ── Derrota: gabinete colapsó ─────────────────────────────
-    if (_onDefeat) _onDefeat(_pendingSlot);
+    if (_onDefeat) _onDefeat(slotId);
     return;
   }
 
   // ── Abrir selección de reemplazo ─────────────────────────────
-  openReplacementModal(_pendingSlot);
+  openReplacementModal(slotId);
 }
 
 /**

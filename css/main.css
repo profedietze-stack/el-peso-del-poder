@@ -3237,6 +3237,15 @@ body.tut-open {
   flex-shrink: 0;
   background: var(--navy-card);
 }
+/* Fallback local cuando DiceBear no carga (redes escolares, sin internet) */
+.tut-vp-avatar-emoji {
+  align-items: center;
+  justify-content: center;
+  font-size: 1.4rem;
+  background: linear-gradient(135deg, #1a2f4a, #0e1f38);
+  cursor: default;
+  user-select: none;
+}
 .tut-vp-info { flex: 1; min-width: 0; }
 .tut-vp-name {
   font-size: .82rem;

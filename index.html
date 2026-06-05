@@ -1015,7 +1015,8 @@
     <!-- Cabecera con avatar + nombre del VP -->
     <div class="tut-bubble-header">
       <img id="tut-vp-img" class="tut-vp-avatar" src="" alt="VP"
-           onerror="this.onerror=null;this.src='https://api.dicebear.com/9.x/avataaars/svg?seed=vp-fallback&backgroundColor=0e1200'">
+           onerror="this.onerror=null;this.style.display='none';document.getElementById('tut-vp-emoji').style.display='flex';">
+      <span id="tut-vp-emoji" class="tut-vp-avatar tut-vp-avatar-emoji" style="display:none" aria-hidden="true">🏛️</span>
       <div class="tut-vp-info">
         <div class="tut-vp-name" id="tut-vp-name">Vicepresidente/a</div>
         <div class="tut-vp-role" id="tut-vp-role">Asesor/a Principal</div>

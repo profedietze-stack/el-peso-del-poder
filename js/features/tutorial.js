@@ -115,7 +115,23 @@ export function initTutorial(state, force = false) {
   const vpImg  = document.getElementById('tut-vp-img');
   const vpName = document.getElementById('tut-vp-name');
   const vpRole = document.getElementById('tut-vp-role');
-  if (vpImg  && vp) { vpImg.src = vp.avatarUrl; vpImg.alt = vp.name; }
+  if (vpImg && vp) {
+    const emojiEl = document.getElementById('tut-vp-emoji');
+    // Resetear estado (por si el tutorial se reinicia en la misma sesión)
+    vpImg.style.display = '';
+    if (emojiEl) emojiEl.style.display = 'none';
+    // Asignar emoji del VP según su perfil para el fallback local
+    const vpEmoji = { 'vp-moreno':'🤝', 'vp-fuentes':'💼', 'vp-castillo':'🔬', 'vp-vargas':'🕊️' };
+    if (emojiEl) emojiEl.textContent = vpEmoji[vp.id] || '🏛️';
+    // Sobrescribir onerror con fallback local (sin dependencia externa)
+    vpImg.onerror = function() {
+      this.onerror = null;
+      this.style.display = 'none';
+      if (emojiEl) emojiEl.style.display = 'flex';
+    };
+    vpImg.src = vp.avatarUrl;
+    vpImg.alt = vp.name;
+  }
   if (vpName && vp) vpName.textContent = vp.name;
   if (vpRole && vp) vpRole.textContent = vp.profile || 'Vicepresidente/a';
 

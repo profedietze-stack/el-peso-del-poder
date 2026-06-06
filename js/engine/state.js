@@ -206,9 +206,14 @@ export function pickNextEvent(state) {
 export function newState({ heritageId, mandateType, difficulty, ministers, identity,
                            isSecondTerm = false, firstTermData = null, prevIndicadores = null }) {
   // ── 1. Dificultad ─────────────────────────────────────────────
-  const diffMap = { easy: 0.7, normal: 1.0, hard: 1.3, ultra: 1.8 };
-  CONFIG.EFFECT_MULTIPLIER = diffMap[difficulty] ?? 1.0;
-  CONFIG.DOCENTE_MODE       = false; // modo docente eliminado
+  // Multiplicador asimétrico: en ultra, las buenas decisiones son
+  // menos potentes (×1.5) pero los errores son más catastróficos (×2.2).
+  // Esto elimina el exploit de "hacer bien todo y ganar trivialmente".
+  const diffMap    = { easy: 0.7, normal: 1.0, hard: 1.2, ultra: 1.5 };
+  const diffMapBad = { easy: 0.7, normal: 1.0, hard: 1.5, ultra: 2.2 };
+  CONFIG.EFFECT_MULTIPLIER     = diffMap[difficulty]    ?? 1.0;
+  CONFIG.EFFECT_MULTIPLIER_BAD = diffMapBad[difficulty] ?? 1.0;
+  CONFIG.DOCENTE_MODE           = false; // modo docente eliminado
 
   // ── 2. Indicadores base ───────────────────────────────────────
   let ind;

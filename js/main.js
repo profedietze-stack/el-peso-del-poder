@@ -574,7 +574,7 @@ function _advanceTurn(option) {
   _showTurnNotif(option.efectos || {});
 
   // Verificar derrota
-  const defeatReason = checkDefeat(G.indicadores);
+  const defeatReason = checkDefeat(G.indicadores, G.difficulty);
   if (defeatReason) {
     G.lost       = true;
     G.lostReason = defeatReason;

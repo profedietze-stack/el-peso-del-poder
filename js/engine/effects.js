@@ -23,7 +23,7 @@ const INERTIA_MULT = {
   easy:   0,
   normal: 0.6,
   hard:   1.0,
-  ultra:  1.5,
+  ultra:  2.0,   // subido de 1.5 — las espirales negativas son más brutales
 };
 
 /**
@@ -180,8 +180,22 @@ export function applyInertia(state) {
   const ind   = state.indicadores;
   const delta = {};
 
+  // En ultra, los círculos virtuosos son más difíciles de activar
+  // (los umbrales requeridos para la "prosperidad" son más altos).
+  // Las espirales negativas mantienen los mismos umbrales pero golpean ×2.0.
+  const ultraVirtueOverrides = diff === 'ultra' ? {
+    dinamismo_industrial:      ind => ind.produccion  > 80,                          // era >72
+    solidez_cambiaria:         ind => ind.reservas    > 85,                          // era >76
+    crecimiento_genera_empleo: ind => ind.produccion  > 75 && ind.desocupacion > 10, // era >65
+  } : null;
+
   // Evaluar TODAS las reglas ANTES de aplicar (evitar que una regla afecte a otra)
-  const active = INERTIA_RULES.filter(r => r.when(ind));
+  const active = INERTIA_RULES.filter(r => {
+    if (ultraVirtueOverrides && !r.bad && ultraVirtueOverrides[r.id]) {
+      return ultraVirtueOverrides[r.id](ind);
+    }
+    return r.when(ind);
+  });
   for (const rule of active) {
     for (const [k, v] of Object.entries(rule.apply)) {
       delta[k] = (delta[k] || 0) + v * mult;

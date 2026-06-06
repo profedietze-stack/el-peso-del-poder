@@ -79,26 +79,37 @@ export function computeReelectionPct(ind) {
 
 /**
  * Aplica los efectos de una opción a los indicadores.
- * Combina tres multiplicadores en cascada:
- *   1. CONFIG.EFFECT_MULTIPLIER  — multiplicador de dificultad (global)
- *   2. effectMods[key]           — modificador del ministro para ese indicador
+ * Combina multiplicadores en cascada con asimetría por tipo de efecto:
+ *   1. CONFIG.EFFECT_MULTIPLIER     — multiplica efectos que MEJORAN el indicador
+ *   2. CONFIG.EFFECT_MULTIPLIER_BAD — multiplica efectos que EMPEORAN el indicador
+ *   3. effectMods[key]              — modificador del ministro para ese indicador
  *
- * Ejemplo: raw=+3, difficulty=1.3 (hard), minister IPC mod=0.78
- *   delta = 3 × 1.3 × 0.78 ≈ 3.0  (el ministro amortigua el shock inflacionario)
+ * La asimetría en ultra (1.5 / 2.2) significa que los errores son mucho más
+ * costosos que los aciertos son rentables → dificultad real sin trivialidad.
+ *
+ * Indicadores "malos si suben" (BAD_KEYS): ipc, deuda, riesgo, pobreza, desocupacion
+ *   → delta > 0 = empeora → usa EFFECT_MULTIPLIER_BAD
+ *   → delta < 0 = mejora  → usa EFFECT_MULTIPLIER
+ * Indicadores "malos si bajan": reservas, produccion, confianza
+ *   → delta < 0 = empeora → usa EFFECT_MULTIPLIER_BAD
+ *   → delta > 0 = mejora  → usa EFFECT_MULTIPLIER
  *
  * @param {object} ind        - indicadores actuales
  * @param {object} efectos    - efectos crudos de la opción elegida
  * @param {object} effectMods - modificadores por indicador del gabinete (default: {})
- *                              Viene de state.effectMods, calculado en newState().
  * @returns {object} nuevos indicadores (copia modificada, mismos keys)
  */
 export function applyEffects(ind, efectos, effectMods = {}) {
-  const mult = CONFIG.EFFECT_MULTIPLIER;
+  const mult    = CONFIG.EFFECT_MULTIPLIER;
+  const multBad = CONFIG.EFFECT_MULTIPLIER_BAD ?? mult;
   const next = { ...ind };
   for (const key of Object.keys(efectos)) {
     if (next[key] === undefined) continue;
     const ministerMod = effectMods[key] ?? 1.0;
-    const delta       = efectos[key] * mult * ministerMod;
+    const rawDelta    = efectos[key];
+    // Determinar si este efecto empeora el indicador
+    const worsens = BAD_KEYS.has(key) ? rawDelta > 0 : rawDelta < 0;
+    const delta   = rawDelta * (worsens ? multBad : mult) * ministerMod;
     next[key] = Math.round(Math.max(0, Math.min(100, next[key] + delta)));
   }
   return next;
@@ -106,20 +117,45 @@ export function applyEffects(ind, efectos, effectMods = {}) {
 
 /**
  * Verifica si el estado actual cumple alguna condición de derrota.
- * @param {object} ind - indicadores actuales
+ * En ultra los umbrales son más estrictos: confianza ≤ 15 y pobreza ≥ 70.
+ * @param {object} ind        - indicadores actuales
+ * @param {string} difficulty - dificultad activa ('easy'|'normal'|'hard'|'ultra')
  * @returns {string|null} motivo de derrota o null si no hay derrota
  */
-export function checkDefeat(ind) {
+export function checkDefeat(ind, difficulty = 'normal') {
   // Math.round(): los efectos de inercia pueden dejar decimales (ej: 0.2).
   // Redondeamos para que indicadores en zona de colapso disparen la derrota correctamente.
   const confianza = Math.round(ind.confianza);
   const pobreza   = Math.round(ind.pobreza);
 
-  if (confianza <= CONFIG.DEFEAT_CONFIANZA) {
-    return `La confianza ciudadana llegó a ${confianza}%. El pueblo exige tu renuncia.`;
+  const isUltra  = difficulty === 'ultra';
+  const isHard   = difficulty === 'hard';
+  const isNormal = difficulty === 'normal';
+
+  const defeatConfianza = isUltra  ? CONFIG.DEFEAT_CONFIANZA_ULTRA
+                        : isHard   ? CONFIG.DEFEAT_CONFIANZA_HARD
+                        : isNormal ? CONFIG.DEFEAT_CONFIANZA_NORMAL
+                        :            CONFIG.DEFEAT_CONFIANZA;          // easy
+  const defeatPobreza   = isUltra  ? CONFIG.DEFEAT_POBREZA_ULTRA
+                        : isHard   ? CONFIG.DEFEAT_POBREZA_HARD
+                        : isNormal ? CONFIG.DEFEAT_POBREZA_NORMAL
+                        :            CONFIG.DEFEAT_POBREZA;            // easy
+
+  if (confianza <= defeatConfianza) {
+    const msg = isUltra
+      ? `La confianza cayó a ${confianza}% — en modo Ultra el gobierno cae con menos del ${defeatConfianza + 1}% de apoyo.`
+      : isHard
+      ? `La confianza cayó a ${confianza}% — en modo Difícil el gobierno cae con menos del ${defeatConfianza + 1}% de apoyo.`
+      : `La confianza ciudadana llegó a ${confianza}%. El pueblo exige tu renuncia.`;
+    return msg;
   }
-  if (pobreza >= CONFIG.DEFEAT_POBREZA) {
-    return `La pobreza alcanzó ${pobreza}%. La crisis social es insostenible.`;
+  if (pobreza >= defeatPobreza) {
+    const msg = isUltra
+      ? `La pobreza alcanzó ${pobreza}% — en modo Ultra la crisis humanitaria es insostenible por encima del ${defeatPobreza - 1}%.`
+      : isHard
+      ? `La pobreza alcanzó ${pobreza}% — en modo Difícil la crisis social es insostenible por encima del ${defeatPobreza - 1}%.`
+      : `La pobreza alcanzó ${pobreza}%. La crisis social es insostenible.`;
+    return msg;
   }
   return null;
 }

@@ -14,11 +14,28 @@ export const CONFIG = {
     confianza:    65,
   },
 
+  // Easy/Normal: umbrales muy permisivos — casi imposible perder solo por esto
   DEFEAT_CONFIANZA: 0,
   DEFEAT_POBREZA:  80,
 
-  // 0.7 = fácil | 1.0 = normal | 1.3 = difícil | 1.8 = ultra
-  EFFECT_MULTIPLIER: 1.0,
+  // Normal: umbrales ligeramente más estrictos que Easy — un jugador muy descuidado puede perder
+  DEFEAT_CONFIANZA_NORMAL: 5,
+  DEFEAT_POBREZA_NORMAL:   78,
+
+  // Hard: umbrales de derrota intermedios — entre Normal y Ultra
+  DEFEAT_CONFIANZA_HARD: 10,
+  DEFEAT_POBREZA_HARD:   75,
+
+  // Ultra: umbrales de derrota más estrictos — el margen de error se reduce
+  DEFEAT_CONFIANZA_ULTRA: 15,
+  DEFEAT_POBREZA_ULTRA:   70,
+
+  // 0.7 = fácil | 1.0 = normal | 1.3 = difícil | 1.5/2.0 = ultra (asimétrico)
+  // EFFECT_MULTIPLIER     → amplifica efectos que MEJORAN indicadores
+  // EFFECT_MULTIPLIER_BAD → amplifica efectos que EMPEORAN indicadores
+  // En ultra: buenas decisiones son menos poderosas; malas decisiones, más catastróficas.
+  EFFECT_MULTIPLIER:     1.0,
+  EFFECT_MULTIPLIER_BAD: 1.0,
 
   // (reservado — ya no se usa; el modo ultra tiene game-over)
   DOCENTE_MODE: false,
@@ -67,7 +84,9 @@ export const BAD_KEYS = new Set(['ipc','deuda','riesgo','pobreza','desocupacion'
 export const DIFFICULTY_START_BONUS = {
   easy:   { confianza: +8, reservas: +6, pobreza: -5         },
   normal: {},
-  hard:   { confianza: -4, riesgo: +4                        },
-  // Ultra: arranque devastado — indicadores ya en zona de alerta desde el día 1
-  ultra:  { confianza: -10, riesgo: +10, ipc: +8, pobreza: +6, reservas: -8 },
+  // Hard: arranque con 3-4 indicadores en zona Warn desde el inicio.
+  hard:   { confianza: -6, riesgo: +8, ipc: +5, reservas: -5  },
+  // Ultra: arranque devastado — todos los indicadores en zona de alerta o peligro desde el día 1.
+  // Incluso con herencia "estable" + mandato "amplio" el jugador arranca en zona crítica.
+  ultra:  { confianza: -15, riesgo: +14, ipc: +12, pobreza: +10, reservas: -12, deuda: +10 },
 };

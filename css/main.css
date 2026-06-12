@@ -4416,6 +4416,8 @@ body.tut-open {
      .emergency-overlay (no .emergency-modal-overlay)
      .cabinet-overlay (no .cabinet-modal-overlay) */
   .start-card,
+  .min-header,
+  .min-footer,
   .minister-modal-overlay,
   .modal-overlay,
   .reset-modal-overlay,

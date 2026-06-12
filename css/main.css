@@ -4410,7 +4410,11 @@ body.tut-open {
    — visualmente casi idéntico, sin costo de GPU.
    ============================================================ */
 @media (max-width: 600px) {
-  /* Eliminar todos los backdrop-filter del juego */
+  /* Eliminar todos los backdrop-filter del juego.
+     IMPORTANTE: usar los nombres de clase EXACTOS del CSS.
+     .ttip-overlay (no .tooltip-overlay)
+     .emergency-overlay (no .emergency-modal-overlay)
+     .cabinet-overlay (no .cabinet-modal-overlay) */
   .start-card,
   .minister-modal-overlay,
   .modal-overlay,
@@ -4419,25 +4423,29 @@ body.tut-open {
   .adv-modal-overlay,
   .resign-modal-overlay,
   .replacement-modal-overlay,
-  .tooltip-overlay,
-  .cabinet-modal-overlay,
+  .ttip-overlay,
+  .cabinet-overlay,
   .newsroom-overlay,
   .crisis-overlay,
-  .emergency-modal-overlay,
+  .emergency-overlay,
   .chain-event-overlay,
   .midterm-overlay,
-  .tutorial-overlay {
+  .tutorial-overlay,
+  .ev-severity-badge {
     backdrop-filter: none !important;
     -webkit-backdrop-filter: none !important;
   }
 
   /* Compensar con fondos más sólidos para mantener legibilidad */
-  .advisors-panel       { background: rgba(7, 17, 31, .97) !important; }
+  .advisors-panel         { background: rgba(7, 17, 31, .97) !important; }
   .minister-modal-overlay { background: rgba(0, 0, 0, .92) !important; }
-  .modal-overlay        { background: rgba(0, 0, 0, .88) !important; }
-  .crisis-overlay       { background: rgba(120, 0, 0, .96) !important; }
-  .midterm-overlay      { background: rgba(0, 0, 0, .93) !important; }
-  .tutorial-overlay     { background: rgba(0, 0, 0, .85) !important; }
+  .modal-overlay          { background: rgba(0, 0, 0, .88) !important; }
+  .crisis-overlay         { background: rgba(120, 0, 0, .96) !important; }
+  .midterm-overlay        { background: rgba(0, 0, 0, .93) !important; }
+  .tutorial-overlay       { background: rgba(0, 0, 0, .85) !important; }
+  .ttip-overlay           { background: rgba(4, 10, 22, .92) !important; }
+  .emergency-overlay      { background: rgba(0, 0, 0, .88) !important; }
+  .cabinet-overlay        { background: rgba(0, 0, 0, .92) !important; }
 
   /* Reducir complejidad de sombras (cada box-shadow es un repaint) */
   .start-card,

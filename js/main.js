@@ -614,8 +614,10 @@ function _advanceTurn(option) {
   if (hasDanger) soundCrisis();
   else soundNextTurn();
 
-  // Siguiente turno (pequeño delay para animaciones)
-  enableOptions();
+  // Siguiente turno (pequeño delay para animaciones).
+  // NO llamar enableOptions() aquí: renderEvent en _startTurn crea botones
+  // nuevos ya habilitados. Habilitarlos ahora dejaría los botones VIEJOS
+  // activos durante 300ms, lo que provoca double-fire si el jugador toca rápido.
   setTimeout(_startTurn, 300);
 }
 

@@ -144,8 +144,11 @@ function renderOptions(event, state) {
 
   grid.querySelectorAll('.option-btn').forEach(btn => {
     btn.addEventListener('click', () => {
+      if (!_onOptionSelected) return;
+      const cb = _onOptionSelected;
+      _onOptionSelected = null; // previene double-fire si el usuario toca muy rápido
       const idx = parseInt(btn.dataset.index, 10);
-      if (_onOptionSelected) _onOptionSelected(idx, event.opciones[idx]);
+      cb(idx, event.opciones[idx]);
     });
   });
 }

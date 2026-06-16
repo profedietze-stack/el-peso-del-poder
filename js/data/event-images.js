@@ -86,6 +86,36 @@ const TAG_OVERRIDE = {
   '🌐 Internet':  'tecnologia',  // override: internet es tech, no internacional
 };
 
+// ── Fallback local (sin red) ──────────────────────────────────
+// SVG minimalista generado localmente cuando ambos CDNs fallan.
+// Se usa como tercer nivel en la cadena onerror del <img>.
+// No requiere red — está incrustado como data URI.
+const _LOCAL_FALLBACK_CACHE = {};
+
+export function getLocalFallback(event) {
+  const cat = _getCategoryFromTag(event?.tag ?? '');
+  if (_LOCAL_FALLBACK_CACHE[cat]) return _LOCAL_FALLBACK_CACHE[cat];
+
+  const COLORS = {
+    economia:'0a1628,1a3a6e', salud:'0d2137,1a5276', campo:'0b2a14,1a5c2a',
+    energia:'1a1a0a,3d3200',  educacion:'0a1a2a,1a3a5e', ambiente:'071a0a,0a3a1a',
+    justicia:'1a0a00,3d1a00', institucional:'07111f,1a2a4a', seguridad:'1a0707,3d0a0a',
+    social:'1a0a2a,3a1a5e',   tecnologia:'001a1a,003d3d', internacional:'1a1a00,3d3a00',
+    industria:'0a0a0a,2a2a2a',cultura:'1a001a,3d003d',
+  };
+  const [c1, c2] = (COLORS[cat] || COLORS.institucional).split(',');
+  const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 360">` +
+    `<defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1">` +
+    `<stop offset="0%" stop-color="#${c1}"/>` +
+    `<stop offset="100%" stop-color="#${c2}"/>` +
+    `</linearGradient></defs>` +
+    `<rect width="800" height="360" fill="url(#g)"/>` +
+    `</svg>`;
+  const uri = 'data:image/svg+xml;base64,' + btoa(svg);
+  _LOCAL_FALLBACK_CACHE[cat] = uri;
+  return uri;
+}
+
 // ── API PÚBLICA ───────────────────────────────────────────────
 
 /**

@@ -1,4 +1,4 @@
-const CACHE = 'sdr-v22';
+const CACHE = 'sdr-v23';
 
 self.addEventListener('install', e => {
   e.waitUntil(
@@ -26,7 +26,15 @@ self.addEventListener('fetch', e => {
 
   e.respondWith(
     fetch(e.request).then(response => {
-      if (response && response.status === 200) {
+      // status 200 = respuesta normal (same-origin o CORS con credenciales)
+      // type 'opaque' + status 0 = respuesta cross-origin sin CORS (ej: imágenes Unsplash/DiceBear)
+      // Ambas son válidas y se deben cachear para que funcionen offline.
+      const cacheable =
+        response &&
+        (response.status === 200 ||
+         (response.type === 'opaque' &&
+          (url.includes('unsplash.com') || url.includes('dicebear.com'))));
+      if (cacheable) {
         const clone = response.clone();
         caches.open(CACHE).then(cache => cache.put(e.request, clone));
       }

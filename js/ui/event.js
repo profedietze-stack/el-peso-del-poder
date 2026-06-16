@@ -6,7 +6,7 @@ import { getQuoteForTag }     from '../data/quotes.js';
 import { buildAdvisorsHTML }  from '../features/advisors.js';
 import { buildCrisisAutoTag } from '../features/crisis-auto.js';
 import { setFooterQuote }     from './screens.js';
-import { getEventImage, getEventImageFallback } from '../data/event-images.js';
+import { getEventImage, getEventImageFallback, getLocalFallback } from '../data/event-images.js';
 
 // ============================================================
 // EVENT UI — Renderizado de la tarjeta de evento
@@ -41,7 +41,9 @@ export function renderEvent(event, state) {
         <img class="ev-img"
              src="${getEventImage(event)}"
              alt="${event.titulo}"
-             onerror="this.onerror=null;this.src='${getEventImageFallback(event)}'">
+             data-fallback1="${getEventImageFallback(event)}"
+             data-fallback2="${getLocalFallback(event)}"
+             onerror="(function(el){const f1=el.dataset.fallback1,f2=el.dataset.fallback2;if(el.src!==f1&&el.src!==f2){el.src=f1;}else if(el.src===f1){el.onerror=null;el.src=f2;}})(this)">
         <div class="ev-stickers">${buildStickerHTML(stickers)}</div>
         ${event.isCrisisAuto ? buildCrisisAutoTag() : ''}
         ${severityBadge}

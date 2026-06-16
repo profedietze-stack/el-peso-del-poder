@@ -82,6 +82,43 @@ if ('serviceWorker' in navigator) {
   navigator.serviceWorker.register('./sw.js').catch(console.warn);
 }
 
+// ── ERROR REPORTER ────────────────────────────────────────────
+// Siempre activo. Captura errores no manejados con snapshot del estado G.
+// Ayuda a Sonnet a diagnosticar bugs con contexto completo del turno.
+{
+  function _captureErrorSnapshot(msg, src, line, col, err) {
+    const snap = {
+      error:  msg,
+      source: `${src}:${line}:${col}`,
+      stack:  err?.stack ?? null,
+      state: G ? {
+        turn:        G.turn,
+        difficulty:  G.difficulty,
+        indicadores: { ...G.indicadores },
+        currentEvent: G.currentEvent ? { id: G.currentEvent.id, titulo: G.currentEvent.titulo } : null,
+        activeEffects: G.activeEffects?.length ?? 0,
+        pendingChainEvents: G.pendingChainEvents?.length ?? 0,
+      } : null,
+      timestamp: new Date().toISOString(),
+    };
+    console.group('%c[SDR ERROR REPORT]', 'color:#e74c3c;font-weight:bold');
+    console.error('Mensaje:', msg);
+    if (err?.stack) console.error('Stack:', err.stack);
+    console.info('Game state snapshot:', JSON.parse(JSON.stringify(snap.state ?? {})));
+    console.info('Full report (copy this for debugging):\n' + JSON.stringify(snap, null, 2));
+    console.groupEnd();
+  }
+
+  window.addEventListener('error', e => {
+    _captureErrorSnapshot(e.message, e.filename, e.lineno, e.colno, e.error);
+  });
+
+  window.addEventListener('unhandledrejection', e => {
+    const err = e.reason instanceof Error ? e.reason : new Error(String(e.reason));
+    _captureErrorSnapshot('Unhandled Promise rejection: ' + err.message, 'promise', 0, 0, err);
+  });
+}
+
 // ── EXPONER A WINDOW para uso desde HTML onclick ──────────────
 // (Necesario mientras el HTML use onclick="fn()" inline)
 Object.assign(window, {
@@ -1139,4 +1176,151 @@ function startSecondTerm() {
   initSparklines(G.indicadores);
   showNotif('🏛️ ¡Segundo Mandato! Arrancás donde dejaste.', 'success', 4000);
   _startTurn();
+}
+
+// ── DEBUG TOOLKIT ─────────────────────────────────────────────
+// Activar: agregar ?debug=1 a la URL o correr en consola:
+//   localStorage.setItem('sdr_debug', '1'); location.reload();
+// Desactivar:
+//   localStorage.removeItem('sdr_debug'); location.reload();
+{
+  const _debugActive =
+    new URLSearchParams(location.search).get('debug') === '1' ||
+    localStorage.getItem('sdr_debug') === '1';
+
+  if (_debugActive) {
+    console.info(
+      '%c[SDR DEBUG MODE ACTIVO]',
+      'background:#2c3e50;color:#f1c40f;font-weight:bold;padding:4px 8px;border-radius:4px',
+      '\nComandos disponibles en window.__debug:\n',
+      '  .state()                    — estado completo G\n',
+      '  .setIndicator(key, val)     — modifica un indicador y re-renderiza\n',
+      '  .setAllIndicators(obj)      — modifica varios indicadores a la vez\n',
+      '  .setTurn(n)                 — salta al turno n y lo inicia\n',
+      '  .forceEvent(id)             — fuerza un evento por ID en el siguiente turno\n',
+      '  .listEvents(filter?)        — lista eventos (filter: string busca en titulo/tag)\n',
+      '  .exportState()              — copia JSON del estado al portapapeles\n',
+      '  .skipToEnd()                — salta al turno 48 y dispara fin de juego\n',
+      '  .autoPlay(turns, strategy)  — simula N turnos (strategy: "random"|"first"|"last"|"worst")\n',
+      '  .help()                     — muestra este mensaje\n',
+    );
+
+    window.__debug = {
+
+      help() {
+        console.info(
+          '%c[SDR DEBUG]', 'color:#f1c40f;font-weight:bold',
+          'state | setIndicator | setAllIndicators | setTurn | forceEvent | listEvents | exportState | skipToEnd | autoPlay'
+        );
+      },
+
+      state() {
+        if (!G) { console.warn('[SDR DEBUG] No hay partida activa.'); return null; }
+        return G;
+      },
+
+      setIndicator(key, val) {
+        if (!G) { console.warn('[SDR DEBUG] No hay partida activa.'); return; }
+        if (!(key in G.indicadores)) { console.warn('[SDR DEBUG] Indicador desconocido:', key); return; }
+        const prev = G.indicadores[key];
+        G.indicadores[key] = Math.max(0, Math.min(100, Number(val)));
+        renderDashboard(G);
+        console.info(`[SDR DEBUG] ${key}: ${prev} → ${G.indicadores[key]}`);
+      },
+
+      setAllIndicators(obj) {
+        if (!G) { console.warn('[SDR DEBUG] No hay partida activa.'); return; }
+        Object.entries(obj).forEach(([k, v]) => window.__debug.setIndicator(k, v));
+      },
+
+      setTurn(n) {
+        if (!G) { console.warn('[SDR DEBUG] No hay partida activa.'); return; }
+        const prev = G.turn;
+        G.turn = Math.max(1, Math.min(CONFIG.TOTAL_TURNS, Number(n)));
+        console.info(`[SDR DEBUG] Turno: ${prev} → ${G.turn}`);
+        _startTurn();
+      },
+
+      forceEvent(id) {
+        if (!G) { console.warn('[SDR DEBUG] No hay partida activa.'); return; }
+        const ev = EVENTS.find(e => e.id === id);
+        if (!ev) { console.warn('[SDR DEBUG] Evento no encontrado con id:', id); return; }
+        G.pendingChainEvents.unshift({ id, triggerAtTurn: G.turn });
+        console.info(`[SDR DEBUG] Evento forzado: [${id}] "${ev.titulo}". Iniciando turno...`);
+        _startTurn();
+      },
+
+      listEvents(filter = '') {
+        const q = filter.toLowerCase();
+        const results = EVENTS
+          .filter(e => !q || e.titulo?.toLowerCase().includes(q) || e.tag?.toLowerCase().includes(q))
+          .map(e => ({ id: e.id, titulo: e.titulo, tag: e.tag, tipo: e.tipo }));
+        console.table(results);
+        return results;
+      },
+
+      async exportState() {
+        if (!G) { console.warn('[SDR DEBUG] No hay partida activa.'); return; }
+        const json = JSON.stringify(G, (k, v) => v instanceof Set ? [...v] : v, 2);
+        try {
+          await navigator.clipboard.writeText(json);
+          console.info('[SDR DEBUG] Estado copiado al portapapeles.');
+        } catch {
+          console.info('[SDR DEBUG] Estado (copiar manualmente):\n', json);
+        }
+        return json;
+      },
+
+      skipToEnd() {
+        if (!G) { console.warn('[SDR DEBUG] No hay partida activa.'); return; }
+        console.info('[SDR DEBUG] Saltando al turno final...');
+        G.turn = CONFIG.TOTAL_TURNS;
+        _advanceTurn();
+      },
+
+      autoPlay(turns = 5, strategy = 'random') {
+        if (!G) { console.warn('[SDR DEBUG] No hay partida activa.'); return; }
+        const maxTurns = Math.min(turns, CONFIG.TOTAL_TURNS - G.turn + 1);
+        console.info(`[SDR DEBUG] Auto-play: ${maxTurns} turnos, estrategia="${strategy}"`);
+
+        let completed = 0;
+        const _tick = () => {
+          if (completed >= maxTurns || !G || G.turn > CONFIG.TOTAL_TURNS) {
+            console.info(`[SDR DEBUG] Auto-play terminado: ${completed} turnos completados.`);
+            return;
+          }
+          // Esperar a que los botones de opcion esten en el DOM
+          const btns = Array.from(document.querySelectorAll('.option-btn:not([disabled])'));
+          if (!btns.length) {
+            // Todavia cargando — reintentar en 400ms
+            setTimeout(_tick, 400);
+            return;
+          }
+          let btn;
+          if      (strategy === 'first')  btn = btns[0];
+          else if (strategy === 'last')   btn = btns[btns.length - 1];
+          else if (strategy === 'worst')  btn = btns[Math.floor(btns.length / 2)]; // opcion del medio como proxy
+          else                            btn = btns[Math.floor(Math.random() * btns.length)]; // random
+
+          const turnBefore = G.turn;
+          btn.click();
+          completed++;
+          console.info(`[SDR DEBUG] Turno ${turnBefore}: seleccionada opcion "${btn.textContent?.trim().slice(0, 60)}"`);
+
+          // Esperar transicion antes del siguiente tick
+          setTimeout(_tick, 1200);
+        };
+
+        _tick();
+      },
+    };
+
+    // Atajos de teclado rapidos en modo debug
+    document.addEventListener('keydown', e => {
+      if (!e.ctrlKey || !e.shiftKey) return;
+      if (e.key === 'D') { console.info('[SDR DEBUG]', window.__debug.state()); }
+      if (e.key === 'E') { window.__debug.exportState(); }
+      if (e.key === 'A') { window.__debug.autoPlay(1); }
+    });
+  }
 }

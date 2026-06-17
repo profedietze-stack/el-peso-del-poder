@@ -69,6 +69,7 @@ import { buildWarningEvent, showElectionResult,
          calcElectoralScore }                     from './features/midterm.js';
 import { showMinisterModal }                      from './ui/minister-modal.js';
 import { initSplash }                             from './ui/splash.js';
+import { initDiag }                               from './ui/_diag.js';
 import { preloadUpcomingImages }                  from './ui/image-preloader.js';
 import { applyInertia, applyActiveEffects,
          addActiveEffect }                        from './engine/effects.js';
@@ -197,6 +198,9 @@ document.addEventListener('DOMContentLoaded', () => {
     initAudio();
     resumeAudio();
   });
+
+  // Diagnostico temporal del "bloque oscuro" — solo con ?debug=1
+  initDiag();
 
   // ── Sonido global para TODOS los botones e interactivos ──────
   // Cubre cualquier button, role=button, tarjetas de selección, tabs, etc.

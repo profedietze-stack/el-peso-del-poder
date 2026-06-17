@@ -57,13 +57,11 @@ function _supportsFullscreen() {
 }
 
 /**
- * ¿Estamos en Android mobile?
- * En Android, requestFullscreen() causa un flash negro que resetea el
- * brightness adaptativo del teléfono y deja la pantalla muy oscura.
- * Los teléfonos Android ya llenan la pantalla — fullscreen no aporta nada.
+ * ¿Estamos en un dispositivo Android?
+ * Incluye tablets — algunos Chrome en Android omiten "Mobi" del UA string.
  */
 function _isAndroidMobile() {
-  return /Android/i.test(navigator.userAgent) && /Mobi/i.test(navigator.userAgent);
+  return /Android/i.test(navigator.userAgent);
 }
 
 /** Solicita pantalla completa. Falla silenciosamente si se deniega. */
@@ -228,9 +226,13 @@ function _runChecklist(overlay) {
 // ── OCULTAR / DESTRUIR ────────────────────────────────────────
 
 function _hideSplash(overlay) {
+  // Eliminar elementos con filter:blur() ANTES de cualquier transición.
+  // En Android (y algunos Chrome móviles), estas capas GPU quedan "huérfanas"
+  // como rectángulos oscuros sólidos después del fade o del requestFullscreen().
+  const spBg = overlay.querySelector('.sp-bg');
+  if (spBg) spBg.remove();
+
   if (_isAndroidMobile()) {
-    // En Android, la transición de opacidad deja capas GPU de filter:blur()
-    // "pegadas" como rectángulos oscuros. Remoción instantánea evita el artifact.
     overlay.remove();
     return;
   }

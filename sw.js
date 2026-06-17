@@ -1,4 +1,4 @@
-const CACHE = 'sdr-v28';
+const CACHE = 'sdr-v29';
 
 self.addEventListener('install', e => {
   e.waitUntil(

@@ -4489,3 +4489,21 @@ body.tut-open {
   .glow-orb-1,
   .glow-orb-2 { display: none; }
 }
+
+/* ============================================================
+   FIX ANDROID — backdrop-filter crea capas GPU que aparecen
+   como rectángulos oscuros sólidos en GPUs Adreno/Mali.
+   El scroll fuerza un repaint y "levanta" la capa oscura
+   momentáneamente — síntoma diagnóstico clave.
+   Solución: desactivar backdrop-filter en dispositivos touch.
+   ============================================================ */
+@media (hover: none) and (pointer: coarse) {
+  .start-card,
+  .min-header,
+  .min-footer,
+  .minister-modal-overlay,
+  .reset-modal-overlay {
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+  }
+}

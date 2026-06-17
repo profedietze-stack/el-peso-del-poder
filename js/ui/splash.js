@@ -165,7 +165,9 @@ function _setupButton(overlay, onReady) {
     btn.disabled    = true;
     btn.textContent = '⏳ Iniciando…';
 
-    await _requestFullscreen();
+    if (!_isAndroidMobile()) {
+      await _requestFullscreen();
+    }
 
     onReady?.();
     _hideSplash(overlay);

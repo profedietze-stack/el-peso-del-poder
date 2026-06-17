@@ -123,11 +123,7 @@ function _setupButton(overlay, onReady) {
   const standalone = _isStandalone();
   const canFs      = _supportsFullscreen();
 
-  if (_isAndroidMobile()) {
-    // Android mobile — requestFullscreen() causa flash negro que resetea el
-    // brightness adaptativo. En Android el browser ya llena la pantalla.
-    if (btn) btn.dataset.label = '▶ Continuar';
-  } else if (ios && !standalone) {
+  if (ios && !standalone) {
     // iOS Safari sin PWA — no puede pedir fullscreen
     // Mostrar hint de "Agregar a inicio"
     const isIPad = /iPad/.test(navigator.userAgent) ||
@@ -165,10 +161,19 @@ function _setupButton(overlay, onReady) {
     btn.disabled    = true;
     btn.textContent = '⏳ Iniciando…';
 
-    await _requestFullscreen();
-
-    onReady?.();
-    _hideSplash(overlay);
+    if (_isAndroidMobile()) {
+      // En Android: remover overlay ANTES de pedir fullscreen.
+      // requestFullscreen() recrea el contexto GPU — si el overlay
+      // (con sus filter:blur children) está presente, sus capas GPU
+      // quedan atrapadas en el nuevo contexto como ghost oscuro.
+      onReady?.();
+      _hideSplash(overlay);
+      await _requestFullscreen();
+    } else {
+      await _requestFullscreen();
+      onReady?.();
+      _hideSplash(overlay);
+    }
   };
 }
 

@@ -4445,7 +4445,9 @@ body.tut-open {
   .modal-overlay          { background: rgba(0, 0, 0, .88) !important; }
   .crisis-overlay         { background: rgba(120, 0, 0, .96) !important; }
   .midterm-overlay        { background: rgba(0, 0, 0, .93) !important; }
-  .tutorial-overlay       { background: rgba(0, 0, 0, .85) !important; }
+  /* Solo cuando el tutorial oscurece la pantalla — NO al overlay base
+     (el overlay base debe seguir transparent o tapa todo el juego). */
+  .tutorial-overlay.tut-full-dark { background: rgba(0, 0, 0, .85) !important; }
   .ttip-overlay           { background: rgba(4, 10, 22, .92) !important; }
   .emergency-overlay      { background: rgba(0, 0, 0, .88) !important; }
   .cabinet-overlay        { background: rgba(0, 0, 0, .92) !important; }

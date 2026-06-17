@@ -5,6 +5,7 @@
 // Importa y coordina todos los módulos.
 // ============================================================
 
+import { initErrorBanner }             from './ui/error-banner.js';
 import { CONFIG, IND_META }            from './config.js';
 import { EVENTS }                      from './data/events.js';
 import { ACHIEVEMENTS, checkAchievements } from './data/achievements.js';
@@ -181,6 +182,9 @@ window.__selectReplacement    = (newId) => {
 };
 
 document.addEventListener('DOMContentLoaded', () => {
+  // Capturador global de errores — DEBE ir primero para no perder excepciones
+  initErrorBanner();
+
   // ── Init de UI que no requiere gesto del usuario ─────────────
   initGlosarioTooltips();
   initTooltips();

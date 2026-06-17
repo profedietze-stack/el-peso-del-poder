@@ -4492,29 +4492,3 @@ body.tut-open {
   .glow-orb-2 { display: none; }
 }
 
-/* ============================================================
-   FIX ANDROID — brillo adaptativo
-   En pantallas OLED/AMOLED Android, el OS baja la retroiluminación
-   al ver fondos casi negros (#04090f, #07111f). El juego usa
-   --navy:#07111f como color base → auto-brightness lo lleva al mínimo.
-   Solución: subir los CSS vars de fondo en touch para que el sensor
-   de luz interprete la pantalla como activa, no apagada.
-   ============================================================ */
-@media (hover: none) and (pointer: coarse) {
-  :root {
-    --navy:       #152a45;   /* era #07111f */
-    --navy-mid:   #1c3555;   /* era #0d1e35 */
-    --navy-card:  #1e3d68;   /* era #112340 */
-    --navy-light: #2a4d7a;   /* era #1a3358 */
-  }
-  body {
-    background: var(--navy);
-  }
-  /* #screen-start usa gradiente hardcodeado — overridear explícitamente */
-  #screen-start {
-    background: linear-gradient(135deg, #152a45 0%, #1c3555 40%, #1f4070 70%, #152a45 100%);
-  }
-  .start-card {
-    background: rgba(28, 56, 96, .95);
-  }
-}

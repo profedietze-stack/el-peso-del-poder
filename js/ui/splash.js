@@ -160,11 +160,9 @@ function _setupButton(overlay, onReady) {
     btn.textContent = '⏳ Iniciando…';
 
     if (_isAndroidMobile()) {
-      // En Android: limpiar overlay ANTES de pedir fullscreen.
-      // _hideSplash espera 2 frames para que el GPU libere la textura
-      // antes de remover el elemento — evita ghost layer oscuro.
+      // En Android: remover overlay ANTES de pedir fullscreen.
       onReady?.();
-      await _hideSplash(overlay);
+      _hideSplash(overlay);
       await _requestFullscreen();
     } else {
       await _requestFullscreen();
@@ -224,25 +222,13 @@ function _runChecklist(overlay) {
 
 // ── OCULTAR / DESTRUIR ────────────────────────────────────────
 
-async function _hideSplash(overlay) {
+function _hideSplash(overlay) {
   // Eliminar elementos con filter:blur() ANTES de cualquier transición.
   const spBg = overlay.querySelector('.sp-bg');
   if (spBg) spBg.remove();
 
   if (_isAndroidMobile()) {
-    // Hacer la capa transparente ANTES de removerla del DOM.
-    // position:fixed crea una textura GPU en el compositor. Si se hace .remove()
-    // síncrono, la textura queda "orphaned" y persiste como rectángulo oscuro.
-    // Al ponerla transparent + esperar 2 frames, el GPU libera la textura limpia.
-    overlay.style.background = 'transparent';
-    overlay.style.opacity    = '0';
-    overlay.offsetHeight;    // fuerza reflow para que el estilo se aplique
-    await new Promise(r => requestAnimationFrame(() => requestAnimationFrame(r)));
     overlay.remove();
-    // Forzar re-composite del body para purgar capas GPU huérfanas
-    document.body.style.transform = 'translateZ(0)';
-    document.body.offsetHeight;
-    document.body.style.transform = '';
     return;
   }
   overlay.classList.add('sp-hiding');

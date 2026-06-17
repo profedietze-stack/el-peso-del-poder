@@ -22,7 +22,9 @@ function _sub(text, p, par) {
 
 function _pick(arr, seed) {
   if (!arr || arr.length === 0) return null;
-  return arr[Math.abs(Math.floor(seed)) % arr.length];
+  // seed puede ser NaN si event.id no es numérico → fallback a 0 (índice válido)
+  const i = Number.isFinite(seed) ? Math.abs(Math.floor(seed)) : 0;
+  return arr[i % arr.length];
 }
 
 /** Determina el sentimiento de una decisión de forma determinista */
@@ -105,8 +107,13 @@ export function generateNews(event, optionIdx, option, state) {
   const turn = state.turn || 1;
   const ind  = state.indicadores;
   // Incorporar event.id al seed para que eventos distintos del mismo tipo
-  // generen titulares diferentes aunque el turno y la opción sean iguales
-  const eventEntropy = (event?.id || 0) * 13 + ((event?.tag?.charCodeAt(0) || 0) % 17);
+  // generen titulares diferentes aunque el turno y la opción sean iguales.
+  // event.id puede ser número (eventos normales) o string (crisis automáticas
+  // tipo "crisis-auto-ipc-12") → hash que funciona con ambos sin producir NaN.
+  const idStr = String(event?.id ?? '');
+  let idHash = 0;
+  for (let k = 0; k < idStr.length; k++) idHash = (idHash * 31 + idStr.charCodeAt(k)) | 0;
+  const eventEntropy = Math.abs(idHash) * 13 + ((event?.tag?.charCodeAt(0) || 0) % 17);
   const seed = turn * 7 + optionIdx * 3 + eventEntropy;
 
   const cat       = getTagCategory(event.tag);
@@ -153,7 +160,7 @@ export function generateNews(event, optionIdx, option, state) {
       const indPool   = IND_NEWS[worstKey]?.[worstZone];
       if (indPool && indPool.length > 0) {
         const t3 = _pick(indPool, seed + 2);
-        news.push(_item(t3.source, t3.h, t3.b, false, null, p, par));
+        if (t3) news.push(_item(t3.source, t3.h, t3.b, false, null, p, par));
       }
     }
 

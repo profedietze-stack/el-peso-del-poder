@@ -165,9 +165,7 @@ function _setupButton(overlay, onReady) {
     btn.disabled    = true;
     btn.textContent = '⏳ Iniciando…';
 
-    if (!_isAndroidMobile()) {
-      await _requestFullscreen();
-    }
+    await _requestFullscreen();
 
     onReady?.();
     _hideSplash(overlay);
@@ -225,8 +223,13 @@ function _runChecklist(overlay) {
 // ── OCULTAR / DESTRUIR ────────────────────────────────────────
 
 function _hideSplash(overlay) {
+  if (_isAndroidMobile()) {
+    // En Android, la transición de opacidad deja capas GPU de filter:blur()
+    // "pegadas" como rectángulos oscuros. Remoción instantánea evita el artifact.
+    overlay.remove();
+    return;
+  }
   overlay.classList.add('sp-hiding');
-  // Esperar la transición CSS antes de remover del DOM
   overlay.addEventListener('transitionend', () => {
     overlay.remove();
   }, { once: true });

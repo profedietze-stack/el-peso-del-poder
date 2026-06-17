@@ -3825,9 +3825,10 @@ body.tut-open {
 /* Transición de salida */
 .splash-overlay.sp-hiding {
   opacity: 0;
-  transform: scale(1.04);
   pointer-events: none;
-  transition: opacity .45s ease-out, transform .45s ease-out;
+  /* Sin transform: scale() — crearía una capa GPU compuesta durante la
+     transición que oscurece el contenido subyacente en GPUs Adreno/Mali. */
+  transition: opacity .45s ease-out;
 }
 
 /* ── Fondo animado ────────────────────────────────────────── */

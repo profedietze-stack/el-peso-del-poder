@@ -56,6 +56,16 @@ function _supportsFullscreen() {
   );
 }
 
+/**
+ * ¿Estamos en Android mobile?
+ * En Android, requestFullscreen() causa un flash negro que resetea el
+ * brightness adaptativo del teléfono y deja la pantalla muy oscura.
+ * Los teléfonos Android ya llenan la pantalla — fullscreen no aporta nada.
+ */
+function _isAndroidMobile() {
+  return /Android/i.test(navigator.userAgent) && /Mobi/i.test(navigator.userAgent);
+}
+
 /** Solicita pantalla completa. Falla silenciosamente si se deniega. */
 async function _requestFullscreen() {
   const el = document.documentElement;
@@ -113,7 +123,11 @@ function _setupButton(overlay, onReady) {
   const standalone = _isStandalone();
   const canFs      = _supportsFullscreen();
 
-  if (ios && !standalone) {
+  if (_isAndroidMobile()) {
+    // Android mobile — requestFullscreen() causa flash negro que resetea el
+    // brightness adaptativo. En Android el browser ya llena la pantalla.
+    if (btn) btn.dataset.label = '▶ Continuar';
+  } else if (ios && !standalone) {
     // iOS Safari sin PWA — no puede pedir fullscreen
     // Mostrar hint de "Agregar a inicio"
     const isIPad = /iPad/.test(navigator.userAgent) ||

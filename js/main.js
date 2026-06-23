@@ -6,6 +6,8 @@
 // ============================================================
 
 import { initErrorBanner }             from './ui/error-banner.js';
+import { loadSettings, applySettings } from './engine/settings.js';
+import { openSettingsModal, closeSettingsModal } from './ui/settings-modal.js';
 import { CONFIG, IND_META }            from './config.js';
 import { EVENTS }                      from './data/events.js';
 import { ACHIEVEMENTS, checkAchievements } from './data/achievements.js';
@@ -184,6 +186,11 @@ window.__selectReplacement    = (newId) => {
 document.addEventListener('DOMContentLoaded', () => {
   // Capturador global de errores — DEBE ir primero para no perder excepciones
   initErrorBanner();
+
+  // ── Ajustes del jugador (accesibilidad + audio) ──────────────
+  // Cargar y aplicar ANTES de renderizar: letra/contraste vivos desde el arranque.
+  loadSettings();
+  applySettings();
 
   // ── Init de UI que no requiere gesto del usuario ─────────────
   initGlosarioTooltips();
@@ -1122,6 +1129,11 @@ function restartGame() {
   setG(null);
   showScreen('screen-start');
 }
+
+// ── OPCIONES / CONFIGURACIÓN ──────────────────────────────────
+
+window.openSettings    = openSettingsModal;
+window.__closeSettings = closeSettingsModal;
 
 // ── RESET TOTAL DE PROGRESO ───────────────────────────────────
 

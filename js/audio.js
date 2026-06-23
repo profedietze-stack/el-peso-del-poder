@@ -9,6 +9,12 @@
 /** @type {AudioContext|null} */
 let ctx = null;
 
+/** Nodo de ganancia maestro: todos los sonidos pasan por aquí.
+ *  Permite mute global y control de volumen desde Opciones. */
+let master = null;
+let _volume = 0.8;   // 0..1
+let _muted  = false;
+
 /**
  * Inicializa el AudioContext (debe llamarse desde un gesto del usuario).
  * El navegador requiere un gesto (click) antes de crear el contexto.
@@ -17,10 +23,28 @@ export function initAudio() {
   if (ctx) return;
   try {
     ctx = new (window.AudioContext || window.webkitAudioContext)();
+    master = ctx.createGain();
+    master.gain.value = _muted ? 0 : _volume;
+    master.connect(ctx.destination);
   } catch (e) {
     console.warn('[audio] Web Audio API no disponible');
   }
 }
+
+/** Silencia/activa todo el audio (persiste aunque el ctx aún no exista). */
+export function setAudioMuted(muted) {
+  _muted = !!muted;
+  if (master) master.gain.value = _muted ? 0 : _volume;
+}
+
+/** Ajusta volumen maestro (0..1). */
+export function setAudioVolume(vol) {
+  _volume = Math.max(0, Math.min(1, vol));
+  if (master && !_muted) master.gain.value = _volume;
+}
+
+/** Destino de audio: master si existe, si no destination directo. */
+function _dest() { return master || (ctx && ctx.destination); }
 
 /**
  * Reanuda el AudioContext si estaba suspendido (política autoplay).
@@ -44,7 +68,7 @@ function playTone(freq, type = 'sine', startTime = 0, duration = 0.15, gainPeak 
   const osc  = ctx.createOscillator();
   const gain = ctx.createGain();
   osc.connect(gain);
-  gain.connect(ctx.destination);
+  gain.connect(_dest());
   osc.type            = type;
   osc.frequency.value = freq;
   const t0 = ctx.currentTime + startTime;
@@ -70,7 +94,7 @@ function playNoise(duration = 0.05, gain = 0.04) {
   const gainNode = ctx.createGain();
   src.buffer     = buffer;
   src.connect(gainNode);
-  gainNode.connect(ctx.destination);
+  gainNode.connect(_dest());
   gainNode.gain.value = gain;
   src.start(ctx.currentTime);
 }

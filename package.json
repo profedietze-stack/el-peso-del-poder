@@ -1,0 +1,9 @@
+{
+  "name": "el-peso-del-poder",
+  "private": true,
+  "type": "module",
+  "description": "El Peso del Poder — simulador de economía política (ProfeD.)",
+  "scripts": {
+    "test": "node --test \"tests/*.test.js\""
+  }
+}

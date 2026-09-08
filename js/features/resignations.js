@@ -333,7 +333,7 @@ function _renderReplacementModal(slotId) {
       <div class="rr-card" onclick="window.__selectReplacement('${m.id}')">
         <div class="rr-card-top">
           <img class="rr-avatar" src="${m.avatarUrl}" alt="${m.name}"
-               onerror="this.src='https://api.dicebear.com/9.x/avataaars/svg?seed=${m.id}'">
+               onerror="this.onerror=null;this.src='img/avatares/respaldo.svg'">
           <div class="rr-card-info">
             <div class="rr-name" style="color:${slotColor}">${m.name}</div>
             <div class="rr-title">${m.title}</div>

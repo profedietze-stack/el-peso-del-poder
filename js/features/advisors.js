@@ -777,7 +777,7 @@ export function showEmergencyModal(slotId, minister, event, state) {
     if (minister.avatarUrl) {
       avatarEl.innerHTML = `<img src="${minister.avatarUrl}" alt="${minister.name}"
         width="80" height="80" style="border-radius:50%;object-fit:cover;border:2px solid ${minister.color || 'var(--gold)'};"
-        onerror="this.onerror=null;this.src='https://api.dicebear.com/9.x/avataaars/svg?seed=${minister.id}'">`;
+        onerror="this.onerror=null;this.src='img/avatares/respaldo.svg'">`;
     } else {
       avatarEl.textContent = '🏛️';
     }
@@ -959,7 +959,7 @@ export function showAdvisorModal(slotId, event, state, fromCabinet = false) {
                alt="${minister.name}"
                width="72" height="72"
                loading="lazy"
-               onerror="this.onerror=null;this.src='https://api.dicebear.com/9.x/avataaars/svg?seed=${minister.id}'">
+               onerror="this.onerror=null;this.src='img/avatares/respaldo.svg'">
         </div>`;
     } else {
       titleEl.textContent = _slotEmoji(slotId);

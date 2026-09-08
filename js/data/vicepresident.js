@@ -58,13 +58,9 @@ const _TOP_M = [
  * @param {string} [extraParams] — params adicionales al final (ej: clothesColor)
  * @returns {string}
  */
-function _av(seed, gender = 'any', extraParams = '') {
-  const top = gender === 'f' ? _TOP_F : gender === 'm' ? _TOP_M : `${_TOP_F}&${_TOP_M}`;
-  // Las mujeres no tienen barba/bigote — sobreescribimos facialHairProbability=0
-  const noBeard = gender === 'f' ? '&facialHairProbability=0' : '';
-  const extra   = extraParams ? `&${extraParams}` : '';
-  return `https://api.dicebear.com/9.x/avataaars/svg?seed=${encodeURIComponent(seed)}&backgroundColor=${_VP_BG}&${_AVA}&${top}${noBeard}${extra}`;
-}
+// Los SVG se generaron con DiceBear (colección Avataaars, de Pablo Stanley,
+// CC BY 4.0) y están bajados en `img/avatares/`. Los parámetros exactos con los
+// que se produjo cada uno quedan en `img/avatares/LEEME.md`.
 
 // ── DEFINICIÓN DE VICEPRESIDENTES ─────────────────────────────
 
@@ -84,7 +80,7 @@ export const VICEPRESIDENTS = [
     passive:    { pobreza: -3, desocupacion: -1, confianza: +4, ipc: +2 },
     // Mods: amortigua impacto negativo en pobreza y desocupación; amplifica confianza
     effectMods: { pobreza: 0.82, desocupacion: 0.88, confianza: 1.18 },
-    avatarUrl:  _av('Moreno-Social-ViceP-F01', 'f'),
+    avatarUrl: `img/avatares/vp-moreno.svg`,
   },
 
   {
@@ -101,7 +97,7 @@ export const VICEPRESIDENTS = [
     passive:    { ipc: -4, deuda: -3, riesgo: -3, confianza: -2, reservas: +2 },
     effectMods: { ipc: 0.78, deuda: 0.85, riesgo: 0.82 },
     // Ropa oscura (navy casi negro) — perfil austero/fiscal
-    avatarUrl:  _av('Fuentes-Liberal-ViceP-M02', 'm', 'clothesColor[]=0f1f3d&clothesColor[]=162447&clothesColor[]=0d1b2a'),
+    avatarUrl: `img/avatares/vp-fuentes.svg`,
   },
 
   {
@@ -118,7 +114,7 @@ export const VICEPRESIDENTS = [
     passive:    { produccion: +5, reservas: +3, desocupacion: -2, ipc: +1 },
     effectMods: { produccion: 1.22, reservas: 1.15, desocupacion: 0.85 },
     // Seed cambiado para evitar resultado masculino; facialHairProbability=0 aplicado por _av
-    avatarUrl:  _av('Castillo-Ingeniera-VPF-X9', 'f'),
+    avatarUrl: `img/avatares/vp-castillo.svg`,
   },
 
   {
@@ -135,7 +131,7 @@ export const VICEPRESIDENTS = [
     passive:    { confianza: +5, riesgo: -3, deuda: -1, desocupacion: +1 },
     effectMods: { confianza: 1.28, riesgo: 0.88 },
     // Ropa oscura (carbón/negro) — perfil diplomático sobrio
-    avatarUrl:  _av('Vargas-Dialogo-ViceP-M04', 'm', 'clothesColor[]=1a1a2e&clothesColor[]=1c1c2e&clothesColor[]=0d0d1a'),
+    avatarUrl: `img/avatares/vp-vargas.svg`,
   },
 
 ];

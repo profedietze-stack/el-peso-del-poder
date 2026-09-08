@@ -117,7 +117,7 @@ function _renderCard(minister, slot) {
                width="88" height="88"
                loading="lazy"
                class="min-avatar-img"
-               onerror="this.onerror=null;this.src='https://api.dicebear.com/9.x/avataaars/svg?seed=${minister.id}'">
+               onerror="this.onerror=null;this.src='img/avatares/respaldo.svg'">
         </div>
       </div>
 

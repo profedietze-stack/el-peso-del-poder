@@ -871,7 +871,7 @@ async function _captureLegacy() {
     if (!window.html2canvas) {
       await new Promise((res, rej) => {
         const s = document.createElement('script');
-        s.src   = 'https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js';
+        s.src   = 'vendor/html2canvas.min.js';
         s.onload = res; s.onerror = rej;
         document.head.appendChild(s);
       });
@@ -1052,7 +1052,7 @@ export async function captureResults() {
     if (!window.html2canvas) {
       await new Promise((res, rej) => {
         const s  = document.createElement('script');
-        s.src    = 'https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js';
+        s.src    = 'vendor/html2canvas.min.js';
         s.onload = res; s.onerror = rej;
         document.head.appendChild(s);
       });

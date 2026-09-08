@@ -120,7 +120,6 @@ export function buildWarningEvent() {
     tag:         '🗳️ Elecciones',
     titulo:      'Elecciones Legislativas — Faltan 2 Meses',
     descripcion: 'En dos meses se realizarán las elecciones legislativas que renovarán la mitad del Congreso. Las encuestas muestran un escenario competitivo: tu bloque no tiene garantizada la mayoría. El resultado dependerá de cómo los ciudadanos evalúen tu gestión económica y social — y de la estrategia de campaña que elijas ahora.',
-    imagen:      'https://images.unsplash.com/photo-1540910419892-4a36d2c3266c?w=800&q=70',
     opciones:    CAMPAIGN_OPTIONS.map(o => ({
       texto:   `${o.emoji} ${o.texto}`,
       efectos: o.efectos,

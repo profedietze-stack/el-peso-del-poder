@@ -71,7 +71,7 @@ body.fs-active .screen.active {
 }
 #screen-start::before {
   content:''; position:absolute; inset:0;
-  background:url('https://images.unsplash.com/photo-1529107386315-e1a2ed48a620?w=1600&q=50') center/cover no-repeat;
+  background:url('../img/eventos/institucional-1.jpg') center/cover no-repeat;
   opacity:.06; pointer-events:none;
 }
 

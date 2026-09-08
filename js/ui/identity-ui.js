@@ -162,7 +162,7 @@ function _renderVPCard(vp) {
                width="88" height="88"
                loading="lazy"
                class="ident-vp-img"
-               onerror="this.onerror=null;this.src='https://api.dicebear.com/9.x/avataaars/svg?seed=${vp.id}'">
+               onerror="this.onerror=null;this.src='img/avatares/respaldo.svg'">
         </div>
       </div>
 

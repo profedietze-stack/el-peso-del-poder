@@ -21,7 +21,6 @@ const CRISIS_TEMPLATES = {
     tag:        '🚨 Crisis Financiera',
     titulo:     '⚡ CRISIS: Espiral Inflacionaria',
     descripcion: 'La inflación ha estado fuera de control por semanas. El BCRA convoca a una reunión de emergencia. Los supermercados registran desabastecimiento de básicos y los trabajadores reclaman indexación automática. La situación requiere una respuesta urgente del Ejecutivo.',
-    imagen:     'https://picsum.photos/seed/crisis-ipc/800/360',
     opciones: [
       { texto: '🏦 Suba de tasas de emergencia: el BCRA sube la tasa de interés al 120% para detener la corrida.', efectos: { ipc:-12, deuda:5, reservas:-4, riesgo:-6, pobreza:5, desocupacion:3, produccion:-5, confianza:-3 } },
       { texto: '💰 Control de precios de emergencia: congelar precios de la canasta básica por 90 días.', efectos: { ipc:-8, deuda:3, reservas:0, riesgo:2, pobreza:-3, desocupacion:1, produccion:-3, confianza:4 } },
@@ -32,7 +31,6 @@ const CRISIS_TEMPLATES = {
     tag:        '🏦 Tensión con FMI',
     titulo:     '⚡ CRISIS: Vencimiento Impagable',
     descripcion: 'La deuda soberana alcanzó niveles críticos y los acreedores exigen una reunión de urgencia. El riesgo de cesación de pagos es real. Los mercados castigan los bonos argentinos y el tipo de cambio paralelo se dispara.',
-    imagen:     'https://picsum.photos/seed/crisis-deuda/800/360',
     opciones: [
       { texto: '🤝 Reestructuración urgente: proponer a los acreedores una quita del 40% con nuevos plazos.', efectos: { ipc:4, deuda:-15, reservas:-3, riesgo:-8, pobreza:3, desocupacion:2, produccion:-2, confianza:3 } },
       { texto: '💵 Acuerdo puente con el FMI: aceptar un desembolso del FMI a cambio de ajuste fiscal inmediato.', efectos: { ipc:-3, deuda:-8, reservas:8, riesgo:-10, pobreza:6, desocupacion:4, produccion:-4, confianza:-7 } },
@@ -43,7 +41,6 @@ const CRISIS_TEMPLATES = {
     tag:        '💱 Política Cambiaria',
     titulo:     '⚡ CRISIS: Corrida Cambiaria',
     descripcion: 'Las reservas del Banco Central cayeron a mínimos históricos. Se desata una corrida cambiaria: colas en las casas de cambio, dólar blue en alza vertiginosa y el BCRA pierde USD 200 millones por día. La situación es de emergencia.',
-    imagen:     'https://picsum.photos/seed/crisis-reservas/800/360',
     opciones: [
       { texto: '🔐 Cepo de emergencia: restricciones totales al mercado de cambios para frenar la sangría.', efectos: { ipc:5, deuda:2, reservas:10, riesgo:8, pobreza:3, desocupacion:2, produccion:-5, confianza:-8 } },
       { texto: '📞 Swap con bancos centrales: activar líneas de crédito con Brasil, China y la UE.', efectos: { ipc:2, deuda:5, reservas:14, riesgo:-5, pobreza:1, desocupacion:0, produccion:0, confianza:4 } },
@@ -54,7 +51,6 @@ const CRISIS_TEMPLATES = {
     tag:        '🌍 Geopolítica',
     titulo:     '⚡ CRISIS: Riesgo País en Máximos',
     descripcion: 'El riesgo país superó los 1.800 puntos básicos. Argentina quedó excluida de los mercados internacionales de crédito. El capital extranjero huye y las empresas paralizan inversiones. La percepción externa de la economía es catastrófica.',
-    imagen:     'https://picsum.photos/seed/crisis-riesgo/800/360',
     opciones: [
       { texto: '🤝 Agenda de confianza express: anunciar reformas estructurales y reuniones con inversores internacionales.', efectos: { ipc:-2, deuda:-3, reservas:2, riesgo:-12, pobreza:0, desocupacion:0, produccion:2, confianza:6 } },
       { texto: '📋 Acuerdo con el FMI de largo plazo: firmar un programa de facilidades extendidas con metas fiscales duras.', efectos: { ipc:-4, deuda:-6, reservas:5, riesgo:-15, pobreza:5, desocupacion:3, produccion:-3, confianza:-5 } },
@@ -65,7 +61,6 @@ const CRISIS_TEMPLATES = {
     tag:        '✊ Conflicto Social',
     titulo:     '⚡ CRISIS: Estallido Social',
     descripcion: 'La pobreza estructural detonó en manifestaciones masivas en 18 provincias. Ollas populares en las plazas, piquetes en las rutas y el índice de indigencia en alza acelerada. La situación social está al límite de lo sostenible.',
-    imagen:     'https://picsum.photos/seed/crisis-pobreza/800/360',
     opciones: [
       { texto: '🍲 Plan de emergencia alimentaria: triplicar el presupuesto de los comedores escolares y comunitarios.', efectos: { ipc:2, deuda:5, reservas:-2, riesgo:0, pobreza:-8, desocupacion:-1, produccion:0, confianza:8 } },
       { texto: '💸 Transferencia directa universal: bono de emergencia de $50.000 para todos los hogares en situación crítica.', efectos: { ipc:5, deuda:8, reservas:-3, riesgo:1, pobreza:-12, desocupacion:-2, produccion:0, confianza:10 } },
@@ -76,7 +71,6 @@ const CRISIS_TEMPLATES = {
     tag:        '💼 Empleo',
     titulo:     '⚡ CRISIS: Desempleo Masivo',
     descripcion: 'La desocupación superó el 20%. Empresas industriales anuncian cierres masivos y el sector informal explota. Las oficinas de empleo colapsan. Los sindicatos convocan a huelga general indefinida y la tensión social es máxima.',
-    imagen:     'https://picsum.photos/seed/crisis-desoc/800/360',
     opciones: [
       { texto: '🏭 Subsidio al empleo privado: cubrir el 50% del salario en empresas que suspendan despidos por 6 meses.', efectos: { ipc:2, deuda:6, reservas:-2, riesgo:0, pobreza:-3, desocupacion:-7, produccion:2, confianza:7 } },
       { texto: '👷 Plan de empleo público transitorio: crear 200.000 puestos de trabajo en obra pública y servicios comunitarios.', efectos: { ipc:3, deuda:7, reservas:-3, riesgo:1, pobreza:-4, desocupacion:-8, produccion:3, confianza:8 } },
@@ -87,7 +81,6 @@ const CRISIS_TEMPLATES = {
     tag:        '🏭 Industria',
     titulo:     '⚡ CRISIS: Colapso Industrial',
     descripcion: 'La producción industrial cayó a mínimos de la última década. Cierres de fábricas, caída de exportaciones y fuga de inversiones. Las cadenas de valor se rompen y el sector PyME agónica. El país necesita un shock productivo urgente.',
-    imagen:     'https://picsum.photos/seed/crisis-prod/800/360',
     opciones: [
       { texto: '⚡ Shock de crédito productivo: lanzar líneas de crédito a tasa cero para PyMEs industriales a través del BNA.', efectos: { ipc:2, deuda:5, reservas:-2, riesgo:-1, pobreza:-2, desocupacion:-4, produccion:10, confianza:6 } },
       { texto: '🌐 Acuerdo comercial de emergencia: abrir mercados externos para colocar la producción excedente.', efectos: { ipc:0, deuda:-2, reservas:5, riesgo:-3, pobreza:-1, desocupacion:-2, produccion:7, confianza:4 } },
@@ -98,7 +91,6 @@ const CRISIS_TEMPLATES = {
     tag:        '🗳️ Elecciones',
     titulo:     '⚡ CRISIS: Colapso de Confianza',
     descripcion: 'La aprobación presidencial cayó a mínimos históricos. El Congreso amenaza con un juicio político, las calles se llenan de protestas y los propios aliados de la coalición gobernante empiezan a distanciarse. El gobierno enfrenta su peor momento.',
-    imagen:     'https://picsum.photos/seed/crisis-conf/800/360',
     opciones: [
       { texto: '📣 Cadena nacional y agenda de reformas: anunciar un paquete de medidas populares con cadena presidencial.', efectos: { ipc:2, deuda:3, reservas:-1, riesgo:-2, pobreza:-3, desocupacion:-1, produccion:1, confianza:10 } },
       { texto: '🔄 Cambio de gabinete: renovar los ministerios más cuestionados con figuras de consenso.', efectos: { ipc:0, deuda:1, reservas:0, riesgo:-1, pobreza:0, desocupacion:0, produccion:0, confianza:7 } },

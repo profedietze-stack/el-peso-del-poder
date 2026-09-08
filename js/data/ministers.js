@@ -141,10 +141,26 @@ const _TOP_ANY = `${_TOP_F}&${_TOP_M}`;
  * @param {string} gender  — 'f' | 'm' | 'any' (controla el estilo de pelo)
  * @returns {string}
  */
-function _av(seed, slot, gender = 'any') {
-  const bg  = _BG[slot] || '0d1e35';
-  const top = gender === 'f' ? _TOP_F : gender === 'm' ? _TOP_M : _TOP_ANY;
-  return `https://api.dicebear.com/9.x/avataaars/svg?seed=${encodeURIComponent(seed)}&backgroundColor=${bg}&${_AVA}&${top}`;
+// Los SVG se generaron con DiceBear (colección Avataaars, de Pablo Stanley,
+// CC BY 4.0) y están bajados en `img/avatares/`. Los parámetros exactos con los
+// que se produjo cada uno quedan en `img/avatares/LEEME.md`.
+
+/**
+ * La cara de un ministro, servida desde el propio sitio.
+ *
+ * Se pedia a api.dicebear.com en cada partida. Eran dieciseis caras fijas, asi que
+ * ese servidor no se enteraba de que alguien jugo: se enteraba de que ministro tenia
+ * en pantalla, y cuando. Y sin internet el gabinete se quedaba sin caras.
+ *
+ * Los SVG estan bajados una sola vez a `img/avatares/`. Se generaron con DiceBear
+ * (coleccion Avataaars, de Pablo Stanley, CC BY 4.0) y los parametros que los produjeron
+ * quedan en `_PARAMS_DICEBEAR`, mas abajo, por si hay que regenerarlos.
+ *
+ * @param {string} id - identificador del ministro; el archivo se llama igual
+ * @returns {string}
+ */
+function _avatar(id) {
+  return `img/avatares/${id}.svg`;
 }
 
 // ── DEFINICIÓN DE MINISTROS ───────────────────────────────────
@@ -159,7 +175,7 @@ export const MINISTERS = [
     name:      'Dra. María Eugenia Paz',
     title:     'Ministra de Economía',
     profile:   'Ortodoxa · Ajuste Fiscal',
-    avatarUrl: _av('Paz-Chicago-Fiscal-F9', 'economia', 'f'),
+    avatarUrl: _avatar('ortodoxa'),
     bio:       'Economista formada en Chicago. Prioriza el equilibrio fiscal y la credibilidad ante los mercados. Sus políticas reducen la inflación y la deuda, pero generan fricción social.',
     passive: {
       ipc:          -4,
@@ -186,7 +202,7 @@ export const MINISTERS = [
     name:      'Dr. Axel Medina',
     title:     'Ministro de Economía',
     profile:   'Heterodoxo · Industrialismo Activo',
-    avatarUrl: _av('Medina-Keynes-BCentral-M7', 'economia', 'm'),
+    avatarUrl: _avatar('heterodoxa'),
     bio:       'Economista keynesiano, ex-director del Banco Central. Apuesta por la demanda interna y el mercado interno. Sus políticas impulsan la producción y la confianza, pero aceleran la inflación.',
     passive: {
       produccion:   +5,
@@ -212,7 +228,7 @@ export const MINISTERS = [
     name:      'Dr. Roberto Chen',
     title:     'Ministro de Economía',
     profile:   'Tecnocrático · Gestión Técnica',
-    avatarUrl: _av('PhD-FinanzasIntl-Chen-087', 'economia', 'm'),
+    avatarUrl: _avatar('tecnocrata_eco'),
     bio:       'Ph.D. en Finanzas Internacionales. Orientado a métricas y procesos. No tiene agenda ideológica fuerte: actúa según los datos. Mejora reservas y riesgo, pero su frialdad aleja a la ciudadanía.',
     passive: {
       reservas:       +5,
@@ -240,7 +256,7 @@ export const MINISTERS = [
     name:      'Lic. Alex Gutiérrez',
     title:     'Ministerio de Desarrollo Social',
     profile:   'Asistencialista · Transferencias Directas',
-    avatarUrl: _av('Sociologa-Equidad-Gutierrez-113', 'social', 'any'),
+    avatarUrl: _avatar('asistencial'),
     bio:       'Especialista con 20 años de trabajo en comunidades vulnerables. Cree en la transferencia directa de recursos como motor de equidad. Baja la pobreza y sube la confianza, pero presiona la deuda.',
     passive: {
       pobreza:      -5,
@@ -265,7 +281,7 @@ export const MINISTERS = [
     name:      'Dr. Hugo Fernández',
     title:     'Ministro de Desarrollo Social',
     profile:   'Laboral · Pro-Sindicatos',
-    avatarUrl: _av('Gremial-Sindicato-Fernandez-156', 'social', 'm'),
+    avatarUrl: _avatar('laboral'),
     bio:       'Ex-secretario general de un sindicato nacional. Conoce el mundo del trabajo desde adentro. Baja el desempleo y genera fidelidad obrera, pero sus paritarias aceleran la inflación.',
     passive: {
       desocupacion: -4,
@@ -290,7 +306,7 @@ export const MINISTERS = [
     name:      'Dra. Lucía Ramos',
     title:     'Ministra de Desarrollo Social',
     profile:   'Focalizada · Programas Medibles',
-    avatarUrl: _av('Ramos-ImpactoSocial-F3', 'social', 'f'),
+    avatarUrl: _avatar('focalizada'),
     bio:       'Experta en evaluación de impacto social. Diseña programas precisos con metas medibles. Sus resultados son más lentos pero sostenibles: baja la pobreza y el desempleo sin presionar el gasto.',
     passive: {
       pobreza:      -3,
@@ -315,7 +331,7 @@ export const MINISTERS = [
     name:      'Dr. Carlos Estévez',
     title:     'Jefe de Gabinete',
     profile:   'Dialoguista · Consenso Político',
-    avatarUrl: _av('Consenso-Politico-Estevez-234', 'gabinete', 'm'),
+    avatarUrl: _avatar('dialoguista'),
     bio:       'Político veterano con contactos en todos los sectores. Su estilo es el acuerdo. Sube la confianza ciudadana y reduce el riesgo país, pero su moderación puede frustrar a la base propia.',
     passive: {
       confianza:  +5,
@@ -337,7 +353,7 @@ export const MINISTERS = [
     name:      'Dr. Rodrigo Salas',
     title:     'Jefe de Gabinete',
     profile:   'Confrontacional · Alto Riesgo / Alta Recompensa',
-    avatarUrl: _av('Constitucionalista-Combativa-Salas-277', 'gabinete', 'm'),
+    avatarUrl: _avatar('confrontacional'),
     bio:       'Abogado constitucionalista con estilo combativo. Radicaliza el escenario político: cuando las cosas van bien, la confianza sube mucho; cuando van mal, cae en picada. Juego de alto vuelo.',
     passive: {
       confianza:  +2,
@@ -359,7 +375,7 @@ export const MINISTERS = [
     name:      'Dr. Pablo Ibáñez',
     title:     'Jefe de Gabinete',
     profile:   'Tecnocrático · Gestión Institucional',
-    avatarUrl: _av('AdminPub-Institucional-Ibanez-318', 'gabinete', 'm'),
+    avatarUrl: _avatar('tecnocrata_gab'),
     bio:       'Abogado administrativista. Ordena el Estado, cumple con los organismos internacionales, baja el riesgo país. Su frialdad le cuesta popularidad, pero es un excelente administrador.',
     passive: {
       riesgo:     -5,
@@ -383,7 +399,7 @@ export const MINISTERS = [
     name:      'Ing. Daniela Torres',
     title:     'Ministra de Producción',
     profile:   'Industrialista · Sustitución de Importaciones',
-    avatarUrl: _av('Ingenieria-Manufactura-Torres-361', 'produccion', 'f'),
+    avatarUrl: _avatar('industrialista'),
     bio:       'Ingeniera industrial con décadas en el sector manufacturero. Cree en la industria nacional como motor de desarrollo. Sus políticas disparan la producción y el empleo, pero incrementan la deuda.',
     passive: {
       produccion:   +6,
@@ -408,7 +424,7 @@ export const MINISTERS = [
     name:      'Ing. Fernanda Blanco',
     title:     'Ministra de Producción',
     profile:   'Agroexportador · Divisas y Campo',
-    avatarUrl: _av('Agronomia-Exportacion-Blanco-404', 'produccion', 'f'),
+    avatarUrl: _avatar('agroexportador'),
     bio:       'Ingeniera agrónoma con lazos en el sector agropecuario. Su estrategia: exportar más para acumular reservas. Sube las divisas y diversifica la producción, pero descuida el mercado interno.',
     passive: {
       reservas:     +5,
@@ -433,7 +449,7 @@ export const MINISTERS = [
     name:      'Dr. Nicolás Cruz',
     title:     'Ministro de Producción',
     profile:   'Innovación · Economía del Conocimiento',
-    avatarUrl: _av('EconomiaDigital-Innovacion-Cruz-447', 'produccion', 'm'),
+    avatarUrl: _avatar('innovacion'),
     bio:       'Doctor en Economía Digital. Apuesta por la transición tecnológica y la industria del software. Sus resultados son más lentos al inicio pero tienen un efecto compuesto al final del mandato.',
     passive: {
       produccion:   +3,

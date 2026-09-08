@@ -63,7 +63,7 @@ export function showMinisterModal(eventId, optionIdx, ministers, onContinue, onB
       <div class="mm-card">
         <div class="mm-card-header">
           <img class="mm-avatar" src="${minister.avatarUrl}" alt="${minister.name}"
-               onerror="this.src='https://api.dicebear.com/7.x/personas/svg?seed=fallback'">
+               onerror="this.onerror=null;this.src='img/avatares/respaldo.svg'">
           <div class="mm-card-info">
             <div class="mm-name">${minister.name}</div>
             <div class="mm-title">${minister.title}</div>

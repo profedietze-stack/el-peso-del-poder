@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="Sin retrato">
+  <!-- Respaldo cuando la cara de un ministro no carga.
+       Local a propósito: el respaldo anterior salía a api.dicebear.com, y un respaldo
+       que necesita red no sirve para el caso que tiene que cubrir. -->
+  <rect width="200" height="200" fill="#0d1e35"/>
+  <circle cx="100" cy="78" r="34" fill="#1b3a5e"/>
+  <path d="M32 200c0-40 30-62 68-62s68 22 68 62z" fill="#1b3a5e"/>
+</svg>

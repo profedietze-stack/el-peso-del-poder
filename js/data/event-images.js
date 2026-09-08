@@ -3,40 +3,51 @@
 // ============================================================
 // EVENT IMAGES — Sistema de imágenes por categoría temática
 //
-// Reemplaza los 130 seeds aleatorios de picsum.photos por
-// fotos curadas de Unsplash, agrupadas en 14 categorías.
-// Cada categoría tiene 2 fotos alternadas por event.id (par/impar)
-// para dar variedad visual sin repetir exactamente la misma foto.
+// Las fotos se sirven desde `img/eventos/`, no desde un CDN. Los que abren esto
+// son menores, y una foto por evento traída de afuera no le cuenta a un tercero
+// que alguien jugó: le cuenta qué decisión está leyendo, y cuándo. Y con el wifi
+// caído el juego se quedaba sin una sola imagen.
 //
-// Todos los IDs de Unsplash fueron verificados contra el CDN
-// antes de incluirse — se confirmó respuesta JPEG 200.
+// Sobre la versión anterior: decía que los IDs de Unsplash estaban «verificados
+// contra el CDN — respuesta JPEG 200». Eso comprueba que hay una foto, no cuál.
+// Miradas una por una, diez de las veintiocho no tenían nada que ver con su
+// categoría: una aurora boreal para ambiente, una calle de Kioto para cultura,
+// un turista en Vietnam para lo institucional, y la misma foto de chicos pobres
+// tanto en justicia como en social.
 //
-// Cadena de fallback:
-//   1. Unsplash CDN (foto temáticamente relevante)
-//   2. DiceBear shapes (fondo geométrico único por evento)
+// Quedaron veintitrés fotos, todas miradas contra su categoría. Trece de las
+// catorce categorías tienen foto propia; `industria` no consiguió ninguna que
+// pasara, así que usa el degradado que el juego ya sabe generar. Un fondo de
+// color hecho a propósito es mejor que una foto que no corresponde.
+//
+// Cadena de respaldo:
+//   1. La foto local de la categoría
+//   2. El degradado SVG generado acá mismo (sin red, sin terceros)
 //   El onerror se aplica en event.js al renderizar la imagen.
 // ============================================================
 
-const BASE = 'https://images.unsplash.com/photo-';
-const PARAMS = '?w=800&h=360&fit=crop&q=70&auto=format';
+const DIR = 'img/eventos/';
 
-// ── 2 fotos por categoría (par → [0], impar → [1]) ───────────
+// ── Foto por categoría (par → [0], impar → [1]) ──────────────
+// `industria` queda vacía a propósito: ninguna candidata pasó la revisión, y cae
+// al degradado. Es la única.
 const PHOTOS = {
-  economia:     ['1611974789855-9c2a0a7236a3', '1517048676732-d65bc937f952'],
-  salud:        ['1584036561566-baf8f5f1b144', '1576091160550-2173dba999ef'],
-  campo:        ['1500382017468-9049fed747ef', '1464226184884-fa280b87c399'],
-  energia:      ['1466611653911-95081537e5b7', '1513828583688-c52646db42da'],
-  educacion:    ['1580582932707-520aed937b7b', '1522202176988-66273c2fd55f'],
-  ambiente:     ['1504711434969-e33886168f5c', '1531366936337-7c912a4589a7'],
-  justicia:     ['1589829545856-d10d557cf95f', '1488521787991-ed7bbaae773c'],
-  institucional:['1575986767340-5d17ae767ab0', '1529107386315-e1a2ed48a620'],
-  seguridad:    ['1569880153113-76e33fc52d5f', '1558618666-fcd25c85cd64'],
-  social:       ['1529156069898-49953e39b3ac', '1488521787991-ed7bbaae773c'],
-  tecnologia:   ['1518770660439-4636190af475', '1526374965328-7f61d4dc18c5'],
-  internacional:['1451187580459-43490279c0fa', '1486325212027-8081e485255e'],
-  industria:    ['1517048676732-d65bc937f952', '1498049794561-7780e7231661'],
-  cultura:      ['1540575467063-178a50c2df87', '1493976040374-85c8e12f0c0e'],
+  economia:      ['economia-0', 'economia-1'],
+  salud:         ['salud-0', 'salud-1'],
+  campo:         ['campo-0', 'campo-1'],
+  energia:       ['energia-0', 'energia-1'],
+  educacion:     ['educacion-0', 'educacion-1'],
+  ambiente:      ['ambiente-0', 'ambiente-0'],
+  justicia:      ['justicia-0', 'justicia-1'],
+  institucional: ['institucional-0', 'institucional-1'],
+  seguridad:     ['seguridad-0', 'seguridad-0'],
+  social:        ['social-0', 'social-0'],
+  tecnologia:    ['tecnologia-0', 'tecnologia-1'],
+  internacional: ['internacional-0', 'internacional-1'],
+  industria:     [],
+  cultura:       ['cultura-0', 'cultura-1'],
 };
+
 
 // ── Mapeo emoji-prefijo → categoría ──────────────────────────
 // Se extrae el primer "token" del tag (antes del primer espacio)
@@ -119,29 +130,33 @@ export function getLocalFallback(event) {
 // ── API PÚBLICA ───────────────────────────────────────────────
 
 /**
- * Devuelve la URL de Unsplash para un evento.
- * Usa la categoría derivada del tag y alterna entre 2 fotos según event.id.
+ * La imagen de un evento, servida desde este mismo sitio.
+ *
+ * Si la categoría no tiene foto que haya pasado la revisión, devuelve el degradado
+ * generado acá: sin red y sin una foto que no corresponda.
  *
  * @param {object} event - objeto evento { id, tag, ... }
- * @returns {string} URL completa de imagen
+ * @returns {string} ruta relativa, o data URI del degradado
  */
 export function getEventImage(event) {
   const category = _getCategoryFromTag(event.tag);
   const photos   = PHOTOS[category] || PHOTOS.economia;
+  if (!photos.length) return getLocalFallback(event);
   const idx      = event.id % 2;           // 0 para pares, 1 para impares
-  return `${BASE}${photos[idx]}${PARAMS}`;
+  return `${DIR}${photos[idx]}.jpg`;
 }
 
 /**
- * Devuelve la URL del fallback de DiceBear cuando la imagen Unsplash falla.
- * Genera un fondo geométrico único y consistente por evento.
+ * El respaldo cuando la foto no carga.
+ *
+ * Era una llamada a api.dicebear.com, que es otro tercero y además no sirve de nada
+ * si el problema es justamente que no hay red. El degradado se genera acá.
  *
  * @param {object} event - objeto evento { id, tag }
- * @returns {string} URL de DiceBear SVG
+ * @returns {string} data URI del degradado de la categoría
  */
 export function getEventImageFallback(event) {
-  const colors = _getCategoryColors(event.tag);
-  return `https://api.dicebear.com/9.x/shapes/svg?seed=ev${event.id}&backgroundColor=${colors}`;
+  return getLocalFallback(event);
 }
 
 // ── INTERNOS ──────────────────────────────────────────────────

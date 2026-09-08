@@ -96,11 +96,27 @@ export const STICKER_MAP = {
   '🔐 Secreto de Estado':      ['🔐','🕵️','📋','⚠️','🌐','🤫','💼','🔍','🛡️','❗'],
 };
 
+/**
+ * Fisher-Yates.
+ *
+ * Antes se barajaba con `sort(() => Math.random() - 0.5)`, un comparador
+ * inconsistente que no reparte parejo: los primeros elementos del arreglo
+ * salían mucho más seguido que los últimos. Acá se ve enseguida — de los diez
+ * stickers de cada tema aparecían casi siempre los mismos tres.
+ */
+function barajar(arr) {
+  const a = [...arr];
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
 export function getEventStickers(tag) {
   const pool = STICKER_MAP[tag] || ['⭐','🌟','💫','✨','🎯','📌','🔶','🔷','🟡','🟠'];
   const count = 3 + Math.floor(Math.random() * 3);
-  const shuffled = [...pool].sort(() => Math.random() - 0.5);
-  return shuffled.slice(0, count);
+  return barajar(pool).slice(0, count);
 }
 
 export function buildStickerHTML(stickers) {

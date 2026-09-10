@@ -100,7 +100,7 @@ export const EVENTS = [
       { texto:"💎 Reforma progresiva completa: impuesto a la riqueza, herencia y eliminación de exenciones a grandes capitales.", efectos:{ipc:-2,deuda:-5,reservas:3,riesgo:4,pobreza:-6,desocupacion:-2,produccion:-3,confianza:8} },
       { texto:"📋 Reforma parcial: solo simplificación tributaria para pymes, sin tocar grandes fortunas.", efectos:{ipc:-1,deuda:-2,reservas:1,riesgo:0,pobreza:-2,desocupacion:-1,produccion:2,confianza:3} },
       { texto:"📉 Reforma regresiva: bajar el impuesto a las ganancias corporativas para atraer inversión extranjera.", efectos:{ipc:0,deuda:-1,reservas:0,riesgo:-4,pobreza:2,desocupacion:-2,produccion:5,confianza:-4}, chain:{eventId:7,delayTurns:6} },
-      { texto:"🚫 Suspender la reforma: el Congreso no tiene los votos y el conflicto político es demasiado alto.", efectos:{ipc:0,deuda:0,reservas:0,riesgo:0,pobreza:0,desocupacion:0,produccion:0,confianza:-3} },
+      { texto:"🚫 Suspender la reforma: el Congreso no tiene los votos y el conflicto político es demasiado alto.", efectos:{ipc:0,deuda:0,reservas:0,riesgo:-1,pobreza:0,desocupacion:0,produccion:1,confianza:-3} },
     ]
   },
   {
@@ -120,7 +120,7 @@ export const EVENTS = [
     opciones:[
       { texto:"✅ Aceptar las condiciones tal como vienen: el desarrollo económico es prioritario ahora.", efectos:{ipc:-1,deuda:-3,reservas:10,riesgo:-8,pobreza:-4,desocupacion:-5,produccion:9,confianza:4} },
       { texto:"🤝 Negociar: exigir 30% de empleo local, evaluación ambiental y 10% de regalías para comunidades.", efectos:{ipc:-1,deuda:-1,reservas:5,riesgo:-4,pobreza:-2,desocupacion:-3,produccion:5,confianza:7}, duracion:5, efectosPersistentes:{produccion:1,reservas:0.8,desocupacion:-0.5} },
-      { texto:"🌿 Rechazar la oferta: proteger los humedales y consultar previamente a las comunidades indígenas.", efectos:{ipc:0,deuda:0,reservas:-2,riesgo:3,pobreza:0,desocupacion:1,produccion:-1,confianza:3} },
+      { texto:"🌿 Rechazar la oferta: proteger los humedales y consultar previamente a las comunidades indígenas.", efectos:{ipc:0,deuda:0,reservas:-2,riesgo:3,pobreza:0,desocupacion:1,produccion:-1,confianza:8} },
     ]
   },
   {
@@ -148,8 +148,8 @@ export const EVENTS = [
     titulo:"Conflicto por el Agua con País Vecino",
     descripcion:"El país vecino construye una represa sobre un río compartido que reducirá un 40% el caudal de agua que llega a la región noroeste. Los productores agrícolas de la zona están desesperados. El canciller del vecino niega la competencia de los organismos internacionales. La ICJ podría intervenir, pero el proceso llevaría años. Tu ejército solicita autorización para maniobras de 'disuasión' en la frontera. El futuro hídrico de una región entera está en juego.",
     opciones:[
-      { texto:"⚖️ Llevar el caso a organismos internacionales: OEA, ICJ y ONU como árbitros legítimos.", efectos:{ipc:0,deuda:1,reservas:-1,riesgo:-3,pobreza:0,desocupacion:0,produccion:-1,confianza:5} },
-      { texto:"🤝 Negociación bilateral directa: ofrecer compensaciones económicas a cambio del agua garantizada.", efectos:{ipc:0,deuda:2,reservas:-2,riesgo:-5,pobreza:0,desocupacion:0,produccion:0,confianza:4} },
+      { texto:"⚖️ Llevar el caso a organismos internacionales: OEA, ICJ y ONU como árbitros legítimos.", efectos:{ipc:0,deuda:1,reservas:-1,riesgo:-3,pobreza:0,desocupacion:1,produccion:-3,confianza:5} },
+      { texto:"🤝 Negociación bilateral directa: ofrecer compensaciones económicas a cambio del agua garantizada.", efectos:{ipc:0,deuda:4,reservas:-4,riesgo:-5,pobreza:0,desocupacion:0,produccion:0,confianza:4} },
       { texto:"🪖 Autorizar maniobras militares de disuasión en la zona fronteriza.", efectos:{ipc:1,deuda:2,reservas:-3,riesgo:8,pobreza:0,desocupacion:0,produccion:-1,confianza:-3} },
     ]
   },
@@ -178,9 +178,9 @@ export const EVENTS = [
     titulo:"Boom de Startups y Tecnología",
     descripcion:"El país se posiciona como hub tecnológico regional: 400 startups nuevas en el último año, unicornios en fintech y agtech, y exportaciones de servicios informáticos que ya generan USD 3.000 millones anuales. El sector pide incentivos especiales, financiamiento estatal de I+D y visa para talentos internacionales. Los sindicatos advierten que el trabajo de plataformas precariza el empleo. Tenés una oportunidad histórica para dar el salto tecnológico.",
     opciones:[
-      { texto:"🚀 Ley de Economía del Conocimiento: incentivos fiscales, financiamiento de I+D y visas para talentos.", efectos:{ipc:-1,deuda:-1,reservas:4,riesgo:-5,pobreza:-3,desocupacion:-4,produccion:7,confianza:8}, duracion:6, efectosPersistentes:{produccion:1,reservas:0.5,desocupacion:-0.5} },
+      { texto:"🚀 Ley de Economía del Conocimiento: incentivos fiscales, financiamiento de I+D y visas para talentos.", efectos:{ipc:-1,deuda:2,reservas:4,riesgo:-5,pobreza:-1,desocupacion:-4,produccion:7,confianza:8}, duracion:6, efectosPersistentes:{produccion:1,reservas:0.5,desocupacion:-0.5} },
       { texto:"⚖️ Apoyo condicionado: beneficios solo si las empresas garantizan derechos laborales plenos.", efectos:{ipc:0,deuda:0,reservas:2,riesgo:-3,pobreza:-2,desocupacion:-2,produccion:4,confianza:5}, duracion:4, efectosPersistentes:{produccion:0.8,desocupacion:-0.3} },
-      { texto:"🚫 Priorizar la industria tradicional: los beneficios al software benefician solo a las élites.", efectos:{ipc:0,deuda:0,reservas:-1,riesgo:2,pobreza:0,desocupacion:0,produccion:1,confianza:-2} },
+      { texto:"🚫 Priorizar la industria tradicional: los beneficios al software benefician solo a las élites.", efectos:{ipc:0,deuda:0,reservas:-1,riesgo:2,pobreza:-1,desocupacion:-4,produccion:1,confianza:-2} },
     ]
   },
   {
@@ -229,9 +229,9 @@ export const EVENTS = [
     titulo:"Espionaje Ilegal a Periodistas y Opositores",
     descripcion:"El diario de mayor circulación revela que la Agencia Federal de Inteligencia (AFI), bajo órdenes directas de tu gobierno, intervino ilegalmente los teléfonos de 40 periodistas de investigación, 12 dirigentes opositores y 3 jueces. Los audios filtrados son devastadores. La Fiscalía abre investigación penal. El escándalo recorre el mundo. La libertad de prensa y el Estado de Derecho están en el centro del debate. Tu credibilidad democrática está en juego.",
     opciones:[
-      { texto:"⚖️ Intervenir la AFI, colaborar con la Justicia y pedir disculpas públicas genuinas.", efectos:{ipc:0,deuda:0,reservas:0,riesgo:-4,pobreza:0,desocupacion:0,produccion:0,confianza:10} },
+      { texto:"⚖️ Intervenir la AFI, colaborar con la Justicia y pedir disculpas públicas genuinas.", efectos:{ipc:0,deuda:0,reservas:0,riesgo:-2,pobreza:0,desocupacion:0,produccion:0,confianza:10} },
       { texto:"🔇 Calificar las revelaciones de 'montaje mediático' sin tomar ninguna medida.", corrupta:true, efectos:{ipc:0,deuda:0,reservas:0,riesgo:5,pobreza:0,desocupacion:0,produccion:0,confianza:-16} },
-      { texto:"👤 Despedir al director de la AFI como chivo expiatorio sin asumir responsabilidades institucionales.", efectos:{ipc:0,deuda:0,reservas:0,riesgo:1,pobreza:0,desocupacion:0,produccion:0,confianza:-4} },
+      { texto:"👤 Despedir al director de la AFI como chivo expiatorio sin asumir responsabilidades institucionales.", efectos:{ipc:0,deuda:0,reservas:0,riesgo:-3,pobreza:0,desocupacion:0,produccion:0,confianza:-4} },
     ]
   },
   {
@@ -251,7 +251,7 @@ export const EVENTS = [
     opciones:[
       { texto:"💱 'Dólar soja': tipo de cambio diferencial y temporario para incentivar las liquidaciones.", efectos:{ipc:4,deuda:-2,reservas:12,riesgo:-6,pobreza:-1,desocupacion:-2,produccion:5,confianza:2} },
       { texto:"📉 Bajar las retenciones a las exportaciones 5 puntos de manera permanente.", efectos:{ipc:1,deuda:-1,reservas:9,riesgo:-5,pobreza:-1,desocupacion:-1,produccion:4,confianza:3} },
-      { texto:"🔒 No ceder: sostener las retenciones y esperar que el mercado liquide naturalmente.", efectos:{ipc:2,deuda:0,reservas:2,riesgo:3,pobreza:0,desocupacion:0,produccion:2,confianza:0} },
+      { texto:"🔒 No ceder: sostener las retenciones y esperar que el mercado liquide naturalmente.", efectos:{ipc:2,deuda:-2,reservas:2,riesgo:3,pobreza:0,desocupacion:0,produccion:2,confianza:0} },
     ]
   },
   {
@@ -322,7 +322,7 @@ export const EVENTS = [
     opciones:[
       { texto:"🛢️ Explotar el yacimiento a máxima velocidad: el país necesita las divisas urgentemente.", efectos:{ipc:-2,deuda:-8,reservas:12,riesgo:-10,pobreza:-5,desocupacion:-5,produccion:10,confianza:6} },
       { texto:"🌿 Explotar con Evaluación de Impacto Ambiental rigurosa y ritmo moderado y sostenido.", efectos:{ipc:-1,deuda:-4,reservas:6,riesgo:-5,pobreza:-2,desocupacion:-3,produccion:5,confianza:8} },
-      { texto:"🚫 Declarar el área Reserva Marina: preservar el ecosistema para las generaciones futuras.", efectos:{ipc:0,deuda:0,reservas:-2,riesgo:3,pobreza:0,desocupacion:0,produccion:-1,confianza:5} },
+      { texto:"🚫 Declarar el área Reserva Marina: preservar el ecosistema para las generaciones futuras.", efectos:{ipc:0,deuda:0,reservas:-2,riesgo:3,pobreza:0,desocupacion:0,produccion:-1,confianza:9} },
     ]
   },
   {
@@ -361,7 +361,7 @@ export const EVENTS = [
     descripcion:"El principal proveedor de gas natural licuado suspende los envíos alegando incumplimientos de pago por USD 600 millones. La interrupción ocurre en pleno invierno con temperaturas de -5°C. Las industrias deben bajar su producción al 50%. Los hogares del sur del país enfrentan cortes de calefacción. El Ministerio de Energía calcula que el sistema podría colapsar completamente en 10 días si no se consigue un proveedor alternativo.",
     opciones:[
       { texto:"💰 Pagar la deuda con el proveedor y reanudar el suministro de inmediato antes del colapso.", efectos:{ipc:2,deuda:2,reservas:-8,riesgo:-4,pobreza:0,desocupacion:0,produccion:4,confianza:5} },
-      { texto:"🌍 Buscar proveedores alternativos de emergencia en el mercado spot internacional.", efectos:{ipc:4,deuda:3,reservas:-10,riesgo:0,pobreza:1,desocupacion:0,produccion:3,confianza:2} },
+      { texto:"🌍 Buscar proveedores alternativos de emergencia en el mercado spot internacional.", efectos:{ipc:4,deuda:3,reservas:-10,riesgo:-5,pobreza:1,desocupacion:0,produccion:3,confianza:2} },
       { texto:"🕯️ Plan de racionamiento: cortes rotativos programados para distribuir el gas disponible.", efectos:{ipc:2,deuda:0,reservas:-2,riesgo:3,pobreza:3,desocupacion:1,produccion:-4,confianza:-6} },
     ]
   },
@@ -434,7 +434,7 @@ export const EVENTS = [
     titulo:"Crisis Constitucional: El Congreso se Fractura",
     descripcion:"La oposición presenta un pedido de juicio político contra vos y logra los votos necesarios para abrir la investigación. La acusación: mal desempeño de funciones y violación de la división de poderes. Tus aliados en el Senado prometen frenar el proceso. La ciudadanía está dividida y las manifestaciones llenan las plazas de todo el país. El sistema republicano muestra sus grietas más profundas. Cada movimiento tuyo será histórico.",
     opciones:[
-      { texto:"⚖️ Colaborar con el proceso constitucional: presentar toda la documentación y enfrentar el debate.", efectos:{ipc:0,deuda:0,reservas:0,riesgo:-5,pobreza:0,desocupacion:0,produccion:0,confianza:8} },
+      { texto:"⚖️ Colaborar con el proceso constitucional: presentar toda la documentación y enfrentar el debate.", efectos:{ipc:0,deuda:0,reservas:0,riesgo:-5,pobreza:0,desocupacion:0,produccion:-2,confianza:8} },
       { texto:"🤝 Acuerdo político: negociar con la oposición mediana para frenar el juicio a cambio de concesiones.", efectos:{ipc:0,deuda:2,reservas:0,riesgo:-3,pobreza:-1,desocupacion:0,produccion:0,confianza:3} },
       { texto:"📢 Campaña de comunicación agresiva: denunciar el juicio como golpe institucional en todos los medios.", efectos:{ipc:0,deuda:0,reservas:0,riesgo:4,pobreza:0,desocupacion:0,produccion:0,confianza:-6} },
     ]
@@ -475,9 +475,9 @@ export const EVENTS = [
     titulo:"Propuesta de Unión Monetaria del MERCOSUR",
     descripcion:"Brasil y Uruguay proponen crear una moneda común del MERCOSUR —el 'Sur'— para reducir la dependencia del dólar en el comercio regional. El proyecto implicaría ceder parte de la soberanía monetaria a un Banco Central supranacional. Las exportaciones a la región, que representan el 35% del total, se beneficiarían. Los economistas ortodoxos nacionales advierten que limita el manejo de la política monetaria en crisis. Argentina tiene que decidir en 90 días.",
     opciones:[
-      { texto:"✅ Adherir a la unión monetaria: apostar a la integración regional y reducir la exposición al dólar.", efectos:{ipc:-3,deuda:-2,reservas:3,riesgo:-6,pobreza:-2,desocupacion:-2,produccion:4,confianza:7} },
+      { texto:"✅ Adherir a la unión monetaria: apostar a la integración regional y reducir la exposición al dólar.", efectos:{ipc:-3,deuda:-2,reservas:3,riesgo:-6,pobreza:-2,desocupacion:1,produccion:4,confianza:7} },
       { texto:"🤝 Participar en el diseño pero no adoptar la moneda: ser observador con veto en el directorio.", efectos:{ipc:-1,deuda:0,reservas:0,riesgo:-3,pobreza:-1,desocupacion:-1,produccion:2,confianza:4} },
-      { texto:"🚫 Rechazar: la soberanía monetaria es innegociable en el contexto económico actual.", efectos:{ipc:0,deuda:0,reservas:-1,riesgo:3,pobreza:0,desocupacion:0,produccion:-1,confianza:-3} },
+      { texto:"🚫 Rechazar: la soberanía monetaria es innegociable en el contexto económico actual.", efectos:{ipc:0,deuda:0,reservas:1,riesgo:3,pobreza:0,desocupacion:0,produccion:-1,confianza:-3} },
     ]
   },
   {
@@ -587,7 +587,7 @@ export const EVENTS = [
     opciones:[
       { texto:"🌾 Autorizar la siembra comercial: la tecnología y la seguridad alimentaria global primero.", efectos:{ipc:-2,deuda:-3,reservas:8,riesgo:-4,pobreza:-3,desocupacion:-3,produccion:9,confianza:3} },
       { texto:"🔬 Autorizar en zonas piloto: experimentación controlada antes de liberar comercialmente.", efectos:{ipc:-1,deuda:-1,reservas:2,riesgo:-2,pobreza:-1,desocupacion:-1,produccion:3,confianza:4} },
-      { texto:"🚫 Moratoria por 2 años: esperar resultados ambientales internacionales antes de decidir.", efectos:{ipc:0,deuda:0,reservas:-1,riesgo:2,pobreza:0,desocupacion:0,produccion:-2,confianza:2} },
+      { texto:"🚫 Moratoria por 2 años: esperar resultados ambientales internacionales antes de decidir.", efectos:{ipc:0,deuda:0,reservas:-1,riesgo:2,pobreza:0,desocupacion:0,produccion:-2,confianza:6} },
     ]
   },
   {
@@ -685,7 +685,7 @@ export const EVENTS = [
     titulo:"El INDEC Bajo Sospecha: ¿Inflación Real o Manipulada?",
     descripcion:"Un informe de Price Stats del MIT estima que la inflación real duplica la que publica el INDEC. Los organismos internacionales advierten que si los datos son incorrectos, los bonos indexados al CER pagarán de menos a los tenedores. La credibilidad estadística del Estado está en juego. La oposición pide intervención judicial. Los mercados elevan el riesgo país. Intervenir el INDEC tiene costos políticos enormes; no hacerlo puede costar más caro aún.",
     opciones:[
-      { texto:"🔍 Auditoría internacional: invitar a EUROSTAT y FMI a auditar la metodología del INDEC.", efectos:{ipc:0,deuda:0,reservas:0,riesgo:-7,pobreza:0,desocupacion:0,produccion:0,confianza:11} },
+      { texto:"🔍 Auditoría internacional: invitar a EUROSTAT y FMI a auditar la metodología del INDEC.", efectos:{ipc:0,deuda:0,reservas:0,riesgo:-7,pobreza:0,desocupacion:0,produccion:-1,confianza:11} },
       { texto:"🔄 Reforma metodológica interna: cambiar los técnicos y actualizar la canasta básica sin auditoría.", efectos:{ipc:0,deuda:0,reservas:0,riesgo:-3,pobreza:0,desocupacion:0,produccion:0,confianza:5} },
       { texto:"🛡️ Defender el INDEC: las críticas son parte de la guerra mediática y financiera contra el gobierno.", corrupta:true, efectos:{ipc:0,deuda:0,reservas:0,riesgo:8,pobreza:0,desocupacion:0,produccion:0,confianza:-10} },
     ]
@@ -705,7 +705,7 @@ export const EVENTS = [
     titulo:"Los Supermercados Hacen Cartel: Precios Coordinados",
     descripcion:"La Comisión Nacional de Defensa de la Competencia (CNDC) detecta que las cinco principales cadenas de supermercados coordinaron subas de precios en forma simultánea y homogénea, en lo que configura un cartel ilegal. El daño al consumidor se estima en $600.000 millones. Las cadenas son empleadoras de 180.000 trabajadores. La multa máxima prevista por ley es risible frente a las ganancias. El sistema de defensa de la competencia mostró sus límites.",
     opciones:[
-      { texto:"⚖️ Multa máxima y reforma de la Ley de Defensa de la Competencia con nuevas herramientas.", efectos:{ipc:-3,deuda:0,reservas:0,riesgo:-3,pobreza:-4,desocupacion:0,produccion:0,confianza:10} },
+      { texto:"⚖️ Multa máxima y reforma de la Ley de Defensa de la Competencia con nuevas herramientas.", efectos:{ipc:-3,deuda:0,reservas:0,riesgo:-3,pobreza:-4,desocupacion:0,produccion:-2,confianza:10} },
       { texto:"🤝 Acuerdo voluntario: las cadenas se comprometen a no reeditar la práctica a cambio de no ser multadas.", efectos:{ipc:-1,deuda:0,reservas:0,riesgo:0,pobreza:-1,desocupacion:0,produccion:0,confianza:2} },
       { texto:"🏪 Crear cadenas de supermercados estatales para competir directamente y bajar precios.", efectos:{ipc:-4,deuda:5,reservas:-3,riesgo:2,pobreza:-5,desocupacion:-5,produccion:2,confianza:8} },
     ]
@@ -784,7 +784,7 @@ export const EVENTS = [
     opciones:[
       { texto:"📋 Protocolo integral con sanciones: impulsar el protocolo con comisiones independientes, sanciones efectivas y garantías de anonimato para denunciantes.", efectos:{ipc:0,deuda:1,reservas:0,riesgo:-3,pobreza:-2,desocupacion:0,produccion:1,confianza:12} },
       { texto:"🔍 Investigar caso por caso: abrir sumarios internos y dejar la política general para una etapa posterior.", efectos:{ipc:0,deuda:0,reservas:0,riesgo:0,pobreza:0,desocupacion:0,produccion:0,confianza:-2} },
-      { texto:"🔄 Aceptar el proyecto opositor: negociar con la oposición para sacar un protocolo más débil a cambio de apoyo parlamentario en otra agenda.", efectos:{ipc:0,deuda:0,reservas:0,riesgo:1,pobreza:0,desocupacion:0,produccion:0,confianza:-6} },
+      { texto:"🔄 Aceptar el proyecto opositor: negociar con la oposición para sacar un protocolo más débil a cambio de apoyo parlamentario en otra agenda.", efectos:{ipc:0,deuda:0,reservas:0,riesgo:-1,pobreza:0,desocupacion:0,produccion:0,confianza:-6} },
     ]
   },
   {
@@ -824,7 +824,7 @@ export const EVENTS = [
     opciones:[
       { texto:"🌍 Ofensiva multilateral completa: presentar ante la ONU la demanda de soberanía reforzada con argumentos sobre plataforma continental y recursos naturales, y activar apoyos regionales.", efectos:{ipc:0,deuda:0,reservas:0,riesgo:-3,pobreza:0,desocupacion:0,produccion:0,confianza:12} },
       { texto:"🤝 Proponer diálogo bilateral: solicitar retomar negociaciones directas con el Reino Unido en un formato 2+2 (ambos gobiernos más representantes de isleños).", efectos:{ipc:0,deuda:0,reservas:1,riesgo:-2,pobreza:0,desocupacion:0,produccion:1,confianza:6} },
-      { texto:"📋 Posición cautelosa: mantener el reclamo formal sin escalar la disputa para no afectar el comercio y las relaciones diplomáticas con el Reino Unido.", efectos:{ipc:0,deuda:0,reservas:0,riesgo:0,pobreza:0,desocupacion:0,produccion:0,confianza:-5} },
+      { texto:"📋 Posición cautelosa: mantener el reclamo formal sin escalar la disputa para no afectar el comercio y las relaciones diplomáticas con el Reino Unido.", efectos:{ipc:0,deuda:0,reservas:2,riesgo:0,pobreza:0,desocupacion:0,produccion:1,confianza:-5} },
     ]
   },
   {
@@ -843,8 +843,8 @@ export const EVENTS = [
     descripcion:"Un informe del BCRA revela que más de 4 millones de argentinos usan criptomonedas como reserva de valor ante la inflación crónica. Plataformas de intercambio operan en un vacío legal que facilita la evasión fiscal. El FMI presiona para regular el sector. El sector cripto amenaza con trasladar operaciones a Paraguay si se legisla de forma restrictiva. La dolarización informal a través de stablecoins alcanza nuevos máximos.",
     opciones:[
       { texto:"📋 Marco regulatorio con tributación: regular las criptomonedas integrándolas al sistema financiero con obligaciones impositivas claras y protección al usuario.", efectos:{ipc:-1,deuda:-3,reservas:2,riesgo:-4,pobreza:0,desocupacion:-1,produccion:2,confianza:7} },
-      { texto:"🚀 Zona franca cripto: crear un ecosistema regulatorio favorable para atraer empresas de blockchain y fintech como hub regional.", efectos:{ipc:1,deuda:-4,reservas:5,riesgo:-3,pobreza:-1,desocupacion:-3,produccion:4,confianza:4} },
-      { texto:"🚫 Prohibición de exchanges: cerrar las plataformas locales de criptomonedas por riesgo sistémico y evasión fiscal.", efectos:{ipc:2,deuda:0,reservas:-3,riesgo:4,pobreza:1,desocupacion:1,produccion:-2,confianza:-8} },
+      { texto:"🚀 Zona franca cripto: crear un ecosistema regulatorio favorable para atraer empresas de blockchain y fintech como hub regional.", efectos:{ipc:1,deuda:-4,reservas:2,riesgo:-3,pobreza:-1,desocupacion:-3,produccion:4,confianza:4} },
+      { texto:"🚫 Prohibición de exchanges: cerrar las plataformas locales de criptomonedas por riesgo sistémico y evasión fiscal.", efectos:{ipc:2,deuda:0,reservas:3,riesgo:4,pobreza:1,desocupacion:1,produccion:-2,confianza:-8} },
     ]
   },
   {
@@ -852,9 +852,9 @@ export const EVENTS = [
     titulo:"Municipio Pionero: El Primer Bono Soberano en Blockchain",
     descripcion:"El gobierno de una provincia patagónica propone emitir el primer 'bono verde' provincial en tecnología blockchain para financiar obras de energía eólica. La propuesta despierta el interés de inversores internacionales y el escepticismo del Ministerio de Economía nacional, que ve riesgos en la fragmentación del sistema de deuda. El BID ofrece asistencia técnica. Es una oportunidad de innovación financiera pero también un test para la coordinación federal.",
     opciones:[
-      { texto:"🌱 Apoyar el proyecto piloto: brindar asistencia técnica y jurídica a la provincia para que el bono verde blockchain sea un modelo exportable.", efectos:{ipc:0,deuda:-2,reservas:3,riesgo:-4,pobreza:-1,desocupacion:-2,produccion:4,confianza:8} },
+      { texto:"🌱 Apoyar el proyecto piloto: brindar asistencia técnica y jurídica a la provincia para que el bono verde blockchain sea un modelo exportable.", efectos:{ipc:0,deuda:-2,reservas:3,riesgo:1,pobreza:-1,desocupacion:-2,produccion:4,confianza:8} },
       { texto:"⚖️ Regular primero: exigir que el Congreso legisle sobre deuda provincial en blockchain antes de autorizar emisiones.", efectos:{ipc:0,deuda:0,reservas:0,riesgo:-1,pobreza:0,desocupacion:0,produccion:0,confianza:3} },
-      { texto:"🚫 Vetar la iniciativa: impedir la emisión por riesgo de fragmentación financiera y descoordinación de política monetaria.", efectos:{ipc:0,deuda:0,reservas:0,riesgo:1,pobreza:0,desocupacion:0,produccion:-1,confianza:-6} },
+      { texto:"🚫 Vetar la iniciativa: impedir la emisión por riesgo de fragmentación financiera y descoordinación de política monetaria.", efectos:{ipc:0,deuda:0,reservas:0,riesgo:-2,pobreza:0,desocupacion:0,produccion:-1,confianza:-6} },
     ]
   },
   {
@@ -873,8 +873,8 @@ export const EVENTS = [
     descripcion:"La detención de un ex funcionario de tu propia gestión por una causa de corrupción de la administración anterior desata una tormenta política. Tus aliados acusan de 'lawfare' y persecución judicial. La oposición celebra la independencia del Poder Judicial. Los medios internacionales observan si el gobierno respeta o interfiere con la justicia. Cada señal que des marcará la agenda política por semanas.",
     opciones:[
       { texto:"🕊️ Respeto irrestricto a la Justicia: declarar públicamente que el gobierno no interferirá en ninguna causa judicial y garantizar acceso de la defensa.", efectos:{ipc:0,deuda:0,reservas:0,riesgo:-5,pobreza:0,desocupacion:0,produccion:0,confianza:10} },
-      { texto:"📢 Defensa pública del acusado: salir a cuestionar públicamente el proceso judicial y movilizar militantes en apoyo al ex funcionario.", efectos:{ipc:1,deuda:0,reservas:0,riesgo:4,pobreza:0,desocupacion:0,produccion:-1,confianza:-9} },
-      { texto:"🤫 Silencio estratégico: no hacer declaraciones públicas y gestionar el conflicto en privado para no desgastar al gobierno.", efectos:{ipc:0,deuda:0,reservas:0,riesgo:1,pobreza:0,desocupacion:0,produccion:0,confianza:-3} },
+      { texto:"📢 Defensa pública del acusado: salir a cuestionar públicamente el proceso judicial y movilizar militantes en apoyo al ex funcionario.", efectos:{ipc:1,deuda:0,reservas:0,riesgo:4,pobreza:0,desocupacion:0,produccion:2,confianza:-9} },
+      { texto:"🤫 Silencio estratégico: no hacer declaraciones públicas y gestionar el conflicto en privado para no desgastar al gobierno.", efectos:{ipc:0,deuda:0,reservas:0,riesgo:1,pobreza:0,desocupacion:0,produccion:1,confianza:-3} },
     ]
   },
   {
@@ -934,7 +934,7 @@ export const EVENTS = [
     opciones:[
       { texto:"🏛️ Preservar y expandir los sitios de memoria: declarar todos los ex CCD patrimonio histórico nacional e intangible y financiar su mantenimiento.", efectos:{ipc:0,deuda:1,reservas:0,riesgo:-3,pobreza:0,desocupacion:0,produccion:0,confianza:11} },
       { texto:"🔄 Uso mixto con señalización: permitir usos compatibles (educativos, culturales) con señalización permanente del pasado del lugar.", efectos:{ipc:0,deuda:0,reservas:0,riesgo:-1,pobreza:0,desocupacion:0,produccion:0,confianza:4} },
-      { texto:"🏫 Priorizar la escuela: autorizar la demolición argumentando que las necesidades educativas presentes superan a la preservación del pasado.", efectos:{ipc:0,deuda:0,reservas:0,riesgo:2,pobreza:0,desocupacion:0,produccion:0,confianza:-13} },
+      { texto:"🏫 Priorizar la escuela: autorizar la demolición argumentando que las necesidades educativas presentes superan a la preservación del pasado.", efectos:{ipc:0,deuda:0,reservas:0,riesgo:2,pobreza:-1,desocupacion:0,produccion:0,confianza:-13} },
     ]
   },
   {
@@ -963,7 +963,7 @@ export const EVENTS = [
     descripcion:"Un video viral muestra a efectivos policiales deteniendo y golpeando a jóvenes afrodescendientes e indígenas en un barrio popular de Córdoba. La ONG CELS documenta que el 78% de los detenidos sin causa en Argentina son personas de tez oscura o apariencia indígena. El debate sobre el racismo institucional en las fuerzas de seguridad llega al Congreso. Sectores del establishment policial resisten cualquier reforma.",
     opciones:[
       { texto:"📋 Protocolo antidiscriminación y capacitación: implementar capacitación obligatoria en DDHH para todas las fuerzas y crear un registro de denuncias raciales.", efectos:{ipc:0,deuda:1,reservas:0,riesgo:-3,pobreza:-2,desocupacion:0,produccion:0,confianza:9} },
-      { texto:"⚖️ Sumarios y sanciones: abrir sumarios a todos los efectivos involucrados e incorporar el criterio racial a los indicadores de control policial.", efectos:{ipc:0,deuda:0,reservas:0,riesgo:-2,pobreza:-1,desocupacion:0,produccion:0,confianza:7} },
+      { texto:"⚖️ Sumarios y sanciones: abrir sumarios a todos los efectivos involucrados e incorporar el criterio racial a los indicadores de control policial.", efectos:{ipc:0,deuda:1,reservas:0,riesgo:-4,pobreza:-1,desocupacion:0,produccion:0,confianza:7} },
       { texto:"🔇 Minimizar el caso: tratar el incidente como un hecho aislado y dejar su investigación en la justicia ordinaria sin señales políticas adicionales.", efectos:{ipc:0,deuda:0,reservas:0,riesgo:1,pobreza:0,desocupacion:0,produccion:0,confianza:-9} },
     ]
   },
@@ -1004,7 +1004,7 @@ export const EVENTS = [
     opciones:[
       { texto:"✅ Agencia independiente de verificación: crear un organismo autárquico financiado por el Estado pero gestionado por periodistas y universidades, sin control gubernamental.", efectos:{ipc:0,deuda:2,reservas:0,riesgo:-4,pobreza:0,desocupacion:-1,produccion:0,confianza:10} },
       { texto:"📋 Alfabetización mediática en escuelas: incluir pensamiento crítico y verificación de fuentes en el currículum escolar en lugar de regular los contenidos.", efectos:{ipc:0,deuda:1,reservas:0,riesgo:-2,pobreza:0,desocupacion:0,produccion:0,confianza:6} },
-      { texto:"🔇 Regulación gubernamental directa: crear un organismo bajo el Ejecutivo para etiquetar contenidos falsos en plataformas digitales.", efectos:{ipc:0,deuda:1,reservas:0,riesgo:3,pobreza:0,desocupacion:0,produccion:0,confianza:-9} },
+      { texto:"🔇 Regulación gubernamental directa: crear un organismo bajo el Ejecutivo para etiquetar contenidos falsos en plataformas digitales.", efectos:{ipc:0,deuda:0,reservas:0,riesgo:3,pobreza:0,desocupacion:0,produccion:0,confianza:-9} },
     ]
   },
   {
@@ -1022,9 +1022,9 @@ export const EVENTS = [
     titulo:"El Gran Acuerdo: ¿Pacto de Gobernabilidad o Rendición?",
     descripcion:"A mitad del mandato, los indicadores muestran que la situación económica es manejable pero el país necesita reformas estructurales que ningún gobierno logró sostener. El principal partido opositor propone un 'Gran Acuerdo Nacional' de largo plazo para reformar el sistema previsional, el régimen impositivo y la coparticipación federal a cambio de apoyo parlamentario. Las bases de tu coalición lo ven como una traición. Los mercados lo celebran como señal de estabilidad.",
     opciones:[
-      { texto:"🤝 Firmar el Gran Acuerdo: negociar con la oposición un programa de reformas consensuadas con cronograma de implementación y control parlamentario conjunto.", efectos:{ipc:-3,deuda:-5,reservas:4,riesgo:-8,pobreza:-3,desocupacion:-2,produccion:5,confianza:8} },
+      { texto:"🤝 Firmar el Gran Acuerdo: negociar con la oposición un programa de reformas consensuadas con cronograma de implementación y control parlamentario conjunto.", efectos:{ipc:-3,deuda:-5,reservas:4,riesgo:-8,pobreza:-3,desocupacion:-2,produccion:5,confianza:2} },
       { texto:"⚖️ Acuerdo parcial: acordar sólo las reformas tributarias y dejar las previsionales y la coparticipación para una próxima legislatura.", efectos:{ipc:-1,deuda:-3,reservas:2,riesgo:-4,pobreza:-1,desocupacion:-1,produccion:3,confianza:4} },
-      { texto:"✊ Rechazar el acuerdo: gobernar sin acuerdos con la oposición, confiando en la movilización de la base propia y en el desgaste del adversario.", efectos:{ipc:2,deuda:2,reservas:-2,riesgo:5,pobreza:2,desocupacion:1,produccion:-2,confianza:-6} },
+      { texto:"✊ Rechazar el acuerdo: gobernar sin acuerdos con la oposición, confiando en la movilización de la base propia y en el desgaste del adversario.", efectos:{ipc:2,deuda:2,reservas:-2,riesgo:5,pobreza:-2,desocupacion:1,produccion:-2,confianza:3} },
     ]
   },
 
@@ -1044,9 +1044,9 @@ export const EVENTS = [
     descripcion:"El Vicepresidente convocó a los medios de comunicación sin avisarte. En cadena nacional anunció su 'profundo desacuerdo con la orientación del gobierno' y exigió públicamente tres cambios radicales de política. Si no los obtenemos en 72 horas, renunciará. Las redes explotan. Tus aliados piden firmeza. La oposición pide sangre. Los mercados caen 3% en la apertura. Tu propio equipo está dividido: algunos quieren negociar, otros quieren aceptar la renuncia ya.",
     opciones:[
       { texto:"🤝 Reunión de emergencia: negociar en privado las demandas del Vicepresidente y ceder en puntos menores sin anuncio público.", efectos:{ipc:0,deuda:1,reservas:0,riesgo:-3,pobreza:0,desocupacion:0,produccion:0,confianza:-5} },
-      { texto:"✊ Aceptar la renuncia públicamente: declarar que quien no acompaña el proyecto debe hacer el camino aparte.", efectos:{ipc:1,deuda:0,reservas:0,riesgo:2,pobreza:0,desocupacion:0,produccion:0,confianza:-10} },
+      { texto:"✊ Aceptar la renuncia públicamente: declarar que quien no acompaña el proyecto debe hacer el camino aparte.", efectos:{ipc:1,deuda:0,reservas:0,riesgo:2,pobreza:0,desocupacion:0,produccion:1,confianza:-10} },
       { texto:"⚖️ Mediación del Congreso: pedir a los presidentes de ambas cámaras que actúen como árbitros del conflicto.", efectos:{ipc:0,deuda:0,reservas:0,riesgo:-2,pobreza:0,desocupacion:0,produccion:0,confianza:3} },
-      { texto:"🎤 Conferencia de prensa presidencial: salir a defender el programa sin conceder nada y desafiar al Vicepresidente públicamente.", efectos:{ipc:0,deuda:0,reservas:0,riesgo:3,pobreza:0,desocupacion:0,produccion:0,confianza:-2} },
+      { texto:"🎤 Conferencia de prensa presidencial: salir a defender el programa sin conceder nada y desafiar al Vicepresidente públicamente.", efectos:{ipc:0,deuda:0,reservas:0,riesgo:3,pobreza:0,desocupacion:0,produccion:1,confianza:-2} },
     ]
   },
   {
@@ -1055,10 +1055,10 @@ export const EVENTS = [
     titulo:"El Vicepresidente Negocia con la Oposición",
     descripcion:"Fotos y conversaciones filtradas muestran al Vicepresidente reunido en secreto con el líder de la oposición durante los últimos tres meses. Según fuentes de inteligencia, ambos están coordinando una estrategia electoral conjunta para 2027. Ante la consulta, el Vicepresidente no lo desmintió. La traición a la coalición es evidente. Sin embargo, el Vicepresidente tiene apoyo popular propio y sus seguidores amenazaron con escindirse del partido.",
     opciones:[
-      { texto:"📋 Confrontación directa: exigir al Vicepresidente una declaración pública de lealtad al gobierno o presentar la renuncia.", efectos:{ipc:0,deuda:0,reservas:0,riesgo:3,pobreza:0,desocupacion:0,produccion:0,confianza:-6} },
+      { texto:"📋 Confrontación directa: exigir al Vicepresidente una declaración pública de lealtad al gobierno o presentar la renuncia.", efectos:{ipc:0,deuda:0,reservas:0,riesgo:3,pobreza:0,desocupacion:0,produccion:1,confianza:-6} },
       { texto:"🤫 Gestión silenciosa: negociar en privado que el Vicepresidente baje el perfil a cambio de no ser desplazado públicamente.", efectos:{ipc:0,deuda:0,reservas:0,riesgo:-2,pobreza:0,desocupacion:0,produccion:0,confianza:-4} },
       { texto:"📢 Filtrar contrainformación: publicar los logros del gobierno donde el Vicepresidente tuvo rol central y atarlo públicamente al proyecto.", efectos:{ipc:0,deuda:0,reservas:0,riesgo:-1,pobreza:0,desocupacion:0,produccion:0,confianza:3} },
-      { texto:"🔪 Separarse del Vicepresidente: anunciar que el gobierno opera independientemente, sin coordinación formal con la Vicepresidencia.", efectos:{ipc:0,deuda:0,reservas:0,riesgo:5,pobreza:0,desocupacion:0,produccion:0,confianza:-8} },
+      { texto:"🔪 Separarse del Vicepresidente: anunciar que el gobierno opera independientemente, sin coordinación formal con la Vicepresidencia.", efectos:{ipc:0,deuda:0,reservas:0,riesgo:5,pobreza:0,desocupacion:0,produccion:2,confianza:-8} },
     ]
   },
 
@@ -1083,7 +1083,7 @@ export const EVENTS = [
     descripcion:"Una investigación periodística revela que el Ministerio de Desarrollo Social adjudicó contratos por $4.000 millones a empresas que no existen o que se crearon semanas antes de cada licitación. La ministra es una de tus aliadas más cercanas y tiene base electoral propia en cinco provincias. Si la sacrificás, parte de tu coalición puede desbandarse. Si la cubrís, el escándalo podría arrastrarte a vos también. La causa ya llegó al juzgado federal.",
     opciones:[
       { texto:"⚖️ Separación y justicia: desafuero inmediato, colaboración con el juzgado federal y convocatoria a nuevas autoridades del ministerio.", efectos:{ipc:0,deuda:0,reservas:0,riesgo:-7,pobreza:1,desocupacion:0,produccion:0,confianza:12} },
-      { texto:"🔒 Licencia preventiva: suspender a la ministra con goce de sueldo mientras dura la investigación y esperar el fallo.", efectos:{ipc:0,deuda:0,reservas:0,riesgo:-2,pobreza:0,desocupacion:0,produccion:0,confianza:3} },
+      { texto:"🔒 Licencia preventiva: suspender a la ministra con goce de sueldo mientras dura la investigación y esperar el fallo.", efectos:{ipc:0,deuda:0,reservas:0,riesgo:-2,pobreza:0,desocupacion:0,produccion:0,confianza:6} },
       { texto:"📢 Ataque mediático: cuestionar la fuente del periodismo, tildar la investigación de 'campaña sucia' y movilizar a las bases.", corrupta:true, efectos:{ipc:0,deuda:0,reservas:0,riesgo:5,pobreza:0,desocupacion:0,produccion:0,confianza:-14} },
       { texto:"🔄 Reestructuración silenciosa: reorganizar el ministerio, cambiar las firmas responsables y ofrecer devolución de fondos antes del juicio.", efectos:{ipc:0,deuda:0,reservas:0,riesgo:-4,pobreza:0,desocupacion:0,produccion:0,confianza:5} },
     ]
@@ -1107,7 +1107,7 @@ export const EVENTS = [
     descripcion:"Una investigación judicial vincula directamente al hermano del Presidente y a dos primos lejanos con contratos estatales por USD 220 millones obtenidos gracias a 'gestiones especiales' ante organismos del gobierno. Las declaraciones juradas muestran incrementos patrimoniales inexplicables. La oposición exige tu renuncia. Tu partido pide silencio. Los medios internacionales encienden la nota. Deberás decidir entre tu familia y tu legado histórico.",
     opciones:[
       { texto:"⚖️ Justicia sin excepciones: pedir públicamente que la justicia actúe con total independencia e indicar que ningún vínculo familiar los protege.", efectos:{ipc:0,deuda:0,reservas:0,riesgo:-9,pobreza:0,desocupacion:0,produccion:0,confianza:18} },
-      { texto:"📋 Mediación familiar: solicitar que los familiares devuelvan los fondos voluntariamente y se aparten de toda actividad vinculada al Estado.", efectos:{ipc:0,deuda:0,reservas:0,riesgo:-4,pobreza:0,desocupacion:0,produccion:0,confianza:7} },
+      { texto:"📋 Mediación familiar: solicitar que los familiares devuelvan los fondos voluntariamente y se aparten de toda actividad vinculada al Estado.", efectos:{ipc:0,deuda:-1,reservas:0,riesgo:-4,pobreza:0,desocupacion:0,produccion:0,confianza:7} },
       { texto:"🛡️ Defensa familiar: declarar que la acusación es una operación política para golpear a la familia presidencial y afectar al gobierno.", corrupta:true, efectos:{ipc:0,deuda:0,reservas:0,riesgo:10,pobreza:0,desocupacion:0,produccion:0,confianza:-20} },
     ]
   },
@@ -1120,7 +1120,7 @@ export const EVENTS = [
     titulo:"Tres Ministros Renuncian Juntos",
     descripcion:"En una acción coordinada e inesperada, los titulares de Economía, Interior y Relaciones Exteriores presentaron renuncias simultáneas con un comunicado conjunto donde critican 'decisiones tomadas sin consulta' y la 'concentración de poder en el entorno íntimo del Presidente'. La filtración del memo interno muestra que llevan dos meses coordinando esto. El mercado reacciona con una caída del 6%. Tenés menos de 24 horas para contener el caos institucional.",
     opciones:[
-      { texto:"🔄 Reconstruir el gabinete de forma urgente: aceptar las tres renuncias y anunciar un nuevo equipo en 48 horas con perfiles técnicos respetados.", efectos:{ipc:3,deuda:2,reservas:-2,riesgo:3,pobreza:1,desocupacion:0,produccion:-2,confianza:4} },
+      { texto:"🔄 Reconstruir el gabinete de forma urgente: aceptar las tres renuncias y anunciar un nuevo equipo en 48 horas con perfiles técnicos respetados.", efectos:{ipc:3,deuda:2,reservas:-2,riesgo:3,pobreza:1,desocupacion:0,produccion:1,confianza:4} },
       { texto:"📢 Salir al frente de la crisis: conferencia presidencial de emergencia para presentar el nuevo gabinete y la agenda del gobierno.", efectos:{ipc:2,deuda:1,reservas:0,riesgo:1,pobreza:0,desocupacion:0,produccion:-1,confianza:6} },
       { texto:"⚔️ Contraataque político: filtrar información comprometedora sobre los tres ministros salientes y desacreditarlos en los medios.", corrupta:true, efectos:{ipc:1,deuda:0,reservas:0,riesgo:4,pobreza:0,desocupacion:0,produccion:-1,confianza:-10} },
       { texto:"🤝 Convocar al Congreso: pedir sesión de emergencia parlamentaria y ofrecer al Congreso un rol de supervisión más amplio del ejecutivo.", efectos:{ipc:0,deuda:0,reservas:0,riesgo:-2,pobreza:0,desocupacion:0,produccion:0,confianza:5} },
@@ -1162,7 +1162,7 @@ export const EVENTS = [
       { texto:"⚔️ Operación de rescate: desplegar Fuerzas Especiales. Probabilidad del 60% de liberar todos los rehenes, 40% de víctimas.", efectos:{ipc:0,deuda:2,reservas:-2,riesgo:-2,pobreza:0,desocupacion:0,produccion:-4,confianza:3} },
       { texto:"🤝 Negociación con mediadores: aceptar la mediación del CICR y ofrecer condiciones de liberación sin presos, sólo garantías procesales.", efectos:{ipc:0,deuda:0,reservas:0,riesgo:-1,pobreza:0,desocupacion:0,produccion:-6,confianza:2} },
       { texto:"🔓 Liberar presos: ceder a la demanda y liberar a los 12 condenados a cambio de todos los rehenes.", efectos:{ipc:0,deuda:0,reservas:0,riesgo:8,pobreza:0,desocupacion:0,produccion:-3,confianza:-12} },
-      { texto:"⏳ Sitio prolongado: rodear, negarse a ceder y desgastar al grupo armado con tiempo y presión psicológica.", efectos:{ipc:0,deuda:1,reservas:0,riesgo:2,pobreza:0,desocupacion:0,produccion:-10,confianza:-4} },
+      { texto:"⏳ Sitio prolongado: rodear, negarse a ceder y desgastar al grupo armado con tiempo y presión psicológica.", efectos:{ipc:0,deuda:1,reservas:0,riesgo:-2,pobreza:0,desocupacion:0,produccion:-10,confianza:-4} },
     ]
   },
   {
@@ -1279,7 +1279,7 @@ export const EVENTS = [
       { texto:"🚁 Operativo federal máximo: movilizar el 100% del Ejército, Gendarmería y Prefectura para coordinación unificada bajo mando presidencial.", efectos:{ipc:0,deuda:8,reservas:-6,riesgo:-4,pobreza:-8,desocupacion:-5,produccion:2,confianza:14} },
       { texto:"🌍 Corredor humanitario internacional: aceptar TODA la ayuda exterior disponible con coordinación de la ONU para maximizar el alcance.", efectos:{ipc:0,deuda:3,reservas:0,riesgo:-3,pobreza:-6,desocupacion:-3,produccion:1,confianza:11} },
       { texto:"🏗️ Reconstrucción inmediata: emitir un bono de reconstrucción de USD 5.000 millones con garantía soberana para comenzar obras en 72 horas.", efectos:{ipc:3,deuda:12,reservas:-4,riesgo:4,pobreza:-5,desocupacion:-6,produccion:4,confianza:8} },
-      { texto:"📋 Respuesta federalizada: coordinar desde Nación pero mantener autonomía provincial en la ejecución de la emergencia.", efectos:{ipc:0,deuda:4,reservas:-3,riesgo:0,pobreza:-3,desocupacion:-2,produccion:0,confianza:4} },
+      { texto:"📋 Respuesta federalizada: coordinar desde Nación pero mantener autonomía provincial en la ejecución de la emergencia.", efectos:{ipc:0,deuda:2,reservas:-3,riesgo:0,pobreza:-3,desocupacion:-2,produccion:0,confianza:4} },
     ]
   },
   {
@@ -1332,7 +1332,7 @@ export const EVENTS = [
     opciones:[
       { texto:"⚖️ Aceptar el fallo y pivotar: anunciar un nuevo programa adaptado en 72 horas, priorizando la continuidad institucional sobre el plan original.", efectos:{ipc:3,deuda:3,reservas:-2,riesgo:-5,pobreza:2,desocupacion:1,produccion:-2,confianza:5} },
       { texto:"📋 Legislación de emergencia: enviar al Congreso un proyecto de ley sustitutivo en fast-track para mantener el financiamiento sin la norma anulada.", efectos:{ipc:2,deuda:2,reservas:-1,riesgo:-2,pobreza:1,desocupacion:0,produccion:-1,confianza:4} },
-      { texto:"⚔️ Conflicto con la Corte: cuestionar públicamente el fallo como 'activismo judicial' y proponer reformar el sistema de nombramiento de jueces.", efectos:{ipc:1,deuda:1,reservas:0,riesgo:5,pobreza:0,desocupacion:0,produccion:0,confianza:-7} },
+      { texto:"⚔️ Conflicto con la Corte: cuestionar públicamente el fallo como 'activismo judicial' y proponer reformar el sistema de nombramiento de jueces.", efectos:{ipc:1,deuda:1,reservas:0,riesgo:5,pobreza:-1,desocupacion:0,produccion:0,confianza:-7} },
       { texto:"🗳️ Reforma constitucional: aprovechar el quiebre institucional para convocar a una convención reformadora con agenda económica amplia.", efectos:{ipc:0,deuda:1,reservas:0,riesgo:4,pobreza:0,desocupacion:0,produccion:0,confianza:2} },
     ]
   },
@@ -1343,8 +1343,8 @@ export const EVENTS = [
     descripcion:"La guerra en un país vecino generó el mayor flujo de refugiados de la historia del continente. En 45 días llegaron 900.000 personas y se proyectan 600.000 más. El 45% son menores de 15 años. Los sistemas de salud, educación y vivienda de tres provincias fronterizas colapsaron. Las organizaciones de derechos humanos piden acción urgente. Grupos xenófobos organizaron ataques contra campamentos. El Alto Comisionado de la ONU está llegando al país.",
     opciones:[
       { texto:"🤝 Acogida humanitaria plena: abrir el sistema de refugio, activar financiamiento de emergencia y lanzar un programa de integración social.", efectos:{ipc:2,deuda:7,reservas:-4,riesgo:-2,pobreza:-1,desocupacion:-3,produccion:1,confianza:10} },
-      { texto:"⚖️ Recepción controlada: cupos de ingreso, campos de refugio administrados por la ONU y proceso de regularización documentado.", efectos:{ipc:1,deuda:4,reservas:-2,riesgo:-3,pobreza:0,desocupacion:-1,produccion:0,confianza:5} },
-      { texto:"🚧 Cierre de frontera: suspender los ingresos y establecer un perímetro humanitario del lado del país vecino con financiamiento argentino.", efectos:{ipc:0,deuda:2,reservas:-1,riesgo:5,pobreza:1,desocupacion:0,produccion:0,confianza:-12} },
+      { texto:"⚖️ Recepción controlada: cupos de ingreso, campos de refugio administrados por la ONU y proceso de regularización documentado.", efectos:{ipc:1,deuda:1,reservas:-2,riesgo:-3,pobreza:0,desocupacion:-1,produccion:0,confianza:5} },
+      { texto:"🚧 Cierre de frontera: suspender los ingresos y establecer un perímetro humanitario del lado del país vecino con financiamiento argentino.", efectos:{ipc:0,deuda:0,reservas:-1,riesgo:5,pobreza:1,desocupacion:0,produccion:0,confianza:-12} },
       { texto:"🌎 Carga compartida regional: negociar con el MERCOSUR una distribución proporcional de los refugiados entre todos los países miembro.", efectos:{ipc:0,deuda:2,reservas:0,riesgo:-4,pobreza:0,desocupacion:-1,produccion:0,confianza:6} },
     ]
   },
@@ -1368,8 +1368,8 @@ export const EVENTS = [
     opciones:[
       { texto:"🚪 Destitución inmediata: separar al ministro sin esperar el resultado judicial para enviar una señal clara de que el gobierno no tolera estas conductas.", efectos:{ipc:0,deuda:1,reservas:0,riesgo:-4,pobreza:0,desocupacion:0,produccion:-3,confianza:14} },
       { texto:"⚖️ Licencia preventiva: suspender al ministro sin goce de sueldo mientras avanza la investigación judicial, preservando la estructura ministerial.", efectos:{ipc:0,deuda:0,reservas:0,riesgo:-2,pobreza:0,desocupacion:0,produccion:-1,confianza:5} },
-      { texto:"🛡️ Acompañar al denunciado: declarar que se respeta la 'presunción de inocencia' sin tomar medidas hasta el fallo judicial.", efectos:{ipc:0,deuda:0,reservas:0,riesgo:3,pobreza:0,desocupacion:0,produccion:0,confianza:-16} },
-      { texto:"🔄 Reubicación discreta: trasladar al ministro a un rol sin personal a cargo y designar a otra persona para la cartera pública.", efectos:{ipc:0,deuda:0,reservas:0,riesgo:1,pobreza:0,desocupacion:0,produccion:-1,confianza:-3} },
+      { texto:"🛡️ Acompañar al denunciado: declarar que se respeta la 'presunción de inocencia' sin tomar medidas hasta el fallo judicial.", efectos:{ipc:0,deuda:0,reservas:0,riesgo:3,pobreza:0,desocupacion:0,produccion:1,confianza:-16} },
+      { texto:"🔄 Reubicación discreta: trasladar al ministro a un rol sin personal a cargo y designar a otra persona para la cartera pública.", efectos:{ipc:0,deuda:0,reservas:0,riesgo:1,pobreza:0,desocupacion:0,produccion:0,confianza:-3} },
     ]
   },
   {
@@ -1380,8 +1380,8 @@ export const EVENTS = [
     opciones:[
       { texto:"📢 Transparencia total: comunicar el espionaje a la ciudadanía, expulsar al embajador del país involucrado y fortalecer los controles de inteligencia.", efectos:{ipc:0,deuda:0,reservas:0,riesgo:-4,pobreza:0,desocupacion:0,produccion:0,confianza:8} },
       { texto:"🤝 Canal diplomático: confrontar a la potencia involucrada en privado, exigir compensación y establecer nuevos protocolos de seguridad.", efectos:{ipc:0,deuda:0,reservas:0,riesgo:-5,pobreza:0,desocupacion:0,produccion:0,confianza:3} },
-      { texto:"🔒 Contener la información: resolver la situación internamente sin hacerlo público para no generar caos político con la información filtrada.", efectos:{ipc:0,deuda:0,reservas:0,riesgo:3,pobreza:0,desocupacion:0,produccion:0,confianza:-5} },
-      { texto:"⚔️ Retorsión asimétrica: activar operaciones de contrainteligencia ofensiva contra el país agresor y revelar su actividad en foros internacionales.", efectos:{ipc:0,deuda:1,reservas:0,riesgo:2,pobreza:0,desocupacion:0,produccion:0,confianza:5} },
+      { texto:"🔒 Contener la información: resolver la situación internamente sin hacerlo público para no generar caos político con la información filtrada.", efectos:{ipc:0,deuda:0,reservas:0,riesgo:3,pobreza:0,desocupacion:0,produccion:1,confianza:-5} },
+      { texto:"⚔️ Retorsión asimétrica: activar operaciones de contrainteligencia ofensiva contra el país agresor y revelar su actividad en foros internacionales.", efectos:{ipc:0,deuda:1,reservas:0,riesgo:2,pobreza:0,desocupacion:0,produccion:1,confianza:5} },
     ]
   },
   {
@@ -1403,8 +1403,8 @@ export const EVENTS = [
     descripcion:"En una semana, cinco jueces federales distintos dictaron medidas cautelares que bloquean las cinco iniciativas más importantes del gobierno: la reforma impositiva, el plan de obras, la reorganización del BCRA, el acuerdo con el FMI y la ley de empleo. La coordinación es demasiado perfecta para ser coincidencia. Los mercados están en shock. El programa de gobierno está legalmente paralizado. El gobierno enfrenta lo que los propios abogados del Ejecutivo llaman 'golpe judicial'.",
     opciones:[
       { texto:"⚖️ Respeto irrestricto: acatar todas las cautelares y reformular cada iniciativa para subsanar los vicios que señala la justicia.", efectos:{ipc:1,deuda:1,reservas:0,riesgo:-6,pobreza:0,desocupacion:0,produccion:-2,confianza:7} },
-      { texto:"📢 Denuncia política: declarar públicamente que se trata de un 'golpe blando judicial' y apelar todas las cautelares en tiempo récord.", efectos:{ipc:0,deuda:0,reservas:0,riesgo:5,pobreza:0,desocupacion:0,produccion:-1,confianza:-4} },
-      { texto:"🔧 Reforma judicial urgente: proponer al Congreso una reforma de la composición de los juzgados de 1.ª instancia para evitar la concentración de causas políticas.", efectos:{ipc:0,deuda:1,reservas:0,riesgo:2,pobreza:0,desocupacion:0,produccion:0,confianza:2} },
+      { texto:"📢 Denuncia política: declarar públicamente que se trata de un 'golpe blando judicial' y apelar todas las cautelares en tiempo récord.", efectos:{ipc:0,deuda:0,reservas:0,riesgo:5,pobreza:0,desocupacion:0,produccion:1,confianza:-4} },
+      { texto:"🔧 Reforma judicial urgente: proponer al Congreso una reforma de la composición de los juzgados de 1.ª instancia para evitar la concentración de causas políticas.", efectos:{ipc:0,deuda:1,reservas:0,riesgo:2,pobreza:0,desocupacion:0,produccion:2,confianza:2} },
       { texto:"🏛️ Mesa de consenso con la Corte: pedir una audiencia con los miembros de la Corte Suprema para buscar una salida institucional conjunta.", efectos:{ipc:0,deuda:0,reservas:0,riesgo:-4,pobreza:0,desocupacion:0,produccion:0,confianza:5} },
     ]
   },
@@ -1415,7 +1415,7 @@ export const EVENTS = [
     descripcion:"La SIDE confirmó con evidencia irrefutable que una potencia extranjera interfirió en las últimas elecciones presidenciales: manipulación de redes sociales, financiamiento encubierto de medios y posible alteración de escrutinio provisorio en tres provincias. Hacer público este informe podría invalidar la elección — y tu propio mandato. Silenciarlo es traicionar a la democracia. La presión del tiempo es máxima: el informe llegará a los medios en 72 horas de todos modos.",
     opciones:[
       { texto:"📢 Transparencia total: publicar el informe completo, convocar al Congreso y pedir una comisión investigadora multipartidaria.", efectos:{ipc:0,deuda:0,reservas:-2,riesgo:-6,pobreza:0,desocupacion:0,produccion:0,confianza:14} },
-      { texto:"🤝 Gestión diplomática: confrontar a la potencia responsable en privado, revelar el mínimo necesario y no comprometer el mandato.", efectos:{ipc:0,deuda:0,reservas:0,riesgo:-3,pobreza:0,desocupacion:0,produccion:0,confianza:2} },
+      { texto:"🤝 Gestión diplomática: confrontar a la potencia responsable en privado, revelar el mínimo necesario y no comprometer el mandato.", efectos:{ipc:0,deuda:0,reservas:1,riesgo:-3,pobreza:0,desocupacion:0,produccion:0,confianza:2} },
       { texto:"🔒 Suprimir el informe: clasificar el expediente como secreto de Estado por 10 años y destruir las copias disponibles.", corrupta:true, efectos:{ipc:0,deuda:0,reservas:0,riesgo:8,pobreza:0,desocupacion:0,produccion:0,confianza:-18} },
       { texto:"⚖️ Tribunal electoral internacional: solicitar a la OEA y la ONU que auditen las elecciones y determinen si el mandato es legítimo.", efectos:{ipc:0,deuda:0,reservas:0,riesgo:-5,pobreza:0,desocupacion:0,produccion:0,confianza:8} },
     ]

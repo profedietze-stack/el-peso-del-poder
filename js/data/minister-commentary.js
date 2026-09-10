@@ -1464,11 +1464,11 @@ export const MINISTER_COMMENTARY = {
     ],
     // Opción 1: Zona franca cripto
     [
-      { slot: 'economia', text: '<span class="mm-good">El hub regional de blockchain puede atraer empresas tech que hoy operan desde Paraguay o Uruguay</span>. <span class="mm-good">Las reservas suben 5, la deuda cae y el desempleo cae 3</span>. El riesgo: <span class="mm-bad">el ecosistema regulatorio muy laxo puede atraer también operaciones de lavado de dinero</span>. Hay que diseñar la zona franca con controles anti-lavado robustos para que el beneficio no venga con ese costo.' },
+      { slot: 'economia', text: '<span class="mm-good">El hub regional de blockchain puede atraer empresas tech que hoy operan desde Paraguay o Uruguay</span>. <span class="mm-good">Las reservas suben 2, la deuda cae y el desempleo cae 3</span>. El riesgo: <span class="mm-bad">el ecosistema regulatorio muy laxo puede atraer también operaciones de lavado de dinero</span>. Hay que diseñar la zona franca con controles anti-lavado robustos para que el beneficio no venga con ese costo.' },
     ],
     // Opción 2: Prohibición de exchanges
     [
-      { slot: 'economia', text: '<span class="mm-bad">Prohibir los exchanges locales no elimina el uso de cripto — solo lo empuja a plataformas extranjeras fuera de la jurisdicción argentina</span>. <span class="mm-bad">El riesgo país sube 4, la confianza cae 8 y las reservas caen porque los flujos van al exterior</span>. China probó la prohibición y el mercado cripto chino simplemente migró a VPNs y plataformas de otros países. No funciona.' },
+      { slot: 'economia', text: '<span class="mm-bad">Prohibir los exchanges locales no elimina el uso de cripto — solo lo empuja a plataformas extranjeras fuera de la jurisdicción argentina</span>. <span class="mm-bad">El riesgo país sube 4 y la confianza cae 8</span>. <span class="mm-good">Las reservas se defienden en lo inmediato</span>: cerrar la ventanilla local corta la salida de pesos hacia el dólar cripto. Pero es un alivio corto — <span class="mm-bad">los flujos se van a plataformas de afuera y vuelven a salir por otro lado</span>. China probó la prohibición y el mercado cripto chino simplemente migró a VPNs y plataformas de otros países. No funciona.' },
     ],
   ],
 
@@ -1476,7 +1476,7 @@ export const MINISTER_COMMENTARY = {
   83: [
     // Opción 0: Apoyar el proyecto piloto
     [
-      { slot: 'economia', text: 'El <b>bono verde blockchain</b> es innovación financiera real: <span class="mm-good">atrae inversores internacionales que no comprarían deuda argentina tradicional</span>. <span class="mm-good">Las reservas suben 3, el riesgo baja 4 y la confianza sube 8</span>. Si Argentina puede posicionarse como pionera en finanzas verdes descentralizadas, el retorno en reputación y en acceso a capital internacional es considerable.' },
+      { slot: 'economia', text: 'El <b>bono verde blockchain</b> es innovación financiera real: <span class="mm-good">atrae inversores internacionales que no comprarían deuda argentina tradicional</span>. <span class="mm-good">Las reservas suben 3 y la confianza sube 8. El riesgo sube un punto y es el precio a mirar: una provincia emitiendo deuda por fuera del esquema nacional fragmenta la curva soberana, y eso los acreedores lo cobran</span>. Si Argentina puede posicionarse como pionera en finanzas verdes descentralizadas, el retorno en reputación y en acceso a capital internacional es considerable.' },
       { slot: 'produccion', text: '<span class="mm-good">El financiamiento de energía eólica con bono verde genera empleo en la Patagonia y reduce la dependencia energética</span>. <span class="mm-good">La producción sube 4</span>. El BID ofrece asistencia técnica — aprovecharla reduce el riesgo de implementación. Un piloto exitoso puede replicarse en otras provincias y en el nivel nacional.' },
     ],
     // Opción 1: Regular primero
@@ -1761,7 +1761,7 @@ export const MINISTER_COMMENTARY = {
   100: [
     // Opción 0: Firmar el Gran Acuerdo
     [
-      { slot: 'gabinete', text: 'El <b>Gran Acuerdo Nacional</b> es la oportunidad de hacer reformas que ningún gobierno logró sostener solo. <span class="mm-good">El riesgo baja 8, las reservas suben 4, la deuda cae 5 y la confianza sube 8</span>. Las reformas estructurales negociadas con la oposición son más duraderas porque sobreviven los cambios de gobierno. <span class="mm-bad">Las bases de la coalición van a resistir</span> — hay que explicar que gobernar es también ceder para ganar lo más importante.' },
+      { slot: 'gabinete', text: 'El <b>Gran Acuerdo Nacional</b> es la oportunidad de hacer reformas que ningún gobierno logró sostener solo. <span class="mm-good">El riesgo baja 8, las reservas suben 4 y la deuda cae 5. La confianza sube poco — apenas 2 — porque la mitad del electorado propio lee el acuerdo como una rendición</span>. Las reformas estructurales negociadas con la oposición son más duraderas porque sobreviven los cambios de gobierno. <span class="mm-bad">Las bases de la coalición van a resistir</span> — hay que explicar que gobernar es también ceder para ganar lo más importante.' },
       { slot: 'economia', text: '<span class="mm-good">Reformar el sistema previsional, el régimen impositivo y la coparticipación federal simultáneamente es el mayor cambio estructural posible en democracia</span>. <span class="mm-good">Los mercados van a celebrarlo: el riesgo país cae y la producción sube</span>. El desafío es que las reformas sean equilibradas — no puede ser todo ajuste. Hay que asegurar que la reforma previsional incluya protección para los jubilados de menores ingresos.' },
     ],
     // Opción 1: Acuerdo parcial solo tributario
@@ -1771,7 +1771,7 @@ export const MINISTER_COMMENTARY = {
     ],
     // Opción 2: No acordar
     [
-      { slot: 'gabinete', text: '<span class="mm-bad">Rechazar el Gran Acuerdo por presión de las bases propias es perder una oportunidad histórica</span>. <span class="mm-bad">El riesgo sube, la deuda sube y la producción cae</span>. Los mercados que celebraban la posibilidad del acuerdo van a penalizar su fracaso. <span class="mm-bad">La confianza cae</span>. Gobernar en soledad en la segunda mitad del mandato, sin las reformas y sin apoyo legislativo, es la situación más difícil posible.' },
+      { slot: 'gabinete', text: '<span class="mm-bad">Rechazar el Gran Acuerdo por presión de las bases propias es perder una oportunidad histórica</span>. <span class="mm-bad">El riesgo sube, la deuda sube y la producción cae</span>. Los mercados que celebraban la posibilidad del acuerdo van a penalizar su fracaso. <span class="mm-good">La confianza sube un poco</span>: la base propia festeja que no se haya cedido, y eso es justamente lo que hace difícil la decisión — lo que da rédito hoy es lo que deja al gobierno sin herramientas mañana. Gobernar en soledad en la segunda mitad del mandato, sin las reformas y sin apoyo legislativo, es la situación más difícil posible.' },
     ],
   ],
 

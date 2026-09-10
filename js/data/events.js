@@ -1,7 +1,7 @@
 "use strict";
 
 // ============================================================
-// EVENTOS DEL JUEGO — 100 en total
+// EVENTOS DEL JUEGO — 130 en total (1-100 normales + 101-130 especiales)
 // Estructura: { id, tag, titulo, descripcion, imagen, opciones[] }
 // Opción: { texto, efectos:{ipc,deuda,reservas,riesgo,pobreza,desocupacion,produccion,confianza}, corrupta? }
 // isCrisisAuto:true → evento de crisis automática (generado por crisis-auto.js)

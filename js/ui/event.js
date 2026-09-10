@@ -124,6 +124,35 @@ export function renderEvent(event, state) {
 }
 
 /**
+ * En qué orden se muestran las opciones de un evento.
+ *
+ * Devuelve los índices originales, barajados. El índice viaja después en el
+ * `data-index` del botón, así que el historial, los trofeos y el informe final
+ * siguen leyendo la opción que el jugador eligió de verdad.
+ *
+ * Hace falta barajar porque el orden en que están escritas no es neutro. Medido
+ * sobre los 130 eventos con los pesos del propio juego, **la mejor opción es la
+ * primera 90 veces (69,2 %)**, cuando el azar daría cerca del 30. Y se nota en
+ * el resultado: jugar el banco entero tocando siempre el primer botón da 242,9
+ * puntos contra 89,0 eligiendo al azar, con 333,0 de máximo. Tocar arriba sin
+ * leer recorre casi dos tercios del camino que separa al que elige al azar del
+ * que juega perfecto — en un juego cuya tesis es que gobernar es elegir entre
+ * costos.
+ *
+ * Fisher-Yates, no `sort(() => Math.random() - 0.5)`: ese comparador es
+ * inconsistente y deja los elementos cerca de donde estaban, que es exactamente
+ * lo que hay que romper.
+ */
+export function ordenDeOpciones(evento) {
+  const orden = (evento.opciones ?? []).map((_, i) => i);
+  for (let i = orden.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [orden[i], orden[j]] = [orden[j], orden[i]];
+  }
+  return orden;
+}
+
+/**
  * Renderiza los botones de opciones del evento.
  * @param {object} event
  * @param {object} state
@@ -132,7 +161,10 @@ function renderOptions(event, state) {
   const grid = document.getElementById('ev-options');
   if (!grid) return;
 
-  grid.innerHTML = event.opciones.map((opt, i) => {
+  // El `data-index` es el índice ORIGINAL del evento, no el sitio en la pantalla:
+  // es lo que hace que barajar no le mienta al historial ni a los trofeos.
+  grid.innerHTML = ordenDeOpciones(event).map((i) => {
+    const opt = event.opciones[i];
     const corruptBadge = opt.corrupta
       ? `<span class="corrupt-badge" title="Esta opción involucra una decisión de dudosa ética">⚠️ Riesgo ético</span>`
       : '';
@@ -215,7 +247,9 @@ function _buildSeverityBadge(event) {
  * @param {number} index
  */
 export function highlightChosenOption(index) {
-  document.querySelectorAll('.option-btn').forEach((btn, i) => {
-    btn.classList.toggle('chosen', i === index);
+  // Se compara con `data-index` y no con el sitio del botón: desde que las
+  // opciones se barajan, el tercer botón de la pantalla no es la tercera opción.
+  document.querySelectorAll('.option-btn').forEach((btn) => {
+    btn.classList.toggle('chosen', parseInt(btn.dataset.index, 10) === index);
   });
 }

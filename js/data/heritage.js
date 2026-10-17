@@ -64,3 +64,9 @@ export const MANDATE_MODS = {
   ajustado:  { confianza: -5,  deuda: 0,  reservas: 0  },
   coalicion: { confianza: +3,  deuda: +4, reservas: +5 },
 };
+
+/** «📣 Gobierno Populista» a partir del id guardado; si el id no existe, el id. */
+export function nombreDeHerencia(id) {
+  const h = HERITAGE_PROFILES.find((p) => p.id === id);
+  return h ? `${h.emoji} ${h.name}` : String(id);
+}

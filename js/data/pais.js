@@ -1,0 +1,202 @@
+"use strict";
+
+// ============================================================
+// PAÍS — Argentina o Latinoamérica (país imaginario)
+//
+// El juego se escribió con datos de Argentina. Para publicarlo en el resto del
+// mundo hispano, "Latinoamérica" reescribe esos textos hacia un país sin nombre:
+// mismas decisiones, mismos números, otras instituciones y otros lugares.
+//
+// Cómo funciona: `localizarDatos()` recorre los datos del juego UNA vez, al
+// arrancar, y reemplaza los textos en el lugar. Cambiar de país recarga la página
+// (ver settings-modal.js). Con 'ar' no se toca nada.
+//
+// Dos capas:
+//   1. FRASES: pasajes con un dato real que no se arregla cambiando un nombre
+//      (el 22 % del litio, Malvinas). Se reescriben a mano y van primero.
+//   2. TERMINOS: instituciones y lugares con equivalente genérico.
+//
+// El test `tests/pais.test.js` recorre TODOS los textos y falla si en Latinoamérica
+// queda algo de PROHIBIDOS: así un texto nuevo con "INDEC" no se cuela.
+// ============================================================
+
+export const PAISES = {
+  ar:    { id: 'ar',    nombre: 'Argentina',     bandera: '🇦🇷' },
+  latam: { id: 'latam', nombre: 'Latinoamérica', bandera: '🌎' },
+};
+export const PAIS_POR_DEFECTO = 'ar';
+
+/** Pasajes completos con datos reales de un solo país. Se aplican primero. */
+export const FRASES = [
+  // Malvinas → disputa por un archipiélago (el reclamo es de un solo país)
+  ['Malvinas: La Ofensiva Diplomática en el Comité de Descolonización', 'Reclamo Territorial: La Ofensiva Diplomática en el Comité de Descolonización'],
+  ['sobre la cuestión Malvinas. Argentina tiene la oportunidad', 'sobre un archipiélago en disputa. El país tiene la oportunidad'],
+  ['con el Reino Unido en un formato', 'con la potencia europea en un formato'],
+  ['El gobierno británico condiciona', 'El gobierno de esa potencia condiciona'],
+  ['relaciones diplomáticas con el Reino Unido', 'relaciones diplomáticas con la potencia europea'],
+  ['la cuestión Malvinas', 'la disputa por el archipiélago'],
+  ['cautela en Malvinas', 'cautela en la disputa del archipiélago'],
+  // Litio: el 22 % es de un solo país
+  ["Argentina posee el 22% de las reservas mundiales de litio en el 'Triángulo del Litio' (Jujuy, Salta, Catamarca).", "El país posee una de las mayores reservas mundiales de litio, en el 'Triángulo del Litio' de la región andina."],
+  ['yacimiento de litio de Puna-Norte', 'yacimiento de litio del altiplano norte'],
+  ['Megaoferta por el Litio de la Puna', 'Megaoferta por el Litio del Altiplano'],
+  // 2001 → corralito genérico
+  ['El fantasma del corralito del 2001 se cierne', 'El fantasma de un corralito bancario se cierne'],
+  ['El <b>corralito del 2001</b> enseñó', 'El <b>corralito de una crisis anterior</b> enseñó'],
+  ['lo aprendimos en 2001', 'lo aprendimos en la crisis anterior'],
+  ['es la peor desde el corralito', 'es la peor desde la gran crisis'],
+  // Geografía
+  ['tren de alta velocidad entre Buenos Aires, Rosario y Córdoba', 'tren de alta velocidad entre la capital, el puerto fluvial y la ciudad del centro'],
+  ['Tren Bala Buenos Aires-Rosario-Córdoba', 'Tren de Alta Velocidad'],
+  ['Santiago del Estero', 'una provincia del norte'],
+  ['cuencas del Paraná y el Uruguay', 'cuencas de los grandes ríos'],
+  ['Zona Económica Exclusiva argentina sin autorización en el Mar Argentino', 'Zona Económica Exclusiva nacional sin autorización'],
+  ['Mar Argentino', 'mar territorial'],
+  ['ecosistemas marinos patagónicos', 'ecosistemas marinos del sur'],
+  ['Petróleo Offshore Patagónico', 'Petróleo Offshore del Sur'],
+  ['Acuerdo regional MERCOSUR', 'Acuerdo regional'],
+  ['La Unión de Trabajadores de la Economía Popular (UTEP)', 'La Unión de la Economía Popular'],
+  ['Comisión Nacional de Energía Atómica (CNEA)', 'Comisión de Energía Atómica'],
+  ['Agencia Federal de Inteligencia (AFI)', 'Agencia Federal de Inteligencia'],
+  ['Banco de la Nación Argentina', 'Banco Nacional'],
+  ['Comisión Nacional de Defensa de la Competencia (CNDC)', 'Comisión Nacional de Defensa de la Competencia'],
+  ['Las madres de Ituzaingó', 'Las madres del barrio'],
+  ['Las Madres de Plaza de Mayo', 'Las organizaciones de familiares de víctimas'],
+  ['Madres de Plaza de Mayo', 'organizaciones de familiares de víctimas'],
+  [' (ESI)', ''],
+  ['YPF-Litio', 'Litio Estatal'],
+  ['rodean Casa Rosada', 'rodean la Casa de Gobierno'],
+];
+
+/** [regex, reemplazo]. El orden importa. Los nombres propios van sin artículo
+ *  para que "del INDEC" quede "del Instituto de Estadística". */
+export const TERMINOS = [
+  // Nombre propio que hace de sujeto y necesita artículo ("CONICET advierte" → "El Consejo…").
+  [/(^|[.!?—:]\s+|>\s*)ARSAT\b/g, '$1La Empresa Satelital Estatal'],
+  [/(^|[.!?—:]\s+|>\s*)INVAP\b/g, '$1La Empresa Nuclear Estatal'],
+  [/(^|[.!?—:]\s+|>\s*)CONICET\b/g, '$1El Consejo Científico Nacional'],
+  [/(^|[.!?—:]\s+|>\s*)Atucha III/g, '$1La Central Nuclear III'],
+  [/(\b(?:mediante|con)) ARSAT\b/g, '$1 la Empresa Satelital Estatal'],
+  [/(\b(?:Aprobar|rechazar)) Atucha III/g, '$1 la Central Nuclear III'],
+  [/\bdel Reino Unido\b/g, 'de la potencia europea'],
+  [/\bel Reino Unido\b/g, 'la potencia europea'],
+  [/Casa Rosada/g, 'Casa de Gobierno'],
+  [/\bBCRA\b/g, 'Banco Central'],
+  [/\bINDEC\b/g, 'Instituto de Estadística'],
+  [/\bINVAP\b/g, 'Empresa Nuclear Estatal'],
+  [/\bCONICET\b/g, 'Consejo Científico Nacional'],
+  [/\bYPF\b/g, 'Petrolera Estatal'],
+  [/\bANSES\b/g, 'Seguridad Social'],
+  [/\bAFA\b/g, 'Federación de Fútbol'],
+  [/\bMERCOSUR\b|\bMercosur\b/g, 'Bloque Regional'],
+  [/\bINCAA\b/g, 'Instituto de Cine'],
+  [/\bARSAT\b/g, 'Empresa Satelital Estatal'],
+  [/\bCNEA\b/g, 'Comisión de Energía Atómica'],
+  [/Atucha III/g, 'Central Nuclear III'],
+  [/Atucha II/g, 'Central Nuclear II'],
+  [/\bAtucha\b/g, 'Central Nuclear Norte'],
+  [/\bAFI\b/g, 'agencia de inteligencia'],
+  [/\bESI\b/g, 'educación sexual integral'],
+  [/\bUTEP\b/g, 'Unión de la Economía Popular'],
+  [/\bCELS\b/g, 'Centro de Derechos Humanos'],
+  [/Gendarmer[íi]a/g, 'Guardia Fronteriza'],
+  [/Prefectura Naval|\bPrefectura\b/g, 'Guardia Costera'],
+  [/\bBanco Naci[óo]n\b|\bBNA\b/g, 'Banco Nacional'],
+  [/\bCTA\b/g, 'Central Sindical'],
+  [/los ex CCD/g, 'los ex centros clandestinos de detención'],
+  [/\bex CCD\b/g, 'ex centro clandestino de detención'],
+  [/\bCOFEMA\b/g, 'consejo federal ambiental'],
+  [/\bCNDC\b/g, 'comisión de defensa de la competencia'],
+  [/\bCER\b/g, 'índice de ajuste'],
+  [/\bUVA\b/g, 'indexado'],
+  [/\bAMBA\b/g, 'Área Metropolitana'],
+  [/Gran Buenos Aires/g, 'Área Metropolitana'],
+  [/Puerto de Buenos Aires/g, 'Puerto Principal'],
+  [/Buenos Aires/g, 'la capital'],
+  [/Conurbano/g, 'Cinturón Urbano'],
+  [/Precios Justos/g, 'Precios Acordados'],
+  [/Formulario Terap[ée]utico Nacional/g, 'Listado Nacional de Medicamentos'],
+  [/Patagonia andina/g, 'cordillera sur'],
+  [/Patagonia/g, 'el sur'],
+  [/patag[óo]nic[oa]s?/g, 'del sur'],
+  [/Bolsa de Comercio de Rosario/g, 'Bolsa de Comercio'],
+  [/\bRosario\b/g, 'el puerto fluvial'],
+  [/C[óo]rdoba/g, 'la ciudad del centro'],
+  [/Malvinas/g, 'el archipiélago en disputa'],
+  [/\bReino Unido\b/g, 'potencia europea'],
+  [/#(\w*)Argentina(\w*)/g, '#$1País$2'],
+  [/#(\w*)ARG\b/g, '#$1País'],
+  [/#(\w*)AR\b/g, '#$1País'],
+  [/🇦🇷/g, '🌎'],
+  [/(^|[.!?:]\s+|>\s*|["¡¿]\s*)Argentina\b/g, '$1El país'],
+  [/\bargentinos\b/g, 'ciudadanos'],
+  [/\bargentinas\b/g, 'nacionales'],
+  [/\bargentino\b/g, 'nacional'],
+  [/\bargentina\b/g, 'nacional'],
+  [/\bArgentina\b/g, 'el país'],
+  // Arreglos de gramática que dejan las sustituciones.
+  [/\b(del|al) el\b/g, '$1'],
+  [/\bde el\b/g, 'del'],
+  [/\ba el\b/g, 'al'],
+  [/\b([Ee]l) el\b/g, '$1'],
+  [/\b([Ll]a) la\b/g, '$1'],
+  [/\b([Ll]a) el\b/g, '$1'],
+];
+
+/** Lo que NO puede quedar en Latinoamérica (lo usa el test y `localizarDatos`). */
+export const PROHIBIDOS = [
+  /argentin/i, /\bARG\b/, /INDEC/, /INVAP/, /CONICET/i, /\bYPF\b/, /ANSES/, /\bAFA\b/, /Mercosur/i,
+  /Casa Rosada/, /BCRA/, /Buenos Aires/, /Patagon/i, /Malvinas/, /Rosario/, /C[óo]rdoba/,
+  /corralito del/i, /Vaca Muerta/, /kirchner/i, /Jujuy|Salta\b|Catamarca|Puna\b/,
+  /INCAA|ARSAT|CNEA|Atucha|\bAFI\b|\bESI\b|UTEP|CELS|Gendarmer|\bBNA\b|\bBanco Naci[óo]n\b|\bCTA\b|\bCCD\b/,
+  /COFEMA|CNDC|Conurbano|Ituzaing|Tren Bala|AMBA|Precios Justos|\bCER\b|\bUVA\b|Plaza de Mayo/,
+  /Santiago del Estero|Prefectura|Formulario Terap/, /Reino Unido|brit[áa]nic/i,
+  /Sarmiento|Belgrano|Alberdi|Alfons[ií]n|San Mart[ií]n|Per[óo]n\b|P[ée]rez Esquivel/,
+];
+
+/** Autores de citas que son de un solo país: en Latinoamérica no se muestran. */
+export const AUTORES_NACIONALES = [
+  'Domingo F. Sarmiento', 'Manuel Belgrano', 'Raúl Alfonsín', 'Juan B. Alberdi', 'Juan Bautista Alberdi',
+  'Néstor Kirchner', 'General José de San Martín', 'Juan Domingo Perón', 'Adolfo Pérez Esquivel',
+  'Preámbulo Constitucional 1994',
+];
+
+/** Saca de `citas` (en el lugar) las de autores de un solo país. Devuelve cuántas sacó. */
+export function adaptarCitas(citas) {
+  let sacadas = 0;
+  for (let i = citas.length - 1; i >= 0; i--) {
+    if (AUTORES_NACIONALES.includes(citas[i].author)) { citas.splice(i, 1); sacadas++; }
+  }
+  return sacadas;
+}
+
+/** Aplica FRASES y TERMINOS a un texto. */
+export function textoPais(s) {
+  if (typeof s !== 'string' || s.length < 4) return s;
+  let t = s;
+  for (const [de, a] of FRASES) t = t.split(de).join(a);
+  for (const [re, a] of TERMINOS) t = t.replace(re, a);
+  return t;
+}
+
+/**
+ * Recorre `raiz` y reemplaza, en el lugar, todo texto que cambie. Solo toca
+ * valores (nunca claves ni funciones). Devuelve cuántos textos cambió.
+ */
+export function localizarDatos(raiz) {
+  const vistos = new WeakSet();
+  let cambios = 0;
+  const visitar = (nodo) => {
+    if (nodo === null || typeof nodo !== 'object' || vistos.has(nodo)) return;
+    vistos.add(nodo);
+    for (const k of Object.keys(nodo)) {
+      const v = nodo[k];
+      if (typeof v === 'string') {
+        const nuevo = textoPais(v);
+        if (nuevo !== v) { nodo[k] = nuevo; cambios++; }
+      } else visitar(v);
+    }
+  };
+  visitar(raiz);
+  return cambios;
+}

@@ -12,6 +12,8 @@
 
 import { setAudioMuted, setAudioVolume } from '../audio.js';
 
+import { PAISES, PAIS_POR_DEFECTO } from '../data/pais.js';
+
 const KEY = 'epp_settings';
 
 // Escalas de letra (porcentaje aplicado al <html>).
@@ -30,6 +32,7 @@ const DEFAULTS = {
   volume:       0.8,        // 0..1
   highContrast: false,
   reduceMotion: false,
+  pais:         PAIS_POR_DEFECTO,   // 'ar' | 'latam' (ver data/pais.js)
 };
 
 let _settings = { ...DEFAULTS };
@@ -54,6 +57,7 @@ export function sanearAjustes(crudo, defaults = DEFAULTS) {
     volume:       typeof g.volume === 'number' && Number.isFinite(g.volume) ? Math.max(0, Math.min(1, g.volume)) : defaults.volume,
     highContrast: bool(g.highContrast, defaults.highContrast),
     reduceMotion: bool(g.reduceMotion, defaults.reduceMotion),
+    pais:         typeof g.pais === 'string' && Object.hasOwn(PAISES, g.pais) ? g.pais : defaults.pais,
   };
 }
 
@@ -128,4 +132,11 @@ export function setHighContrast(on) {
 export function setReduceMotion(on) {
   _settings.reduceMotion = !!on;
   applySettings(); _save();
+}
+
+/** Cambia el país. Los textos se reescriben al arrancar: quien llama recarga la página. */
+export function setPais(id) {
+  if (!Object.hasOwn(PAISES, id)) return;
+  _settings.pais = id;
+  _save();
 }

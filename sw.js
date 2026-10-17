@@ -1,4 +1,4 @@
-const CACHE = 'sdr-v42';
+const CACHE = 'sdr-v44';
 
 /**
  * El juego sin internet.
@@ -47,6 +47,8 @@ const PRECACHE = [
   "js/data/minister-commentary.js",
   "js/data/ministers.js",
   "js/data/news.js",
+  "js/data/pais-datos.js",
+  "js/data/pais.js",
   "js/data/quotes.js",
   "js/data/stickers.js",
   "js/data/vicepresident.js",
@@ -77,6 +79,7 @@ const PRECACHE = [
   "js/ui/ministers-ui.js",
   "js/ui/modals.js",
   "js/ui/news-ui.js",
+  "js/ui/pais-dom.js",
   "js/ui/screens.js",
   "js/ui/settings-modal.js",
   "js/ui/splash.js",

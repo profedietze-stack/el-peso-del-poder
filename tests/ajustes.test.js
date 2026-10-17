@@ -18,7 +18,7 @@ function cargarCon(crudo, { reducirMovimiento = false } = {}) {
   return loadSettings();
 }
 
-const CLAVES = ['fontScale', 'soundOn', 'volume', 'highContrast', 'reduceMotion'];
+const CLAVES = ['fontScale', 'soundOn', 'volume', 'highContrast', 'reduceMotion', 'pais'];
 
 test('un ajuste con el tipo cambiado cae a su valor por defecto', () => {
   const s = cargarCon(JSON.stringify({

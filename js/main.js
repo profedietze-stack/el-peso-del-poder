@@ -7,6 +7,8 @@
 
 import { initErrorBanner }             from './ui/error-banner.js';
 import { loadSettings, applySettings } from './engine/settings.js';
+import { aplicarPais } from './data/pais-datos.js';
+import { iniciarPaisDom } from './ui/pais-dom.js';
 import { openSettingsModal, closeSettingsModal } from './ui/settings-modal.js';
 import { CONFIG, IND_META }            from './config.js';
 import { EVENTS }                      from './data/events.js';
@@ -192,8 +194,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // ── Ajustes del jugador (accesibilidad + audio) ──────────────
   // Cargar y aplicar ANTES de renderizar: letra/contraste vivos desde el arranque.
-  loadSettings();
+  const ajustes = loadSettings();
   applySettings();
+
+  // ── País: Latinoamérica reescribe los textos con datos de Argentina ──
+  if (ajustes.pais === 'latam') {
+    aplicarPais('latam');
+    iniciarPaisDom();
+  }
 
   // ── Init de UI que no requiere gesto del usuario ─────────────
   initTeclado();

@@ -2,6 +2,7 @@
 
 import { ACHIEVEMENTS }           from '../data/achievements.js';
 import { EVENTS }                  from '../data/events.js';
+import { nombreDeHerencia }        from '../data/heritage.js';
 import { IND_META, CONFIG }        from '../config.js';
 import { loadGlobal }              from '../engine/storage.js';
 import { getScore }                from '../engine/scoring.js';
@@ -103,15 +104,9 @@ function renderTrophiesProfile() {
     if (items.length === 0) {
       avgGrid.innerHTML = '<p class="no-data-msg">Sin partidas registradas aún.</p>';
     } else {
-      const HERITAGE_NAMES = {
-        neoliberal:    '📉 Herencia Neoliberal',
-        populista:     '✊ Herencia Populista',
-        tecnocrata:    '🔬 Herencia Tecnocrática',
-        kirchnerismo:  '🇦🇷 Kirchnerismo',
-      };
       avgGrid.innerHTML = items.map(([hid, s]) => {
         const pct = Math.round(s.won / s.played * 100);
-        const name = HERITAGE_NAMES[hid] || hid;
+        const name = nombreDeHerencia(hid);
         return `
           <div class="hs-card">
             <div class="hs-name">${name}</div>
@@ -295,10 +290,6 @@ function _renderDocenteGameSummary(s) {
       : `<span class="dc-badge inprogress">🕹️ Partida en Curso</span>`;
 
   const DIFF_NAMES = { easy: '🌱 Fácil', normal: '⚖️ Normal', hard: '🔥 Difícil', ultra: '💀 Modo Ultra' };
-  const HERITAGE_NAMES = {
-    neoliberal: '📉 Herencia Neoliberal', populista: '✊ Herencia Populista',
-    tecnocrata: '🔬 Herencia Tecnocrática', kirchnerismo: '🇦🇷 Kirchnerismo',
-  };
   const MANDATE_NAMES = { amplio: '🗳️ Victoria Amplia', ajustado: '⚖️ Victoria Ajustada', coalicion: '🤝 Coalición Frágil' };
 
   return `
@@ -315,7 +306,7 @@ function _renderDocenteGameSummary(s) {
         </div>
         <div class="dc-ficha-right">
           <div class="dc-ficha-row"><span class="dc-fr-label">Dificultad</span><span class="dc-fr-val">${DIFF_NAMES[s.difficulty] || s.difficulty}</span></div>
-          <div class="dc-ficha-row"><span class="dc-fr-label">Herencia</span><span class="dc-fr-val">${HERITAGE_NAMES[s.heritageId] || s.heritageId}</span></div>
+          <div class="dc-ficha-row"><span class="dc-fr-label">Herencia</span><span class="dc-fr-val">${nombreDeHerencia(s.heritageId)}</span></div>
           <div class="dc-ficha-row"><span class="dc-fr-label">Mandato</span><span class="dc-fr-val">${MANDATE_NAMES[s.mandateType] || s.mandateType}</span></div>
           <div class="dc-ficha-row"><span class="dc-fr-label">Turnos jugados</span><span class="dc-fr-val">${s.history.length} / 48</span></div>
           <div class="dc-ficha-row"><span class="dc-fr-label">Logros obtenidos</span><span class="dc-fr-val">${s.unlockedAchievements.length} de ${ACHIEVEMENTS.length}</span></div>

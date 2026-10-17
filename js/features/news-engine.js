@@ -11,6 +11,7 @@ import {
   SPECIAL_NEWS_TEMPLATES,
 } from '../data/news.js';
 import { getVPById } from '../data/vicepresident.js';
+import { getZone }   from '../engine/scoring.js';
 
 const MAX_HISTORY = 5;
 
@@ -43,24 +44,8 @@ function _sentiment(option, turn) {
   return (turn % 2 === 0) ? 'positive' : 'negative';
 }
 
-/** Calcula la zona de un indicador */
-function _zone(key, v) {
-  const T = {
-    ipc:         { low:false, warn:40, danger:65 },
-    deuda:       { low:false, warn:50, danger:70 },
-    reservas:    { low:true,  warn:60, danger:30 },
-    riesgo:      { low:false, warn:40, danger:65 },
-    pobreza:     { low:false, warn:30, danger:55 },
-    desocupacion:{ low:false, warn:10, danger:20 },
-    produccion:  { low:true,  warn:65, danger:35 },
-    confianza:   { low:true,  warn:60, danger:30 },
-  };
-  const t = T[key];
-  if (!t) return 'safe';
-  if (t.low) { if (v <= t.danger) return 'danger'; if (v <= t.warn) return 'warn'; }
-  else        { if (v >= t.danger) return 'danger'; if (v >= t.warn) return 'warn'; }
-  return 'safe';
-}
+/** Zona de un indicador: la misma que usa el motor (CONFIG.THRESHOLDS), no una copia. */
+const _zone = getZone;
 
 /** Encuentra el indicador en peor estado */
 function _worstIndicator(ind) {
@@ -292,7 +277,7 @@ export function generateInauguralNews(state) {
     t3 = {
       source: 'cronista',
       h: `Encuesta inaugural: el ${approval}% respalda al gobierno de {P} — expectativas ${encSentiment}s`,
-      b: `El primer sondeo tras la asunción del {Par} muestra un arranque ${encSentiment === 'positiva' ? 'sólido' : 'ajustado'}. Los próximas decisiones definirán la tendencia.`,
+      b: `El primer sondeo tras la asunción del {Par} muestra un arranque ${encSentiment === 'positiva' ? 'sólido' : 'ajustado'}. Las próximas decisiones definirán la tendencia.`,
     };
     src3id = 'cronista';
   }

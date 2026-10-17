@@ -142,7 +142,7 @@ export function getEventImage(event) {
   const category = _getCategoryFromTag(event.tag);
   const photos   = PHOTOS[category] || PHOTOS.economia;
   if (!photos.length) return getLocalFallback(event);
-  const idx      = event.id % 2;           // 0 para pares, 1 para impares
+  const idx      = _paridadDelId(event.id); // 0 para pares, 1 para impares
   return `${DIR}${photos[idx]}.jpg`;
 }
 
@@ -160,6 +160,19 @@ export function getEventImageFallback(event) {
 }
 
 // ── INTERNOS ──────────────────────────────────────────────────
+
+/**
+ * 0 ó 1 según el id del evento. Los eventos normales tienen id numérico, pero las
+ * crisis automáticas («crisis-auto-ipc-3») y el aviso de elecciones
+ * («midterm-warning») lo tienen de texto, y `'texto' % 2` es NaN: la foto salía
+ * como `img/eventos/undefined.jpg` y daba 404 en cada una.
+ */
+function _paridadDelId(id) {
+  if (Number.isInteger(id)) return Math.abs(id) % 2;
+  let h = 0;
+  for (const ch of String(id)) h = (h * 31 + ch.charCodeAt(0)) | 0;
+  return Math.abs(h) % 2;
+}
 
 /**
  * Deriva la categoría temática a partir del tag del evento.

@@ -100,6 +100,8 @@ export function montarSW({ red = () => { throw new Error('sin red'); }, guardado
         return this;
       }
     },
+    URL,
+    Promise,
     console,
   };
   caja.self.caches = caja.caches;

@@ -155,12 +155,14 @@ test('checkDefeat: el mensaje dice el número, no sólo que perdiste', () => {
 
 // ── Diploma y etiqueta electoral ──────────────────────────────────────────────
 
-test('getDiploma: los umbrales son los declarados en config', () => {
-  assert.equal(getDiploma(CONFIG.DIPLOMA_GOLD), 'gold');
-  assert.equal(getDiploma(CONFIG.DIPLOMA_GOLD - 1), 'silver');
-  assert.equal(getDiploma(CONFIG.DIPLOMA_SILVER), 'silver');
-  assert.equal(getDiploma(CONFIG.DIPLOMA_BRONZE), 'bronze');
-  assert.equal(getDiploma(CONFIG.DIPLOMA_BRONZE - 1), null);
+test('getDiploma: los umbrales son los declarados en config (por dificultad)', () => {
+  for (const [dif, u] of Object.entries(CONFIG.DIPLOMAS)) {
+    assert.equal(getDiploma(u.gold, dif), 'gold');
+    assert.equal(getDiploma(u.gold - 1, dif), 'silver');
+    assert.equal(getDiploma(u.silver, dif), 'silver');
+    assert.equal(getDiploma(u.bronze, dif), 'bronze');
+    assert.equal(getDiploma(u.bronze - 1, dif), null);
+  }
 });
 
 test('getReelectionLabel: cubre todo el rango sin huecos', () => {

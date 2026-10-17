@@ -3,7 +3,7 @@
 import { CONFIG, IND_META, DIFFICULTY_START_BONUS } from '../config.js';
 import { EVENTS }           from '../data/events.js';
 import { HERITAGE_PROFILES, MANDATE_MODS } from '../data/heritage.js';
-import { getZone }          from './scoring.js';
+import { getZone, applyEffects } from './scoring.js';
 import {
   applyMinisterPassives,
   getCombinedEffectMods,
@@ -29,6 +29,23 @@ export let G = null;
  */
 export function setG(newState) {
   G = newState;
+  // Los multiplicadores de dificultad viven en CONFIG, no en el estado: una
+  // partida cargada desde el guardado los tiene que recuperar de su `difficulty`,
+  // o al recargar la página Ultra pasa a jugarse como Normal.
+  if (newState && newState.difficulty) aplicarDificultad(newState.difficulty);
+}
+
+/**
+ * Fija los multiplicadores de efectos según la dificultad.
+ * Asimétrico: en ultra las buenas decisiones rinden menos (×1.5) y los errores
+ * cuestan más (×2.2). Es la única fuente de estos dos números.
+ * @param {string} difficulty 'easy' | 'normal' | 'hard' | 'ultra'
+ */
+export function aplicarDificultad(difficulty) {
+  const diffMap    = { easy: 0.7, normal: 1.0, hard: 1.2, ultra: 1.5 };
+  const diffMapBad = { easy: 0.7, normal: 1.0, hard: 1.5, ultra: 2.2 };
+  CONFIG.EFFECT_MULTIPLIER     = diffMap[difficulty]    ?? 1.0;
+  CONFIG.EFFECT_MULTIPLIER_BAD = diffMapBad[difficulty] ?? 1.0;
 }
 
 // ── EVENTOS ANCLA ─────────────────────────────────────────────
@@ -194,6 +211,27 @@ export function pickNextEvent(state) {
 }
 
 /**
+ * Lo que pasa al sacar un evento especial: se marca el turno (para el enfriamiento
+ * entre eventos graves) y, si es extremo, el golpe inmediato cae ANTES de que el
+ * jugador decida. Está acá, y no en `main.js`, porque hay dos caminos que sacan
+ * eventos —el turno normal y el turno 24, después de las elecciones— y el segundo
+ * se olvidaba de todo esto.
+ * @param {object} state
+ * @param {object} event
+ * @returns {object|null} los indicadores de antes del golpe, o null si no hubo golpe
+ */
+export function registrarEventoEspecial(state, event) {
+  if (!event?.isSpecial) return null;
+  state.lastSpecialEventTurn = state.turn;
+  if (event.isExtreme && event.preEffects) {
+    const antes = { ...state.indicadores };
+    state.indicadores = applyEffects(state.indicadores, event.preEffects, {});
+    return antes;
+  }
+  return null;
+}
+
+/**
  * Crea un estado inicial nuevo a partir de las selecciones del jugador.
  * @param {object} opts
  * @param {string} opts.heritageId   - ID del perfil de herencia elegido
@@ -209,10 +247,7 @@ export function newState({ heritageId, mandateType, difficulty, ministers, ident
   // Multiplicador asimétrico: en ultra, las buenas decisiones son
   // menos potentes (×1.5) pero los errores son más catastróficos (×2.2).
   // Esto elimina el exploit de "hacer bien todo y ganar trivialmente".
-  const diffMap    = { easy: 0.7, normal: 1.0, hard: 1.2, ultra: 1.5 };
-  const diffMapBad = { easy: 0.7, normal: 1.0, hard: 1.5, ultra: 2.2 };
-  CONFIG.EFFECT_MULTIPLIER     = diffMap[difficulty]    ?? 1.0;
-  CONFIG.EFFECT_MULTIPLIER_BAD = diffMapBad[difficulty] ?? 1.0;
+  aplicarDificultad(difficulty);
   CONFIG.DOCENTE_MODE           = false; // modo docente eliminado
 
   // ── 2. Indicadores base ───────────────────────────────────────
@@ -267,7 +302,7 @@ export function newState({ heritageId, mandateType, difficulty, ministers, ident
   // ── 7. Vicepresidente: pasivos y mods ────────────────────────
   // El VP se selecciona en la pantalla de identidad. Sus pasivos
   // se aplican como capa final (después de herencia + ministros).
-  const resolvedIdentity = identity || { presidentName: 'Presidente/a', partyName: 'Partido Nacional', vpId: getDefaultVP() };
+  const resolvedIdentity = identity || { presidentName: 'Presidente/a', partyName: 'Frente Cívico', vpId: getDefaultVP() };
   const vp = getVPById(resolvedIdentity.vpId);
   if (vp) {
     // Aplicar pasivos del VP

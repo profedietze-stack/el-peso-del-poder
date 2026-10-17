@@ -451,6 +451,20 @@ function _buildContextualText(minister, ind, atRisk, opciones, recommendedIndex,
 // Nombres legibles para indicadores (para el texto del análisis)
 const IND_NAME = Object.fromEntries(IND_META.map(m => [m.key, m.name]));
 
+/**
+ * Marca el botón de la opción que recomienda el asesor.
+ *
+ * Se compara con el `data-index` del botón (el índice ORIGINAL de la opción) y
+ * no con su sitio en la pantalla: desde que las opciones se barajan, el primer
+ * botón no es la primera opción. Con posición, el resalte caía en la opción
+ * equivocada 2 de cada 3 veces, contradiciendo el texto del propio asesor.
+ */
+export function resaltarOpcionRecomendada(botones, recommendedIndex) {
+  [...botones].forEach((btn) => {
+    btn.classList.toggle('advisor-highlight', Number(btn.dataset.index) === recommendedIndex);
+  });
+}
+
 // ── HELPER: obtener datos del ministro desde el estado ────────
 
 /**
@@ -1013,9 +1027,7 @@ export function showAdvisorModal(slotId, event, state, fromCabinet = false) {
   }
 
   // Resaltar opción recomendada
-  document.querySelectorAll('.option-btn').forEach((btn, i) => {
-    btn.classList.toggle('advisor-highlight', i === recommendedIndex);
-  });
+  resaltarOpcionRecomendada(document.querySelectorAll('.option-btn'), recommendedIndex);
 
   // ── Botón "Pedir Renuncia" ────────────────────────────────────
   // Se inyecta dinámicamente en #advisor-resign-area (placeholder en el HTML)

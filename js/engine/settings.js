@@ -34,14 +34,47 @@ const DEFAULTS = {
 
 let _settings = { ...DEFAULTS };
 
-/** Carga desde localStorage (fusiona con defaults para tolerar versiones viejas). */
+/**
+ * Lee los ajustes guardados, campo por campo.
+ *
+ * `{ ...DEFAULTS, ...JSON.parse(raw) }` solo se defiende de un JSON ilegible: si el
+ * texto parsea, un campo con el tipo cambiado pasa entero (`volume: 'abc'`,
+ * `soundOn: 'false'`). Acá cada campo se valida y, si no sirve, cae a su valor por
+ * defecto; lo que no es un ajuste conocido no se copia.
+ *
+ * @param {unknown} crudo lo que devolvió `JSON.parse` (o undefined si no había nada)
+ * @param {object} defaults valores por defecto
+ */
+export function sanearAjustes(crudo, defaults = DEFAULTS) {
+  const g = crudo !== null && typeof crudo === 'object' && !Array.isArray(crudo) ? crudo : {};
+  const bool = (v, def) => (typeof v === 'boolean' ? v : def);
+  return {
+    fontScale:    typeof g.fontScale === 'string' && Object.hasOwn(FONT_SCALES, g.fontScale) ? g.fontScale : defaults.fontScale,
+    soundOn:      bool(g.soundOn, defaults.soundOn),
+    volume:       typeof g.volume === 'number' && Number.isFinite(g.volume) ? Math.max(0, Math.min(1, g.volume)) : defaults.volume,
+    highContrast: bool(g.highContrast, defaults.highContrast),
+    reduceMotion: bool(g.reduceMotion, defaults.reduceMotion),
+  };
+}
+
+/** ¿El sistema pide menos movimiento? Si el jugador no eligió nada, se le hace caso. */
+function _sistemaPideMenosMovimiento() {
+  try {
+    return typeof matchMedia === 'function' && matchMedia('(prefers-reduced-motion: reduce)').matches;
+  } catch (_) {
+    return false;
+  }
+}
+
+/** Carga desde localStorage (cada campo validado; sin nada guardado, valores por defecto). */
 export function loadSettings() {
+  const defaults = { ...DEFAULTS, reduceMotion: _sistemaPideMenosMovimiento() };
+  let crudo;
   try {
     const raw = localStorage.getItem(KEY);
-    if (raw) _settings = { ...DEFAULTS, ...JSON.parse(raw) };
-  } catch (_) {
-    _settings = { ...DEFAULTS };
-  }
+    if (raw) crudo = JSON.parse(raw);
+  } catch (_) { /* ilegible: se queda con los valores por defecto */ }
+  _settings = sanearAjustes(crudo, defaults);
   return getSettings();
 }
 

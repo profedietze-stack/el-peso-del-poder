@@ -97,7 +97,7 @@ export function renderDashboard(ind, prevInd = null) {
           <div class="ind-bar-fill" style="width:${pct}%;background:${color}"></div>
         </div>
         <div class="ind-foot">
-          <span style="font-size:.67rem;opacity:.7">${zone === 'safe' ? '🟢 Zona segura' : zone === 'warn' ? '🟡 Zona de alerta' : '🔴 ZONA CRÍTICA'}</span>
+          <span style="font-size:.72rem;opacity:.7">${zone === 'safe' ? '🟢 Zona segura' : zone === 'warn' ? '🟡 Zona de alerta' : '🔴 ZONA CRÍTICA'}</span>
           ${arrow}
           ${buildSparklineSVG(m.key)}
         </div>

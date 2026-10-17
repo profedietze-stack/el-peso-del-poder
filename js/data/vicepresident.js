@@ -152,3 +152,14 @@ export function getVPById(id) {
 export function getDefaultVP() {
   return VICEPRESIDENTS[0].id;
 }
+
+/**
+ * Cómo se nombra al VP en los avisos: su apellido, que es lo último de `name`.
+ * Sale de la lista de VP y no de una tabla aparte, para que no se desfase.
+ * @param {string} id
+ * @returns {string} apellido, o «Vicepresidente/a» si el id no existe
+ */
+export function nombreCortoVP(id) {
+  const vp = getVPById(id);
+  return vp ? vp.name.trim().split(/\s+/).slice(-1)[0] : 'Vicepresidente/a';
+}

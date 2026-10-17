@@ -13,12 +13,13 @@ import { EVENTS }                      from './data/events.js';
 import { ACHIEVEMENTS, checkAchievements } from './data/achievements.js';
 
 import { G, setG, newState, pickNextEvent,
-         updateAdata, pushHistory }    from './engine/state.js';
+         updateAdata, pushHistory,
+         registrarEventoEspecial }     from './engine/state.js';
 import { getScore, applyEffects,
          checkDefeat, computeReelection,
          getDiploma }                  from './engine/scoring.js';
-import { saveToStorage, loadFromStorage,
-         clearSave, hasSave,
+import { saveToStorage, cargarGuardado,
+         clearSave, hayPartidaValida,
          recordGameToGlobal }          from './engine/storage.js';
 
 import { initAudio, resumeAudio, soundClick,
@@ -73,8 +74,10 @@ import { buildWarningEvent, showElectionResult,
 import { showMinisterModal }                      from './ui/minister-modal.js';
 import { initSplash }                             from './ui/splash.js';
 import { preloadUpcomingImages }                  from './ui/image-preloader.js';
-import { applyInertia, applyActiveEffects,
+import { aplicarInicioDeTurno,
          addActiveEffect }                        from './engine/effects.js';
+import { nombreCortoVP }                          from './data/vicepresident.js';
+import { initTeclado }                            from './ui/teclado.js';
 import { renderNewsTicker, openNewsRoom,
          closeNewsRoom, switchNrTab }  from './ui/news-ui.js';
 import { initTooltips, showTip,
@@ -193,13 +196,14 @@ document.addEventListener('DOMContentLoaded', () => {
   applySettings();
 
   // ── Init de UI que no requiere gesto del usuario ─────────────
+  initTeclado();
   initGlosarioTooltips();
   initTooltips();
   renderYearMarkers();
 
   // Mostrar/ocultar botón de cargar partida
   const loadBtn = document.getElementById('load-btn');
-  if (loadBtn) loadBtn.style.display = hasSave() ? '' : 'none';
+  if (loadBtn) loadBtn.style.display = hayPartidaValida() ? '' : 'none';
 
   // ── Splash screen ─────────────────────────────────────────────
   // onReady se llama al tocar "Continuar" (gesto de usuario).
@@ -254,18 +258,11 @@ function startGame() {
   showIdentityScreen(({ presidentName, partyName, vpId }) => {
     _displayName     = `Pte. ${presidentName.split(' ').slice(-1)[0]} · ${partyName.split('(')[0].trim().substring(0, 22)}`;
     _pendingIdentity = { presidentName, partyName, vpId };
-    const identity   = _pendingIdentity;
 
-    showHeritageScreen(({ heritageId, mandateType }) => {
-      showMinistersScreen(ministers => {
-        showDifficultyScreen(difficulty => {
-          const state = newState({ heritageId, mandateType, difficulty, ministers, identity });
-          setG(state);
-          initSparklines(G.indicadores);
-          _startTurn();
-        });
-      });
-    });
+    // El resto del flujo (herencia → gabinete → dificultad → partida) lo lleva el botón
+    // «Asumir la Presidencia», que llama a `confirmHeritage()` más abajo. Esta pantalla
+    // no necesita un callback propio.
+    showHeritageScreen(() => {});
   });
 }
 
@@ -274,9 +271,17 @@ function startGame() {
  */
 function loadGame() {
   soundClick();
-  const saved = loadFromStorage();
+  const { estado, state: saved } = cargarGuardado();
   if (!saved) {
-    showNotif('❌ No hay partida guardada.', 'warn');
+    if (estado === 'danado') {
+      // Lo que había no se podía leer: se descarta para que el botón no quede apuntando a nada.
+      clearSave();
+      const btn = document.getElementById('load-btn');
+      if (btn) btn.style.display = 'none';
+      showNotif('⚠️ La partida guardada estaba dañada y no se pudo recuperar. Empezá una nueva.', 'warn', 6000);
+    } else {
+      showNotif('❌ No hay partida guardada.', 'warn');
+    }
     return;
   }
   setG(saved);
@@ -307,7 +312,7 @@ function confirmHeritage() {
     showMinistersScreen(ministers => {
       showDifficultyScreen(difficulty => {
         // identity viene de _pendingIdentity (set en showIdentityScreen) o del estado guardado
-        const identity = _pendingIdentity ?? G?.identity ?? { presidentName: 'Presidente/a', partyName: 'Partido Nacional', vpId: null };
+        const identity = _pendingIdentity ?? G?.identity ?? { presidentName: 'Presidente/a', partyName: 'Frente Cívico', vpId: null };
         const state = newState({ ...sel, difficulty, ministers, identity });
         setG(state);
         initSparklines(G.indicadores);
@@ -337,11 +342,13 @@ function _startTurn() {
   // ── Inercia y efectos persistentes (desde turno 2 en adelante) ──
   // Se aplican ANTES de renderizar el evento, para que el jugador
   // ya vea el estado actualizado al iniciar el turno.
+  // `aplicarInicioDeTurno` es idempotente por turno: si la partida se guardó a
+  // mitad de turno (Salir → Continuar) y vuelve con el turno ya empezado, no se
+  // cobra otra vez. `yaIniciado` también evita contar de nuevo los turnos en
+  // peligro y repetir el evento y sus pre-efectos.
+  const prevIndPersist = { ...G.indicadores };
+  const { yaIniciado, inertChanged, aeChanged, expired } = aplicarInicioDeTurno(G);
   if (G.turn > 1) {
-    const prevIndPersist = { ...G.indicadores };
-
-    const { changed: inertChanged }   = applyInertia(G);
-    const { changed: aeChanged, expired } = applyActiveEffects(G);
 
     if (inertChanged || aeChanged) {
       pushSparkline(G.indicadores);
@@ -359,11 +366,11 @@ function _startTurn() {
   // Siempre actualizar el panel de efectos activos
   renderActiveEffects(G.activeEffects || []);
 
-  // Actualizar tracking de crisis automáticas
-  updateDangerTracking(G);
+  // Actualizar tracking de crisis automáticas (una vez por turno)
+  if (!yaIniciado) updateDangerTracking(G);
 
   // Verificar si hay crisis automáticas pendientes
-  const newCrises = checkAutoCrises(G);
+  const newCrises = yaIniciado ? [] : checkAutoCrises(G);
   if (newCrises.length > 0) {
     G.pendingCrises = [...(G.pendingCrises || []), ...newCrises];
     // Aviso visual de crisis inminente
@@ -411,24 +418,28 @@ function _startTurn() {
     return;
   }
 
-  // Seleccionar evento (crisis auto primero, luego normal)
+  // Seleccionar evento (crisis auto primero, luego normal). Si el turno ya estaba
+  // empezado y su evento viajó en el guardado, se reutiliza: sin esto, salir y
+  // continuar re-sorteaba el evento (y se perdía la cadena o la crisis que ya
+  // se había consumido de la cola).
+  const eventoGuardado = yaIniciado && G.currentEventTurn === G.turn ? G.currentEvent : null;
   let event;
-  if (G.pendingCrises && G.pendingCrises.length > 0) {
+  if (eventoGuardado) {
+    event = eventoGuardado;
+  } else if (G.pendingCrises && G.pendingCrises.length > 0) {
     event = G.pendingCrises.shift();
   } else {
     event = pickNextEvent(G);
   }
 
   G.currentEvent = event;
+  G.currentEventTurn = G.turn;
 
   // ── Eventos especiales: registrar turno y aplicar pre-efectos ──
-  if (event.isSpecial) {
-    G.lastSpecialEventTurn = G.turn;
-
-    if (event.isExtreme && event.preEffects) {
-      // Aplicar daño ANTES de que el jugador decida
-      const prevInd = { ...G.indicadores };
-      G.indicadores = applyEffects(G.indicadores, event.preEffects, {});
+  if (!eventoGuardado) {
+    // El daño cae ANTES de que el jugador decida
+    const prevInd = registrarEventoEspecial(G, event);
+    if (prevInd) {
       // Dashboard: mostrar el daño inmediato
       pushSparkline(G.indicadores);
       animateIndicatorChanges(prevInd, G.indicadores);
@@ -439,7 +450,7 @@ function _startTurn() {
   // Actualizar UI
   showScreen('screen-game');
   updateMandateBar(G.turn, CONFIG.TOTAL_TURNS, G.difficulty, _displayName);
-  if (!event.isExtreme) renderDashboard(G.indicadores); // evitar doble render si ya se hizo arriba
+  if (!event.isExtreme || eventoGuardado) renderDashboard(G.indicadores); // evitar doble render si ya se hizo arriba
 
   // Turno 1: generar noticias inaugurales antes de la primera decisión
   if (G.turn === 1 && !G.currentNews) {
@@ -480,6 +491,10 @@ function _startTurn() {
  */
 function _checkEmergencyMeetings(event) {
   if (!G) return;
+  // Si el jugador ya abrió otro modal (el comentario del ministro, las consecuencias),
+  // la reunión de urgencia no se le apila encima: quedaba tapando el botón «Continuar»
+  // sin forma de verla. Se le avisa en el próximo turno.
+  if (document.querySelector('[class*="overlay"].open:not(.emergency-overlay)')) return;
   const emergencies = checkEmergencyMeetings(G);
   if (emergencies.length === 0) return;
 
@@ -1009,11 +1024,7 @@ function _getAdvisorWarnings(event, state) {
 }
 
 function _getVPWarning(event, vpId) {
-  const vpNames = {
-    'vp-moreno':'Moreno', 'vp-santos':'Santos', 'vp-gutiérrez':'Gutiérrez',
-    'vp-castro':'Castro', 'vp-herrera':'Herrera',
-  };
-  const name = vpNames[vpId] || 'Vicepresidente/a';
+  const name = nombreCortoVP(vpId);
 
   if (event.isExtreme) {
     return { avatar:'🏛️', msg:`${name} (VP): "Esta es la peor crisis que enfrentamos. Los indicadores ya recibieron el impacto. Cada decisión que tomemos ahora definirá el futuro del gobierno."` };
@@ -1059,9 +1070,25 @@ function _resumeTurnAfterMidterm() {
     event = pickNextEvent(G);
   }
   G.currentEvent = event;
+  G.currentEventTurn = G.turn;
+
+  // Un evento especial que sale justo este turno trae lo mismo que en cualquier
+  // otro: golpe inmediato, marca para el enfriamiento y cartel de alerta. Antes
+  // este camino los saltaba y el golpe se perdía sin aviso.
+  const prevInd = registrarEventoEspecial(G, event);
+  if (prevInd) {
+    pushSparkline(G.indicadores);
+    animateIndicatorChanges(prevInd, G.indicadores);
+  }
+  renderDashboard(G.indicadores, prevInd || undefined);
+
   renderEvent(event, G);
   onOptionSelected((idx, option) => _handleDecision(idx, option, event));
-  setTimeout(() => _checkEmergencyMeetings(event), 500);
+  if (event.isSpecial && (event.isExtreme || event.isSevere)) {
+    setTimeout(() => _showExtremeAlert(event), 300);
+  } else {
+    setTimeout(() => _checkEmergencyMeetings(event), 500);
+  }
 }
 
 /**
@@ -1108,7 +1135,7 @@ function doQuit() {
     setG(null);
     showScreen('screen-start');
     const loadBtn = document.getElementById('load-btn');
-    if (loadBtn) loadBtn.style.display = hasSave() ? '' : 'none';
+    if (loadBtn) loadBtn.style.display = hayPartidaValida() ? '' : 'none';
   });
 }
 
@@ -1148,8 +1175,9 @@ window.__closeResetModal = function() {
 window.__confirmReset = function() {
   // Borrar todas las claves del juego
   ['sdr_save', 'sdr_global', 'sdr_v12_tutorial_seen'].forEach(k => {
-    localStorage.removeItem(k);
+    try { localStorage.removeItem(k); } catch (_) { /* almacenamiento bloqueado: no hay nada que borrar */ }
   });
+  try { sessionStorage.removeItem('sdr_save'); } catch (_) { /* idem */ }
   // Reinicio completo
   location.reload();
 };
@@ -1165,7 +1193,7 @@ function startSecondTerm() {
 
   const firstTermData = {
     score:         getScore(G.indicadores),
-    diploma:       getDiploma(getScore(G.indicadores)),
+    diploma:       getDiploma(getScore(G.indicadores), G.difficulty),
     reelection:    G.reelection,
     turn:          G.turn,
   };
@@ -1200,9 +1228,12 @@ function startSecondTerm() {
 // Desactivar:
 //   localStorage.removeItem('sdr_debug'); location.reload();
 {
-  const _debugActive =
-    new URLSearchParams(location.search).get('debug') === '1' ||
-    localStorage.getItem('sdr_debug') === '1';
+  // En el nivel superior del módulo: un localStorage que lanza (almacenamiento
+  // bloqueado) tiraría `main.js` entero y dejaría el juego muerto.
+  let _debugActive = new URLSearchParams(location.search).get('debug') === '1';
+  if (!_debugActive) {
+    try { _debugActive = localStorage.getItem('sdr_debug') === '1'; } catch (_) { /* sin almacenamiento */ }
+  }
 
   if (_debugActive) {
     console.info(
@@ -1261,7 +1292,7 @@ function startSecondTerm() {
         if (!G) { console.warn('[SDR DEBUG] No hay partida activa.'); return; }
         const ev = EVENTS.find(e => e.id === id);
         if (!ev) { console.warn('[SDR DEBUG] Evento no encontrado con id:', id); return; }
-        G.pendingChainEvents.unshift({ id, triggerAtTurn: G.turn });
+        G.pendingChainEvents.unshift({ eventId: id, triggerAtTurn: G.turn, sourceTitle: 'Depuración' });
         console.info(`[SDR DEBUG] Evento forzado: [${id}] "${ev.titulo}". Iniciando turno...`);
         _startTurn();
       },

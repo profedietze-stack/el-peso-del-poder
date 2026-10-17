@@ -2,6 +2,7 @@
 
 import { VICEPRESIDENTS, getDefaultVP } from '../data/vicepresident.js';
 import { showScreen }                    from './screens.js';
+import { limpiarNombre }                 from '../engine/texto.js';
 
 // ============================================================
 // IDENTITY UI — Pantalla de identidad política
@@ -29,41 +30,41 @@ const IND_SHORT = {
   pobreza: 'Pobreza', desocupacion: 'Desocup.', produccion: 'Producción', confianza: 'Confianza',
 };
 
-// ── SUGERENCIAS LATINOAMERICANAS ──────────────────────────────
+// ── SUGERENCIAS (ficticias a propósito: ni políticos ni partidos reales) ──────
 
 const PRESIDENT_SUGGESTIONS = [
-  'Salvador Allende', 'Hugo Chávez', 'Cristina Fernández', 'Lula da Silva',
-  'Evo Morales', 'Rafael Correa', 'Michelle Bachelet', 'Andrés Manuel López Obrador',
-  'Gabriel Boric', 'Gustavo Petro', 'Néstor Kirchner', 'Carlos Menem',
-  'Alberto Fernández', 'Javier Milei', 'Nayib Bukele', 'Luis Lacalle Pou',
-  'Álvaro Uribe', 'Martín Vizcarra', 'Pedro Castillo', 'Benito Juárez',
-  'Simón Bolívar', 'José de San Martín', 'Daniel Ortega', 'Omar Torrijos',
-  'Dilma Rousseff', 'Isabel Perón', 'Violeta Chamorro', 'Mireya Moscoso',
+  'Valeria Montenegro', 'Tomás Aldana', 'Irene Salcedo', 'Mateo Linares',
+  'Julieta Barrios', 'Emilio Quiroga', 'Marcela Olivera', 'Gonzalo Pereyra',
+  'Camila Duarte', 'Rodrigo Escalante', 'Lucía Benavídez', 'Andrés Cordero',
+  'Paula Ferreyra', 'Ignacio Valdivia', 'Sofía Montoya', 'Joaquín Paredes',
+  'Natalia Rivadeneira', 'Federico Zamora', 'Clara Villanueva', 'Santiago Ibarra',
+  'Renata Arriaga', 'Bruno Carvajal', 'Elena Sandoval', 'Martín Echeverría',
+  'Daniela Ocampo', 'Hernán Bustos', 'Alicia Montalvo', 'Pablo Garrido',
 ];
 
 const PARTY_SUGGESTIONS = [
-  'Partido de los Trabajadores (PT)',
-  'Partido Justicialista (Peronismo)',
-  'Frente Amplio',
-  'MORENA',
-  'Partido Acción Nacional (PAN)',
-  'Unión Demócrata Independiente (UDI)',
-  'Partido Socialista Unido de Venezuela (PSUV)',
-  'Movimiento al Socialismo (MAS)',
-  'Partido Socialista',
-  'Renovación Nacional',
-  'PRO – Propuesta Republicana',
-  'La Libertad Avanza',
-  'Partido Colorado',
-  'Partido Nacional',
-  'Fuerza Popular',
-  'Pacto Histórico',
-  'FSLN – Frente Sandinista',
-  'Partido Comunista',
-  'Partido Revolucionario Institucional (PRI)',
-  'Cambio Democrático',
-  'Convergencia Nacional',
-  'Alianza País',
+  'Frente Cívico por el Desarrollo',
+  'Partido del Progreso Social',
+  'Alianza Republicana Federal',
+  'Movimiento Renovador Popular',
+  'Unión por la Producción',
+  'Partido Verde Solidario',
+  'Coalición Ciudadana del Futuro',
+  'Frente de la Esperanza',
+  'Partido Liberal Democrático',
+  'Movimiento Obrero y Popular',
+  'Alianza por la Justicia Social',
+  'Fuerza Nacional Renovadora',
+  'Partido de la Integración Regional',
+  'Frente Patriótico Federal',
+  'Unión Ciudadana Moderna',
+  'Partido de Productores y Trabajadores',
+  'Alianza Federal Progresista',
+  'Movimiento por la Educación',
+  'Partido Ecologista Unido',
+  'Frente Popular Democrático',
+  'Alianza del Centro Social',
+  'Partido del Mañana',
 ];
 
 // ── API PÚBLICA ───────────────────────────────────────────────
@@ -74,6 +75,7 @@ const PARTY_SUGGESTIONS = [
  */
 export function showIdentityScreen(onConfirm) {
   _onConfirm = onConfirm;
+  _llenarSugerencias();
   _sel = { presidentName: '', partyName: '', vpId: getDefaultVP() };
   _renderCards();
   showScreen('screen-identity');
@@ -87,8 +89,10 @@ export function confirmIdentity() {
   const nameEl  = document.getElementById('ident-president-input');
   const partyEl = document.getElementById('ident-party-input');
 
-  const name  = nameEl?.value?.trim();
-  const party = partyEl?.value?.trim();
+  // Lo que escribe el alumno llega a la pantalla por `innerHTML` en muchos sitios:
+  // se deja como texto plano acá, en la puerta de entrada.
+  const name  = limpiarNombre(nameEl?.value);
+  const party = limpiarNombre(partyEl?.value);
 
   // Validación: ambos campos obligatorios
   if (!name) {
@@ -126,6 +130,18 @@ function _showIdentError(msg) {
 }
 
 // ── RENDER ────────────────────────────────────────────────────
+
+/** Llena los <datalist> de la pantalla desde las listas de este módulo (la única fuente). */
+function _llenarSugerencias() {
+  const poner = (id, lista) => {
+    const dl = document.getElementById(id);
+    if (!dl) return;
+    dl.innerHTML = lista.map(n => `<option value="${n}">`).join('');
+  };
+  poner('dl-presidents', PRESIDENT_SUGGESTIONS);
+  poner('dl-parties', PARTY_SUGGESTIONS);
+}
+
 
 function _renderCards() {
   const grid = document.getElementById('ident-vp-grid');

@@ -96,8 +96,12 @@ function initMandateOptions() {
  */
 export function selectMandate(el) {
   _selectedMandate = el.dataset.mandate;
-  document.querySelectorAll('.mandate-opt').forEach(o => o.classList.remove('selected'));
+  document.querySelectorAll('.mandate-opt').forEach(o => {
+    o.classList.remove('selected');
+    o.setAttribute('aria-checked', 'false');
+  });
   el.classList.add('selected');
+  el.setAttribute('aria-checked', 'true');
   soundClick();
 }
 

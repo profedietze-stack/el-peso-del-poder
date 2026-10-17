@@ -8,6 +8,8 @@
 //   'sdr_global' → estadísticas globales acumuladas
 // ============================================================
 
+import { validarGuardado, SAVE_VERSION } from './save-validation.js';
+
 const SAVE_KEY   = 'sdr_save';
 const GLOBAL_KEY = 'sdr_global';
 
@@ -23,19 +25,22 @@ const GLOBAL_KEY = 'sdr_global';
 function serializeState(state) {
   return JSON.stringify({
     ...state,
+    saveVersion: SAVE_VERSION,
     usedEventIds: [...state.usedEventIds],
   });
 }
 
-/**
- * Deserializa el estado cargado desde localStorage.
- * @param {string} json
- * @returns {object} estado restaurado
- */
-function deserializeState(json) {
-  const parsed = JSON.parse(json);
-  parsed.usedEventIds = new Set(parsed.usedEventIds || []);
-  return parsed;
+/** El texto guardado, de localStorage o (si no hay) de sessionStorage. null si no hay nada. */
+function leerCrudo() {
+  try {
+    const raw = localStorage.getItem(SAVE_KEY);
+    if (raw) return raw;
+  } catch (_) { /* localStorage no disponible */ }
+  try {
+    const raw = sessionStorage.getItem(SAVE_KEY);
+    if (raw) return raw;
+  } catch (_) { /* sessionStorage tampoco */ }
+  return null;
 }
 
 // ── PARTIDA ───────────────────────────────────────────────────
@@ -70,19 +75,40 @@ export function saveToStorage(state) {
  * @returns {object|null} estado restaurado o null si no hay guardado
  */
 export function loadFromStorage() {
-  // Intentar localStorage
-  try {
-    const raw = localStorage.getItem(SAVE_KEY);
-    if (raw) return deserializeState(raw);
-  } catch (_) { /* localStorage no disponible */ }
+  return cargarGuardado().state;
+}
 
-  // Fallback: sessionStorage
+/**
+ * Lee y VALIDA la partida guardada. Distingue los tres casos que antes se
+ * confundían: no hay nada, hay una partida buena, y hay algo pero está dañado.
+ * @returns {{estado:'vacio'|'ok'|'danado', state:object|null, motivo?:string}}
+ */
+export function cargarGuardado() {
+  const raw = leerCrudo();
+  if (raw === null) return { estado: 'vacio', state: null };
+  let parsed;
   try {
-    const raw = sessionStorage.getItem(SAVE_KEY);
-    if (raw) return deserializeState(raw);
-  } catch (_) { /* sessionStorage tampoco disponible */ }
+    parsed = JSON.parse(raw);
+  } catch (e) {
+    return { estado: 'danado', state: null, motivo: 'el texto guardado no es JSON válido' };
+  }
+  const r = validarGuardado(parsed);
+  if (r.estado !== 'ok') {
+    console.warn('[storage] guardado descartado:', r.motivo);
+    return { estado: 'danado', state: null, motivo: r.motivo };
+  }
+  return { estado: 'ok', state: r.state };
+}
 
-  return null;
+/**
+ * ¿Hay una partida que se pueda continuar? Si lo que hay está dañado lo borra,
+ * para que el botón «Continuar» no quede visible apuntando a nada.
+ * @returns {boolean}
+ */
+export function hayPartidaValida() {
+  const r = cargarGuardado();
+  if (r.estado === 'danado') clearSave();
+  return r.estado === 'ok';
 }
 
 /**
@@ -222,5 +248,5 @@ export function recordGameToGlobal(state, score) {
  * Elimina todas las estadísticas globales (reset total).
  */
 export function clearGlobal() {
-  localStorage.removeItem(GLOBAL_KEY);
+  try { localStorage.removeItem(GLOBAL_KEY); } catch (_) { /* almacenamiento bloqueado */ }
 }

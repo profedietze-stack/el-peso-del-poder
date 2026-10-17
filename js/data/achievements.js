@@ -1,5 +1,7 @@
 "use strict";
 
+import { getDiploma } from '../engine/scoring.js';
+
 // ============================================================
 // LOGROS — 20 en total (12 originales + 8 nuevos)
 // Estructura: { id, icon, name, desc, why(s), check(s, ctx) }
@@ -44,7 +46,7 @@ const ORIGINAL_ACHIEVEMENTS = [
     id: "transparencia",
     icon: "🔍",
     name: "Transparencia Total",
-    desc: "Nunca elegiste una opción marcada como corrupta en todo el mandato.",
+    desc: "Nunca elegiste una opción corrupta en todo el mandato.",
     why: _s => `Atravesaste los escándalos de corrupción sin sucumbir a la tentación. Tu gestión fue intachable éticamente.`,
     check: (s, _ctx) => s.adata.neverCorrupt,
   },
@@ -242,9 +244,10 @@ const REELECTION_ACHIEVEMENTS = [
       const s2 = ctx.getScore(s.indicadores);
       return `${s1} pts y ${s2} pts. Dos mandatos de excelencia absoluta. La historia te recordará.`;
     },
+    // Dos mandatos con diploma de oro en la dificultad que se jugó.
     check: (s, ctx) => s.won && s.isSecondTerm
-                    && (s.firstTermData?.score ?? 0) >= 65
-                    && ctx.getScore(s.indicadores) >= 65,
+                    && getDiploma(s.firstTermData?.score ?? 0, s.difficulty) === 'gold'
+                    && getDiploma(ctx.getScore(s.indicadores), s.difficulty) === 'gold',
   },
 ];
 

@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, viewport-fit=cover">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <meta name="description" content="El Peso del Poder — Simulador de Economía Política. Creado por ProfeD.">
   <meta name="theme-color" content="#07111f">
   <!-- iOS PWA / pantalla completa -->
@@ -11,6 +11,9 @@
   <meta name="apple-mobile-web-app-title" content="El Peso del Poder">
   <meta name="mobile-web-app-capable" content="yes">
   <title>El Peso del Poder</title>
+
+  <!-- El banner de errores va ANTES que cualquier módulo: ve también los fallos de arranque -->
+  <script src="js/error-banner-inicial.js"></script>
 
   <link rel="manifest" href="manifest.json">
   <link rel="icon" href="icon.svg" type="image/svg+xml">
@@ -159,31 +162,7 @@
                maxlength="40"
                list="dl-presidents"
                autocomplete="off">
-        <datalist id="dl-presidents">
-          <option value="Salvador Allende">
-          <option value="Hugo Chávez">
-          <option value="Cristina Fernández">
-          <option value="Lula da Silva">
-          <option value="Evo Morales">
-          <option value="Rafael Correa">
-          <option value="Michelle Bachelet">
-          <option value="Andrés Manuel López Obrador">
-          <option value="Gabriel Boric">
-          <option value="Gustavo Petro">
-          <option value="Néstor Kirchner">
-          <option value="Carlos Menem">
-          <option value="Alberto Fernández">
-          <option value="Javier Milei">
-          <option value="Nayib Bukele">
-          <option value="Luis Lacalle Pou">
-          <option value="Álvaro Uribe">
-          <option value="Martín Vizcarra">
-          <option value="Dilma Rousseff">
-          <option value="Isabel Perón">
-          <option value="Violeta Chamorro">
-          <option value="Mireya Moscoso">
-          <option value="Benito Juárez">
-          <option value="Omar Torrijos">
+        <datalist id="dl-presidents"><!-- lo llena identity-ui.js: la única lista de sugerencias -->
         </datalist>
       </div>
 
@@ -198,29 +177,7 @@
                maxlength="50"
                list="dl-parties"
                autocomplete="off">
-        <datalist id="dl-parties">
-          <option value="Partido de los Trabajadores (PT)">
-          <option value="Partido Justicialista (Peronismo)">
-          <option value="Frente Amplio">
-          <option value="MORENA">
-          <option value="Partido Acción Nacional (PAN)">
-          <option value="Unión Demócrata Independiente (UDI)">
-          <option value="PSUV – Partido Socialista Unido">
-          <option value="Movimiento al Socialismo (MAS)">
-          <option value="Partido Socialista">
-          <option value="Renovación Nacional">
-          <option value="PRO – Propuesta Republicana">
-          <option value="La Libertad Avanza">
-          <option value="Partido Colorado">
-          <option value="Partido Nacional">
-          <option value="Fuerza Popular">
-          <option value="Pacto Histórico">
-          <option value="FSLN – Frente Sandinista">
-          <option value="Partido Comunista">
-          <option value="Partido Revolucionario Institucional (PRI)">
-          <option value="Cambio Democrático">
-          <option value="Alianza País">
-          <option value="Convergencia Nacional">
+        <datalist id="dl-parties"><!-- lo llena identity-ui.js: la única lista de sugerencias -->
         </datalist>
       </div>
 
@@ -261,16 +218,16 @@
 
     <div class="heritage-question">
       <h3>🗳️ ¿Con qué respaldo llegaste al poder?</h3>
-      <div class="mandate-options" id="mandate-options">
-        <div class="mandate-opt selected" data-mandate="amplio" onclick="selectMandate(this)">
+      <div class="mandate-options" id="mandate-options" role="radiogroup" aria-label="Respaldo electoral">
+        <div class="mandate-opt selected" data-mandate="amplio" onclick="selectMandate(this)" role="radio" tabindex="0" aria-checked="true">
           <div class="mandate-opt-dot"></div>
           <div><strong>Victoria amplia</strong> — más del 55% de los votos. Alta confianza inicial, pero grandes expectativas.</div>
         </div>
-        <div class="mandate-opt" data-mandate="ajustado" onclick="selectMandate(this)">
+        <div class="mandate-opt" data-mandate="ajustado" onclick="selectMandate(this)" role="radio" tabindex="0" aria-checked="false">
           <div class="mandate-opt-dot"></div>
           <div><strong>Victoria ajustada</strong> — entre 45% y 55%. Mandato legítimo pero con oposición fuerte desde el día 1.</div>
         </div>
-        <div class="mandate-opt" data-mandate="coalicion" onclick="selectMandate(this)">
+        <div class="mandate-opt" data-mandate="coalicion" onclick="selectMandate(this)" role="radio" tabindex="0" aria-checked="false">
           <div class="mandate-opt-dot"></div>
           <div><strong>Coalición frágil</strong> — ganaste aliando fuerzas dispares. Más recursos, pero menos cohesión interna.</div>
         </div>
@@ -395,8 +352,8 @@
         <h2>🏆 Condiciones de fin de partida</h2>
         <ul>
           <li>✅ <strong>Victoria:</strong> completar los 48 meses de mandato con los indicadores bajo control.</li>
-          <li>❌ <strong>Derrota A:</strong> la Confianza llega a 0 (pérdida de apoyo ciudadano).</li>
-          <li>❌ <strong>Derrota B:</strong> la Pobreza supera el 80%.</li>
+          <li>❌ <strong>Derrota A:</strong> la Confianza baja a 0 % (Fácil), 5 % (Normal), 10 % (Difícil) o 15 % (Ultra): pérdida de apoyo ciudadano.</li>
+          <li>❌ <strong>Derrota B:</strong> la Pobreza llega a 80 % (Fácil), 78 % (Normal), 75 % (Difícil) o 70 % (Ultra).</li>
           <li>❌ <strong>Derrota C:</strong> colapso de gabinete (3 renuncias en el mismo ministerio).</li>
         </ul>
         <p>Al terminar la partida se genera una <strong>pantalla de legado</strong> con tu puntaje, diploma, las 3 decisiones más impactantes y un historial exportable en .txt.</p>
@@ -410,14 +367,14 @@
         <p>Cada indicador se mide en una escala de <strong>0 a 100</strong> con zonas de color: 🟢 verde (segura), 🟡 amarillo (alerta) y 🔴 rojo (crisis).</p>
         <table class="ind-table">
           <tr><th>Indicador</th><th>Descripción</th><th>Meta</th><th>Crisis</th></tr>
-          <tr><td>📈 IPC / Inflación</td><td>Variación de precios al consumidor. Cuanto mayor, peor.</td><td>&lt; 40</td><td>&gt; 65</td></tr>
-          <tr><td>💸 Deuda Externa</td><td>Endeudamiento del Estado con acreedores internacionales.</td><td>&lt; 50</td><td>&gt; 70</td></tr>
-          <tr><td>💰 Reservas</td><td>Divisas del Banco Central. Mayor = mejor respaldo monetario.</td><td>&gt; 60</td><td>&lt; 30</td></tr>
-          <tr><td>⚠️ Riesgo País</td><td>Confianza de los mercados internacionales en el Estado.</td><td>&lt; 40</td><td>&gt; 65</td></tr>
-          <tr><td>📉 Pobreza</td><td>% de la población bajo la línea de pobreza.</td><td>&lt; 30</td><td>&gt; 55 (derrota: &gt;80)</td></tr>
-          <tr><td>👥 Desocupación</td><td>% de la PEA que busca trabajo sin encontrarlo.</td><td>&lt; 10</td><td>&gt; 20</td></tr>
-          <tr><td>🏭 Producción</td><td>Índice de actividad manufacturera. Mayor = mejor.</td><td>&gt; 65</td><td>&lt; 35</td></tr>
-          <tr><td>🤝 Confianza</td><td>Aprobación ciudadana. Si llega a 0 → derrota inmediata.</td><td>&gt; 55</td><td>&lt; 30 (derrota: = 0)</td></tr>
+          <tr><td>📈 IPC / Inflación</td><td>Variación de precios al consumidor. Cuanto mayor, peor.</td><td>&lt; 40</td><td>&ge; 65</td></tr>
+          <tr><td>💸 Deuda Externa</td><td>Endeudamiento del Estado con acreedores internacionales.</td><td>&lt; 50</td><td>&ge; 70</td></tr>
+          <tr><td>💰 Reservas</td><td>Divisas del Banco Central. Mayor = mejor respaldo monetario.</td><td>&gt; 60</td><td>&le; 30</td></tr>
+          <tr><td>⚠️ Riesgo País</td><td>Confianza de los mercados internacionales en el Estado.</td><td>&lt; 40</td><td>&ge; 65</td></tr>
+          <tr><td>📉 Pobreza</td><td>% de la población bajo la línea de pobreza.</td><td>&lt; 30</td><td>&ge; 55 (derrota: desde 70 a 80 según la dificultad)</td></tr>
+          <tr><td>👥 Desocupación</td><td>% de la PEA que busca trabajo sin encontrarlo.</td><td>&lt; 10</td><td>&ge; 20</td></tr>
+          <tr><td>🏭 Producción</td><td>Índice de actividad manufacturera. Mayor = mejor.</td><td>&gt; 65</td><td>&le; 35</td></tr>
+          <tr><td>🤝 Confianza</td><td>Aprobación ciudadana. Si cae al límite de la dificultad → derrota inmediata.</td><td>&gt; 60</td><td>&le; 30 (derrota: hasta 0 a 15 según la dificultad)</td></tr>
         </table>
       </div>
       <div class="manual-section">
@@ -460,11 +417,15 @@
         <h2>🏅 Puntaje y Diplomas</h2>
         <p>El puntaje final se calcula combinando el estado de los 8 indicadores al terminar el mandato.</p>
         <ul>
-          <li>🥇 <strong>Diploma de Oro:</strong> puntaje ≥ 65</li>
-          <li>🥈 <strong>Diploma de Plata:</strong> puntaje 45–64</li>
-          <li>🥉 <strong>Diploma de Bronce:</strong> puntaje 25–44</li>
-          <li>📜 <strong>Gestión Criticada:</strong> puntaje &lt; 25</li>
+          <li>El puntaje que pide cada diploma <strong>depende de la dificultad</strong>: cuanto más fácil el juego, más exige.</li>
         </ul>
+        <table class="ind-table">
+          <tr><th>Diploma</th><th>Fácil</th><th>Normal</th><th>Difícil</th><th>Ultra</th></tr>
+          <tr><td>🥇 Oro</td><td>≥ 85</td><td>≥ 70</td><td>≥ 65</td><td>≥ 60</td></tr>
+          <tr><td>🥈 Plata</td><td>≥ 65</td><td>≥ 50</td><td>≥ 45</td><td>≥ 45</td></tr>
+          <tr><td>🥉 Bronce</td><td>≥ 40</td><td>≥ 30</td><td>≥ 25</td><td>≥ 25</td></tr>
+          <tr><td>📜 Gestión Criticada</td><td>&lt; 40</td><td>&lt; 30</td><td>&lt; 25</td><td>&lt; 25</td></tr>
+        </table>
       </div>
       <div class="manual-section">
         <h2>📰 Sistema de Prensa</h2>
@@ -692,7 +653,7 @@
 
     <!-- Panel evento -->
     <div class="event-panel" id="event-panel">
-      <div id="notif-strip" class="notif-strip" style="display:none"></div>
+      <div id="notif-strip" class="notif-strip" style="display:none" role="status" aria-live="polite"></div>
       <div class="event-card" id="event-card">
         <div id="ev-img-wrap"></div>
         <div class="event-content">

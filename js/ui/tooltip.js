@@ -14,6 +14,8 @@
 //   initTooltips()               → registra listener global (llamar 1 vez en main.js)
 // ============================================================
 
+import { textoUmbralesDeDerrota } from '../engine/scoring.js';
+
 // ── GLOSARIO ─────────────────────────────────────────────────
 // Cada entrada tiene: icon, title, body, zona? (indicadores)
 
@@ -53,7 +55,7 @@ export const GLOSSARY = {
     icon:  '🏚️',
     title: 'Índice de Pobreza',
     body:  'Porcentaje de la población que <strong>no puede cubrir sus necesidades básicas</strong>: alimentación, vivienda, salud y educación. Es el indicador con mayor impacto en la vida cotidiana de la gente y el más sensible políticamente. Una crisis de pobreza extrema puede generar estallidos sociales.',
-    zona:  '🟢 Conviene tenerlo <strong>BAJO</strong> — si supera el límite crítico, el gobierno cae.',
+    zona:  `🟢 Conviene tenerlo <strong>BAJO</strong> — si llega a ${textoUmbralesDeDerrota('pobreza')} el gobierno cae por crisis social (el límite depende de la dificultad).`,
   },
 
   desocupacion: {
@@ -74,7 +76,7 @@ export const GLOSSARY = {
     icon:  '🤝',
     title: 'Confianza en el Gobierno',
     body:  'Mide el <strong>apoyo ciudadano</strong> a tu gestión. Baja cuando hay escándalos, mala gestión o crisis económica; sube cuando la gente percibe mejoras reales. Es la variable más política del juego: si cae demasiado, el gobierno pierde legitimidad y no puede gobernar.',
-    zona:  '🟢 Conviene tenerla <strong>ALTA</strong> — si llega a 0% el pueblo exige tu renuncia y perdés el juego.',
+    zona:  `🟢 Conviene tenerla <strong>ALTA</strong> — si baja a ${textoUmbralesDeDerrota('confianza')} el pueblo exige tu renuncia y perdés el juego (el límite depende de la dificultad).`,
   },
 
   // ── CONCEPTOS ECONÓMICOS ──────────────────────────────────

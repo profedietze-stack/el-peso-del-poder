@@ -128,18 +128,9 @@ export function checkDefeat(ind, difficulty = 'normal') {
   const confianza = Math.round(ind.confianza);
   const pobreza   = Math.round(ind.pobreza);
 
-  const isUltra  = difficulty === 'ultra';
-  const isHard   = difficulty === 'hard';
-  const isNormal = difficulty === 'normal';
-
-  const defeatConfianza = isUltra  ? CONFIG.DEFEAT_CONFIANZA_ULTRA
-                        : isHard   ? CONFIG.DEFEAT_CONFIANZA_HARD
-                        : isNormal ? CONFIG.DEFEAT_CONFIANZA_NORMAL
-                        :            CONFIG.DEFEAT_CONFIANZA;          // easy
-  const defeatPobreza   = isUltra  ? CONFIG.DEFEAT_POBREZA_ULTRA
-                        : isHard   ? CONFIG.DEFEAT_POBREZA_HARD
-                        : isNormal ? CONFIG.DEFEAT_POBREZA_NORMAL
-                        :            CONFIG.DEFEAT_POBREZA;            // easy
+  const isUltra = difficulty === 'ultra';
+  const isHard  = difficulty === 'hard';
+  const { confianza: defeatConfianza, pobreza: defeatPobreza } = umbralesDeDerrota(difficulty);
 
   if (confianza <= defeatConfianza) {
     const msg = isUltra
@@ -161,14 +152,52 @@ export function checkDefeat(ind, difficulty = 'normal') {
 }
 
 /**
- * Calcula el diploma obtenido según el puntaje final.
+ * Los valores de derrota de una dificultad: la confianza cae a `confianza` o menos,
+ * o la pobreza llega a `pobreza` o más. Única fuente de estos números: el motor
+ * (`checkDefeat`) y todos los textos de ayuda salen de acá.
+ * @param {string} difficulty 'easy' | 'normal' | 'hard' | 'ultra' (otra cosa = normal)
+ * @returns {{confianza:number, pobreza:number}}
+ */
+export function umbralesDeDerrota(difficulty = 'normal') {
+  switch (difficulty) {
+    case 'easy':  return { confianza: CONFIG.DEFEAT_CONFIANZA,        pobreza: CONFIG.DEFEAT_POBREZA };
+    case 'hard':  return { confianza: CONFIG.DEFEAT_CONFIANZA_HARD,   pobreza: CONFIG.DEFEAT_POBREZA_HARD };
+    case 'ultra': return { confianza: CONFIG.DEFEAT_CONFIANZA_ULTRA,  pobreza: CONFIG.DEFEAT_POBREZA_ULTRA };
+    default:      return { confianza: CONFIG.DEFEAT_CONFIANZA_NORMAL, pobreza: CONFIG.DEFEAT_POBREZA_NORMAL };
+  }
+}
+
+/**
+ * El umbral de derrota de un indicador en las cuatro dificultades, como texto:
+ * «0 % (Fácil), 5 % (Normal), 10 % (Difícil) o 15 % (Ultra)».
+ * @param {'confianza'|'pobreza'} clave
+ */
+export function textoUmbralesDeDerrota(clave) {
+  const partes = [['easy', 'Fácil'], ['normal', 'Normal'], ['hard', 'Difícil'], ['ultra', 'Ultra']]
+    .map(([dif, nombre]) => `${umbralesDeDerrota(dif)[clave]} % (${nombre})`);
+  return `${partes.slice(0, -1).join(', ')} o ${partes[partes.length - 1]}`;
+}
+
+/**
+ * Los puntajes mínimos de cada diploma en una dificultad.
+ * @param {string} [difficulty] 'easy' | 'normal' | 'hard' | 'ultra' (otra cosa = normal)
+ * @returns {{gold:number, silver:number, bronze:number}}
+ */
+export function umbralesDeDiploma(difficulty = 'normal') {
+  return CONFIG.DIPLOMAS[difficulty] ?? CONFIG.DIPLOMAS.normal;
+}
+
+/**
+ * Calcula el diploma obtenido según el puntaje final y la dificultad jugada.
  * @param {number} score - puntaje (0-100)
+ * @param {string} [difficulty]
  * @returns {'gold'|'silver'|'bronze'|null}
  */
-export function getDiploma(score) {
-  if (score >= CONFIG.DIPLOMA_GOLD)   return 'gold';
-  if (score >= CONFIG.DIPLOMA_SILVER) return 'silver';
-  if (score >= CONFIG.DIPLOMA_BRONZE) return 'bronze';
+export function getDiploma(score, difficulty = 'normal') {
+  const u = umbralesDeDiploma(difficulty);
+  if (score >= u.gold)   return 'gold';
+  if (score >= u.silver) return 'silver';
+  if (score >= u.bronze) return 'bronze';
   return null;
 }
 

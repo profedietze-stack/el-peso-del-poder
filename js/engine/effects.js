@@ -215,6 +215,28 @@ export function applyInertia(state) {
   return { changed, triggered: active, delta };
 }
 
+/**
+ * Lo que pasa al empezar un turno: inercia y efectos persistentes.
+ *
+ * Es idempotente por turno. `state.startedTurn` recuerda el último turno cuyo
+ * inicio ya se cobró, y viaja en el guardado: si el jugador sale a mitad de turno
+ * y continúa, la partida vuelve con los indicadores ya movidos y este turno NO se
+ * cobra de nuevo. Antes cada «Salir y Continuar» sumaba otra pasada de inercia y
+ * le gastaba un turno de duración a cada efecto persistente.
+ *
+ * @returns {{ yaIniciado: boolean, inertChanged: boolean, aeChanged: boolean, expired: object[] }}
+ */
+export function aplicarInicioDeTurno(state) {
+  if (state.startedTurn === state.turn) {
+    return { yaIniciado: true, inertChanged: false, aeChanged: false, expired: [] };
+  }
+  state.startedTurn = state.turn;
+  if (state.turn <= 1) return { yaIniciado: false, inertChanged: false, aeChanged: false, expired: [] };
+  const { changed: inertChanged } = applyInertia(state);
+  const { changed: aeChanged, expired } = applyActiveEffects(state);
+  return { yaIniciado: false, inertChanged, aeChanged, expired };
+}
+
 // ── OPCIÓN A: EFECTOS ACTIVOS ─────────────────────────────────
 
 /**

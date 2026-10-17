@@ -165,13 +165,11 @@ function renderOptions(event, state) {
   // es lo que hace que barajar no le mienta al historial ni a los trofeos.
   grid.innerHTML = ordenDeOpciones(event).map((i) => {
     const opt = event.opciones[i];
-    const corruptBadge = opt.corrupta
-      ? `<span class="corrupt-badge" title="Esta opción involucra una decisión de dudosa ética">⚠️ Riesgo ético</span>`
-      : '';
+    // Sin cartel de «riesgo ético»: la consecuencia moral se descubre al decidir (en el
+    // cartel de consecuencias, el historial y el informe final), no como un filtro visual.
     return `
       <button class="option-btn" data-index="${i}">
         <span class="opt-text">${opt.texto}</span>
-        ${corruptBadge}
       </button>
     `;
   }).join('');

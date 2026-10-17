@@ -53,7 +53,7 @@ export function showEndScreen(state, countryName) {
   }
 
   const score  = getScore(state.indicadores);
-  const diploma = getDiploma(score);
+  const diploma = getDiploma(score, state.difficulty);
 
   _renderDiploma(state, score, diploma, countryName);
   _renderAnalysis(state, score);
@@ -132,12 +132,12 @@ function _renderDiploma(state, score, diploma, countryName) {
         <div class="st-comparison">
           <div class="st-term">
             <div class="st-term-label">1er Mandato</div>
-            <div class="st-term-score" style="color:${s1 >= 65 ? '#f1c40f' : s1 >= 45 ? '#c0c0c0' : '#cd7f32'}">${s1} pts</div>
+            <div class="st-term-score" style="color:${_colorDeDiploma(s1, state.difficulty)}">${s1} pts</div>
           </div>
           <div class="st-arrow">→</div>
           <div class="st-term">
             <div class="st-term-label">2do Mandato</div>
-            <div class="st-term-score" style="color:${s2 >= 65 ? '#f1c40f' : s2 >= 45 ? '#c0c0c0' : '#cd7f32'}">${s2} pts</div>
+            <div class="st-term-score" style="color:${_colorDeDiploma(s2, state.difficulty)}">${s2} pts</div>
           </div>
           <div class="st-arrow">→</div>
           <div class="st-term">
@@ -396,7 +396,7 @@ function _exportHistory(state) {
   };
 
   const score   = getScore(state.indicadores);
-  const diploma = getDiploma(score);
+  const diploma = getDiploma(score, state.difficulty);
   const id      = state.identity || {};
   const name    = id.presidentName || 'Presidente/a';
   const party   = (id.partyName || '').split('(')[0].trim();
@@ -547,11 +547,19 @@ function _getTrendAnalysis(score1, score2) {
   return { icon: '⚖️', label: 'Presidencia consistente', desc: 'Mantuviste un nivel de gestión muy similar en ambos mandatos. La coherencia también es una virtud presidencial.' };
 }
 
-function _getDiplomaMini(score) {
-  if (score >= 65) return { icon: '🥇', label: 'Oro',   css: 'gold'   };
-  if (score >= 45) return { icon: '🥈', label: 'Plata', css: 'silver' };
-  if (score >= 25) return { icon: '🥉', label: 'Bronce',css: 'bronze' };
-  return              { icon: '📜', label: 'Gestión', css: 'none'   };
+function _getDiplomaMini(score, difficulty) {
+  switch (getDiploma(score, difficulty)) {
+    case 'gold':   return { icon: '🥇', label: 'Oro',   css: 'gold'   };
+    case 'silver': return { icon: '🥈', label: 'Plata', css: 'silver' };
+    case 'bronze': return { icon: '🥉', label: 'Bronce',css: 'bronze' };
+    default:       return { icon: '📜', label: 'Gestión', css: 'none'   };
+  }
+}
+
+/** Color del puntaje según el diploma que da en esa dificultad. */
+function _colorDeDiploma(score, difficulty) {
+  const d = getDiploma(score, difficulty);
+  return d === 'gold' ? '#f1c40f' : d === 'silver' ? '#c0c0c0' : '#cd7f32';
 }
 
 /**
@@ -565,8 +573,8 @@ function _showLegacyScreen(state, countryName) {
   const avg     = Math.round((score1 + score2) / 2);
   const legacy  = _getLegacyTitle(avg);
   const trend   = _getTrendAnalysis(score1, score2);
-  const dip1    = _getDiplomaMini(score1);
-  const dip2    = _getDiplomaMini(score2);
+  const dip1    = _getDiplomaMini(score1, state.difficulty);
+  const dip2    = _getDiplomaMini(score2, state.difficulty);
   const id      = state.identity || {};
   const name    = id.presidentName || 'Presidente/a';
   const party   = id.partyName ? ` · ${id.partyName.split('(')[0].trim()}` : '';
@@ -680,7 +688,7 @@ function _showLegacyScreen(state, countryName) {
           <div class="lmand-score">${score1}</div>
           <div class="lmand-score-lbl">puntos</div>
           <div class="lmand-dip-label">Diploma de ${dip1.label}</div>
-          <div class="lmand-dip-label" style="font-size:.7rem;opacity:.7">${state.firstTermData?.reelection?.pct ?? '—'}% votos</div>
+          <div class="lmand-dip-label" style="font-size:.72rem;opacity:.7">${state.firstTermData?.reelection?.pct ?? '—'}% votos</div>
         </div>
 
         <div class="lmand-arrow">
@@ -797,8 +805,8 @@ function _populateLegacyShareCard(state, score1, score2, avg, legacy, name, part
   const card = document.getElementById('legacy-share-card');
   if (!card) return;
 
-  const dip1 = _getDiplomaMini(score1);
-  const dip2 = _getDiplomaMini(score2);
+  const dip1 = _getDiplomaMini(score1, state.difficulty);
+  const dip2 = _getDiplomaMini(score2, state.difficulty);
   const id   = state.identity || {};
   const nm   = id.presidentName || name;
   const par  = party || (id.partyName ? ` · ${id.partyName.split('(')[0].trim().substring(0, 24)}` : '');

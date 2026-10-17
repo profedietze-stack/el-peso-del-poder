@@ -77,14 +77,14 @@ test('el turno 1 no recupera; después se recupera con tope', () => {
   assert.equal(s.capital, 100, 'no pasa del tope');
 });
 
-test('con la alianza rota el tope baja a 70 y no se recupera', () => {
+test('con la alianza rota el tope baja y no se recupera', () => {
   const c = partida('coalicion');
   c.alianzaRota = true;
-  assert.equal(topeDeCapital(c), 70);
-  c.capital = 50; c.turn = 2; iniciarTurnoCapital(c);
-  assert.equal(c.capital, 50, 'regen 1 − 1 = 0');
-  c.capital = 90; aplicarCapital(c, op(12));
-  assert.equal(c.capital, 70, 'ni ganando se pasa del tope');
+  assert.equal(topeDeCapital(c), CAPITAL.TOPE_ALIANZA_ROTA);
+  c.capital = 30; c.turn = 2; iniciarTurnoCapital(c);
+  assert.equal(c.capital, 30, 'regen 1 − 1 = 0');
+  c.capital = 44; aplicarCapital(c, op(12));
+  assert.equal(c.capital, CAPITAL.TOPE_ALIANZA_ROTA, 'ni ganando se pasa del tope');
 });
 
 test('el capital nunca baja de 0 ni pasa de 100 al decidir, y se lleva la cuenta de lo gastado', () => {

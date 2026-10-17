@@ -21,6 +21,7 @@
 // guardados rotos.
 // ============================================================
 
+import { construirPedido } from '../features/coalicion.js';
 import { IND_META } from '../config.js';
 import { EVENTS } from '../data/events.js';
 import { HERITAGE_PROFILES, MANDATE_MODS } from '../data/heritage.js';
@@ -103,6 +104,11 @@ function validarEvento(v) {
       out.chainSource = v.chainSource.slice(0, 60);
     }
     return out;
+  }
+  // El pedido del socio de Coalición también nace de una plantilla: se reconstruye por turno.
+  if (esTexto(v.id)) {
+    const m = /^coalicion-socio-(\d+)$/.exec(v.id);
+    if (m) return construirPedido(Number(m[1]));
   }
   // Las crisis automáticas nacen de plantillas y no están en el banco: se aceptan
   // solo si tienen la forma completa y ningún texto con HTML.

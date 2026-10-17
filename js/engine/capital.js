@@ -40,7 +40,7 @@ export const CAPITAL = {
   DEBIL_EXTRA: 0.06,        // …hasta +6 % con capital 0
   FUERTE_ALTO: 60,          // por encima de este capital, lo bueno rinde más…
   FUERTE_EXTRA: 0.09,       // …hasta +9 % con capital 100
-  TOPE_ALIANZA_ROTA: 70,    // Coalición con la alianza rota
+  TOPE_ALIANZA_ROTA: 45,    // Coalición con la alianza rota
   REGEN_ALIANZA_ROTA: -1,
 };
 

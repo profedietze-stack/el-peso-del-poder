@@ -52,7 +52,8 @@ import { renderDashboard, updateMandateBar,
          renderActiveEffects }         from './ui/dashboard.js';
 import { renderEvent, onOptionSelected, renderCapitalBar,
          disableOptions, enableOptions } from './ui/event.js';
-import { aplicarCapital, efectosSegunCapital } from './engine/capital.js';
+import { aplicarCapital, efectosSegunCapital, topeDeCapital } from './engine/capital.js';
+import { pedidoDelSocio, aplicarAlianza } from './features/coalicion.js';
 import { showHeritageScreen, selectMandate,
          confirmHeritage as _confirmHeritage } from './ui/heritage-ui.js';
 import { showIdentityScreen,
@@ -389,6 +390,9 @@ function _startTurn() {
     });
   }
 
+  // Coalición: el socio pide algo cada diez turnos (entra a la cola como una crisis).
+  if (!yaIniciado) G.pendingCrises = [...(G.pendingCrises || []), ...pedidoDelSocio(G)];
+
   // Resetear asesores para el nuevo turno
   resetAdvisorsForTurn(G);
 
@@ -557,6 +561,9 @@ function _applyDecision(idx, option, event) {
 
   // Capital político: la decisión lo gasta o lo devuelve.
   const dCapital = aplicarCapital(G, option);
+  if (aplicarAlianza(G, option)) {
+    showNotif(`💔 La alianza se rompió: el capital político máximo baja a ${topeDeCapital(G)} y ya no se recupera.`, 'warn', 6000);
+  }
   renderCapitalBar(G);
   if (dCapital !== 0) {
     showNotif(`🏛️ Capital político ${dCapital > 0 ? '+' : '−'}${Math.abs(dCapital)} → ${Math.round(G.capital)}`, dCapital > 0 ? 'success' : 'info', 3500);

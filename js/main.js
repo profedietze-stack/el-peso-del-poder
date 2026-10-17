@@ -658,7 +658,7 @@ function _applyDecision(idx, option, event) {
  */
 function _advanceTurn(option) {
   // Mostrar notificación de resultado del turno
-  _showTurnNotif(option.efectos || {});
+  _showTurnNotif(option?.efectos || {});
 
   // Verificar derrota
   const defeatReason = checkDefeat(G.indicadores, G.difficulty);

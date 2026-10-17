@@ -729,61 +729,85 @@
      PANTALLA FINAL
      ===================================================== -->
 <div id="screen-end" class="screen">
-  <div class="end-card">
+  <div class="end-card" id="end-card">
 
-    <!-- Sección Mandato Histórico (visible solo en 2do mandato ganado) -->
-    <div id="second-term-glory" class="second-term-glory" style="display:none"></div>
+    <!-- 1 · Diploma -->
+    <section class="end-slide" id="end-slide-diploma" data-slide="diploma" aria-label="Diploma">
+      <!-- Sección Mandato Histórico (visible solo en 2do mandato ganado) -->
+      <div id="second-term-glory" class="second-term-glory" style="display:none"></div>
 
-    <div class="diploma" id="diploma-box">
-      <span class="dip-medal" id="dip-medal">🥇</span>
-      <div class="dip-tipo" id="dip-tipo">DIPLOMA DE GESTIÓN</div>
-      <div class="dip-title" id="dip-title">Gestión Ejemplar</div>
-      <div class="dip-country" id="dip-country">República Ejemplo</div>
-      <div class="dip-score" id="dip-score">—</div>
-      <div class="dip-score-lbl">PUNTAJE FINAL DE GESTIÓN</div>
-      <div class="dip-score-adj" id="dip-score-adj"></div>
-    </div>
+      <div class="diploma" id="diploma-box">
+        <span class="dip-medal" id="dip-medal">🥇</span>
+        <div class="dip-tipo" id="dip-tipo">DIPLOMA DE GESTIÓN</div>
+        <div class="dip-title" id="dip-title">Gestión Ejemplar</div>
+        <div class="dip-country" id="dip-country">República Ejemplo</div>
+        <div class="dip-score" id="dip-score">—</div>
+        <div class="dip-score-lbl">PUNTAJE FINAL DE GESTIÓN</div>
+        <div class="dip-score-adj" id="dip-score-adj"></div>
+      </div>
+    </section>
 
-    <div class="report-section">
-      <h3>📋 Análisis de tu Gestión</h3>
-      <div id="analysis-text"></div>
-    </div>
+    <!-- 2 · Tu gestión -->
+    <section class="end-slide" id="end-slide-gestion" data-slide="gestion" aria-label="Tu gestión">
+      <div class="report-section">
+        <h3>📋 Análisis de tu Gestión</h3>
+        <div id="analysis-text"></div>
+      </div>
 
-    <div class="report-section" id="reelection-section">
-      <h3>🗳️ ¿Te Reelegirían?</h3>
-      <div id="reelection-content"></div>
-    </div>
+      <div class="report-section">
+        <h3>📊 Indicadores Finales</h3>
+        <div class="stats-grid" id="final-stats"></div>
+      </div>
 
-    <div class="report-section">
-      <h3>📊 Indicadores Finales</h3>
-      <div class="stats-grid" id="final-stats"></div>
-    </div>
+      <div class="end-capital" id="end-capital"></div>
+    </section>
 
-    <div class="report-section">
-      <h3>🏅 Logros Obtenidos</h3>
-      <div class="achievements-grid" id="ach-grid"></div>
-    </div>
+    <!-- 3 · ¿Te reelegirían? (solo si ganaste el primer mandato) -->
+    <section class="end-slide" id="end-slide-eleccion" data-slide="eleccion" aria-label="Elecciones">
+      <div class="report-section" id="reelection-section">
+        <h3>🗳️ ¿Te Reelegirían?</h3>
+        <div id="reelection-content"></div>
+      </div>
+    </section>
 
-    <div class="report-section">
-      <h3>📜 Bitácora de Decisiones</h3>
-      <p style="font-size:.82rem;color:var(--text-dim);margin-bottom:12px">
-        Todas tus decisiones, agrupadas por año. Los <span style="color:var(--gold)">★ Eventos clave</span> aparecen en toda partida.
-        Usá esta bitácora para el ensayo de justificación post-partida.
-      </p>
-      <div id="history-tabs" style="display:flex;gap:6px;margin-bottom:12px;flex-wrap:wrap"></div>
-      <div id="history-panel"></div>
-    </div>
+    <!-- 4 · Informe completo -->
+    <section class="end-slide" id="end-slide-informe" data-slide="informe" aria-label="Informe completo">
+      <div id="end-key-slot"></div>
 
-    <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-bottom:10px">
-      <button class="btn btn-gold" id="capture-btn" onclick="captureResults()">📸 Generar Imagen</button>
-    </div>
-    <div id="capture-status" style="text-align:center;font-size:.78rem;color:var(--text-dim);margin-bottom:10px;min-height:1.2em"></div>
-    <!-- Opciones de compartir — aparecen después de capturar -->
-    <div id="share-options" style="display:none;gap:10px;justify-content:center;flex-wrap:wrap;margin-bottom:16px"></div>
-    <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-bottom:40px">
-      <button class="btn btn-primary" onclick="restartGame()">🔄 Jugar de Nuevo</button>
-      <button class="btn btn-outline" onclick="openManual()">📚 Manual Didáctico</button>
-    </div>
+      <div class="report-section">
+        <h3>🏅 Logros Obtenidos</h3>
+        <div class="achievements-grid" id="ach-grid"></div>
+      </div>
+
+      <div class="report-section">
+        <h3>📜 Bitácora de Decisiones</h3>
+        <p style="font-size:.82rem;color:var(--text-dim);margin-bottom:12px">
+          Todas tus decisiones, agrupadas por año. Los <span style="color:var(--gold)">★ Eventos clave</span> aparecen en toda partida.
+          Usá esta bitácora para el ensayo de justificación post-partida.
+        </p>
+        <div id="history-tabs" style="display:flex;gap:6px;margin-bottom:12px;flex-wrap:wrap"></div>
+        <div id="history-panel"></div>
+      </div>
+
+      <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-bottom:10px">
+        <button class="btn btn-gold" id="capture-btn" onclick="captureResults()">📸 Generar Imagen</button>
+      </div>
+      <div id="capture-status" style="text-align:center;font-size:.78rem;color:var(--text-dim);margin-bottom:10px;min-height:1.2em"></div>
+      <!-- Opciones de compartir — aparecen después de capturar -->
+      <div id="share-options" style="display:none;gap:10px;justify-content:center;flex-wrap:wrap;margin-bottom:16px"></div>
+      <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-bottom:20px">
+        <button class="btn btn-primary" onclick="restartGame()">🔄 Jugar de Nuevo</button>
+        <button class="btn btn-outline" onclick="openManual()">📚 Manual Didáctico</button>
+      </div>
+    </section>
+
+    <!-- Navegación entre diapositivas -->
+    <nav class="end-nav" id="end-nav" aria-label="Resultados del mandato">
+      <button class="btn btn-outline end-nav-btn" id="end-prev" type="button">← Atrás</button>
+      <div class="end-dots" id="end-dots" role="tablist" aria-label="Diapositivas"></div>
+      <button class="btn btn-gold end-nav-btn" id="end-next" type="button">Siguiente →</button>
+      <button class="end-informe-link" id="end-informe-link" type="button">📜 Informe completo</button>
+    </nav>
   </div>
 </div>
 

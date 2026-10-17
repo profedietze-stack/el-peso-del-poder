@@ -6,6 +6,7 @@ import { getScore, getDiploma, getMandateVerdict,
          computeReelection, getColor, getZone } from '../engine/scoring.js';
 import { EVENTS }                  from '../data/events.js';
 import { showScreen }              from './screens.js';
+import { iniciarDiapositivas }     from './end-slides.js';
 import { soundVictory, soundDefeat } from '../audio.js';
 
 // ============================================================
@@ -67,6 +68,8 @@ export function showEndScreen(state, countryName) {
   const shareOpts = document.getElementById('share-options');
   if (shareOpts) shareOpts.style.display = 'none';
 
+  _renderCapital(state);
+  iniciarDiapositivas(state);
   showScreen('screen-end');
 }
 
@@ -254,7 +257,6 @@ function _renderReelection(state, score) {
         </div>
       </div>` : ''}
 
-      ${_lineaCapital(state)}
       ${buttonsHTML}
     </div>
   `;
@@ -1121,11 +1123,10 @@ function _renderLegacyDecisions(state) {
     container = document.createElement('section');
     container.id        = 'end-key-decisions';
     container.className = 'end-section key-decisions-section';
-    // Insertar antes de logros o historial (lo que exista primero)
-    const anchor = document.getElementById('end-achievements')
-                || document.getElementById('end-history');
-    if (anchor?.parentNode) anchor.parentNode.insertBefore(container, anchor);
-    else document.getElementById('screen-end')?.appendChild(container);
+    // Va al principio del informe completo (diapositiva 4).
+    const slot = document.getElementById('end-key-slot');
+    if (slot) slot.appendChild(container);
+    else document.getElementById('end-card')?.appendChild(container);
   }
 
   const top = _getTopDecisions(state);
@@ -1274,9 +1275,13 @@ function _showShareOptions(canvas) {
   }
 }
 
-/** Una línea sobre el capital político al cerrar el mandato (vacía si la partida no lo trae). */
-function _lineaCapital(state) {
-  if (typeof state.capital !== 'number') return '';
+/** El capital político al cerrar el mandato, en la diapositiva «Tu gestión» (vacío si la partida no lo trae). */
+function _renderCapital(state) {
+  const el = document.getElementById('end-capital');
+  if (!el) return;
+  if (typeof state.capital !== 'number') { el.innerHTML = ''; return; }
   const gastado = Math.round(state.capitalGastado ?? 0);
-  return `<div class="reel-note">🏛️ Capital político final: <strong>${Math.round(state.capital)}</strong> de 100 · gastaste <strong>${gastado}</strong> en medidas impopulares y reformas.</div>`;
+  el.innerHTML = `
+    <div class="end-capital-valor">🏛️ <strong>${Math.round(state.capital)}</strong><small>/100</small></div>
+    <div class="end-capital-texto"><strong>Capital político final.</strong> Gastaste ${gastado} en medidas impopulares y reformas.</div>`;
 }

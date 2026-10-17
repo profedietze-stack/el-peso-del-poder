@@ -4,6 +4,7 @@ import { CONFIG, IND_META, DIFFICULTY_START_BONUS } from '../config.js';
 import { EVENTS }           from '../data/events.js';
 import { HERITAGE_PROFILES, MANDATE_MODS } from '../data/heritage.js';
 import { getZone, applyEffects } from './scoring.js';
+import { capitalInicial } from './capital.js';
 import {
   applyMinisterPassives,
   getCombinedEffectMods,
@@ -345,6 +346,11 @@ export function newState({ heritageId, mandateType, difficulty, ministers, ident
     difficulty,
     heritageId,
     mandateType,
+
+    // ── Capital político (ver engine/capital.js) ───────────────────
+    capital:         capitalInicial(mandateType),
+    capitalGastado:  0,      // total gastado en decisiones (informe final)
+    alianzaRota:     false,  // Coalición: el socio se fue
 
     // ── Identidad del jugador ─────────────────────────────────────
     // Nombre del presidente, partido y vicepresidente elegido.

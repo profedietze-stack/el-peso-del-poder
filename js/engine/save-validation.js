@@ -279,6 +279,10 @@ function _validar(raw) {
     adata: validarAdata(raw.adata, base.adata),
     advisors: validarAsesores(raw.advisors, base.advisors),
     cabinetHistory: validarGabinete(raw.cabinetHistory, base.cabinetHistory),
+    // Una partida guardada antes del capital político arranca con el de su mandato.
+    capital: esNumero(raw.capital) ? acotar(Math.round(raw.capital), 0, 100) : base.capital,
+    capitalGastado: esNumero(raw.capitalGastado) && raw.capitalGastado >= 0 ? Math.min(raw.capitalGastado, 9999) : 0,
+    alianzaRota: raw.alianzaRota === true,
     midtermBonus: esNumero(raw.midtermBonus) ? acotar(raw.midtermBonus, -30, 30) : 0,
     midtermDone: raw.midtermDone === true,
     lastSpecialEventTurn: esEntero(raw.lastSpecialEventTurn) ? acotar(raw.lastSpecialEventTurn, 0, TOTAL_TURNOS) : 0,

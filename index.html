@@ -221,15 +221,15 @@
       <div class="mandate-options" id="mandate-options" role="radiogroup" aria-label="Respaldo electoral">
         <div class="mandate-opt selected" data-mandate="amplio" onclick="selectMandate(this)" role="radio" tabindex="0" aria-checked="true">
           <div class="mandate-opt-dot"></div>
-          <div><strong>Victoria amplia</strong> — más del 55% de los votos. Alta confianza inicial, pero grandes expectativas.</div>
+          <div><strong>Victoria amplia</strong> — más del 55% de los votos. Alta confianza inicial y <strong>mucho capital político</strong> para arrancar, pero grandes expectativas.</div>
         </div>
         <div class="mandate-opt" data-mandate="ajustado" onclick="selectMandate(this)" role="radio" tabindex="0" aria-checked="false">
           <div class="mandate-opt-dot"></div>
-          <div><strong>Victoria ajustada</strong> — entre 45% y 55%. Mandato legítimo pero con oposición fuerte desde el día 1.</div>
+          <div><strong>Victoria ajustada</strong> — entre 45% y 55%. Mandato legítimo pero con oposición fuerte desde el día 1: <strong>poco capital político</strong>, aunque lo que ganás vale más.</div>
         </div>
         <div class="mandate-opt" data-mandate="coalicion" onclick="selectMandate(this)" role="radio" tabindex="0" aria-checked="false">
           <div class="mandate-opt-dot"></div>
-          <div><strong>Coalición frágil</strong> — ganaste aliando fuerzas dispares. Más recursos, pero menos cohesión interna.</div>
+          <div><strong>Coalición frágil</strong> — ganaste aliando fuerzas dispares. Más recursos, pero menos cohesión interna: <strong>capital político medio</strong>.</div>
         </div>
       </div>
     </div>
@@ -403,6 +403,16 @@
           <li>Los indicadores se actualizan y la <strong>prensa cubre el hecho</strong> con titulares generados dinámicamente.</li>
           <li>La partida se <strong>guarda automáticamente</strong> en el navegador.</li>
         </ol>
+      </div>
+      <div class="manual-section">
+        <h2>🏛️ Capital Político</h2>
+        <p>Es el respaldo con el que gobernás: apoyo en el Congreso, aliados y margen frente a la oposición. Va de 0 a 100 y <strong>depende de cómo ganaste</strong>: la victoria amplia arranca con 80, la coalición con 65 y la ajustada con 40.</p>
+        <ul>
+          <li>Las <strong>medidas impopulares</strong> (que bajan la confianza) y las <strong>reformas ambiciosas</strong> (las que mejoran muchos indicadores de golpe) gastan capital.</li>
+          <li>Las medidas que <strong>suben la confianza</strong> lo devuelven, y se recupera un poco cada turno. En la victoria ajustada, lo que se gana vale más.</li>
+          <li>En cada opción ves cuánto capital mueve: <strong>🏛️ −8</strong> o <strong>🏛️ +2</strong>.</li>
+          <li>Con <strong>poco capital (menos de 40)</strong> el gobierno es débil: lo que sale mal duele más. Con <strong>mucho (más de 60)</strong>, lo que sale bien rinde más. Nunca te impide elegir una opción: gastarlo es una decisión.</li>
+        </ul>
       </div>
       <div class="manual-section">
         <h2>⚙️ Niveles de Dificultad</h2>
@@ -660,6 +670,7 @@
           <div class="event-tag" id="ev-tag">—</div>
           <div class="event-title" id="ev-title">Cargando…</div>
           <div class="event-desc" id="ev-desc"></div>
+          <div class="capital-bar" id="capital-bar"></div>
           <div class="options-label">⚖️ TU DECISIÓN:</div>
           <div class="options-grid" id="ev-options"></div>
         </div>

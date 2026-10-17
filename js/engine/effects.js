@@ -1,5 +1,7 @@
 "use strict";
 
+import { iniciarTurnoCapital } from './capital.js';
+
 // ============================================================
 // EFFECTS ENGINE — Efectos persistentes e inercia de indicadores
 //
@@ -234,6 +236,7 @@ export function aplicarInicioDeTurno(state) {
   if (state.turn <= 1) return { yaIniciado: false, inertChanged: false, aeChanged: false, expired: [] };
   const { changed: inertChanged } = applyInertia(state);
   const { changed: aeChanged, expired } = applyActiveEffects(state);
+  iniciarTurnoCapital(state);
   return { yaIniciado: false, inertChanged, aeChanged, expired };
 }
 

@@ -4566,6 +4566,22 @@ body.tut-open {
   margin-top: 6px;
 }
 
+/* ── Capital político ───────────────────────────────────── */
+.capital-bar { display:flex; align-items:center; gap:10px; flex-wrap:wrap; margin:6px 0 10px; padding:8px 12px; background:rgba(255,255,255,.04); border:1px solid rgba(255,255,255,.1); border-radius:10px; }
+.capital-label { font-size:.8rem; font-weight:700; color:var(--text); white-space:nowrap; }
+.capital-track { flex:1 1 120px; height:10px; min-width:90px; background:rgba(255,255,255,.1); border-radius:6px; overflow:hidden; }
+.capital-fill { display:block; height:100%; border-radius:6px; background:var(--gold); transition:width .4s; }
+.capital-debil .capital-fill { background:#e74c3c; }
+.capital-fuerte .capital-fill { background:#27ae60; }
+.capital-valor { font-size:.9rem; font-weight:800; color:var(--text); min-width:3.2em; text-align:right; }
+.capital-valor small { font-weight:400; color:var(--text-dim); }
+.capital-estado { font-size:.75rem; color:var(--text-dim); white-space:nowrap; }
+.capital-debil .capital-estado { color:#ff8a80; }
+.capital-fuerte .capital-estado { color:#69e09b; }
+.opt-capital { display:inline-block; margin-left:8px; padding:1px 7px; border-radius:10px; font-size:.75rem; font-weight:700; white-space:nowrap; vertical-align:middle; }
+.opt-capital.cap-gasta { background:rgba(231,76,60,.18); color:#ff9a90; }
+.opt-capital.cap-gana { background:rgba(39,174,96,.18); color:#7be0a4; }
+
 /* ── Tamaño de letra ────────────────────────────────────── */
 .set-font-row {
   display: grid;

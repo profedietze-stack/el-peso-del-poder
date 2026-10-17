@@ -79,6 +79,13 @@ export const GLOSSARY = {
     zona:  `🟢 Conviene tenerla <strong>ALTA</strong> — si baja a ${textoUmbralesDeDerrota('confianza')} el pueblo exige tu renuncia y perdés el juego (el límite depende de la dificultad).`,
   },
 
+  capital: {
+    icon:  '🏛️',
+    title: 'Capital político',
+    body:  'Es el <strong>respaldo político</strong> que tenés para gobernar: apoyo en el Congreso, aliados y margen frente a la oposición. Empieza según cómo ganaste (una <strong>victoria amplia</strong> arranca con mucho, una <strong>ajustada</strong> con poco). Las medidas <strong>impopulares</strong> y las <strong>reformas ambiciosas</strong> lo gastan; las medidas que mejoran la confianza lo devuelven, y se recupera un poco cada turno.',
+    zona:  '🟢 Con <strong>poco</strong> capital (menos de 40) lo que te sale mal duele más; con <strong>mucho</strong> (más de 60) lo que te sale bien rinde más. En cada opción ves cuánto capital mueve.',
+  },
+
   // ── CONCEPTOS ECONÓMICOS ──────────────────────────────────
 
   deficit: {

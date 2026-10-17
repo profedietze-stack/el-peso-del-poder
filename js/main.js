@@ -50,8 +50,9 @@ import { renderDashboard, updateMandateBar,
          initSparklines, pushSparkline,
          animateIndicatorChanges,
          renderActiveEffects }         from './ui/dashboard.js';
-import { renderEvent, onOptionSelected,
+import { renderEvent, onOptionSelected, renderCapitalBar,
          disableOptions, enableOptions } from './ui/event.js';
+import { aplicarCapital, efectosSegunCapital } from './engine/capital.js';
 import { showHeritageScreen, selectMandate,
          confirmHeritage as _confirmHeritage } from './ui/heritage-ui.js';
 import { showIdentityScreen,
@@ -550,8 +551,16 @@ function _applyDecision(idx, option, event) {
   }
 
   // Aplicar efectos (con modificadores de ministros)
-  const newInd = applyEffects(G.indicadores, option.efectos || {}, G.effectMods || {});
+  // Con poco capital político lo que sale mal duele más; con mucho, lo bueno rinde más.
+  const newInd = applyEffects(G.indicadores, efectosSegunCapital(option.efectos || {}, G.capital), G.effectMods || {});
   G.indicadores = newInd;
+
+  // Capital político: la decisión lo gasta o lo devuelve.
+  const dCapital = aplicarCapital(G, option);
+  renderCapitalBar(G);
+  if (dCapital !== 0) {
+    showNotif(`🏛️ Capital político ${dCapital > 0 ? '+' : '−'}${Math.abs(dCapital)} → ${Math.round(G.capital)}`, dCapital > 0 ? 'success' : 'info', 3500);
+  }
 
   // Actualizar adata
   updateAdata(G, !!option.corrupta);

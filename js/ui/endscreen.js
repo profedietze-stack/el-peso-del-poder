@@ -254,6 +254,7 @@ function _renderReelection(state, score) {
         </div>
       </div>` : ''}
 
+      ${_lineaCapital(state)}
       ${buttonsHTML}
     </div>
   `;
@@ -1271,4 +1272,11 @@ function _showShareOptions(canvas) {
     };
     opts.appendChild(shareBtn);
   }
+}
+
+/** Una línea sobre el capital político al cerrar el mandato (vacía si la partida no lo trae). */
+function _lineaCapital(state) {
+  if (typeof state.capital !== 'number') return '';
+  const gastado = Math.round(state.capitalGastado ?? 0);
+  return `<div class="reel-note">🏛️ Capital político final: <strong>${Math.round(state.capital)}</strong> de 100 · gastaste <strong>${gastado}</strong> en medidas impopulares y reformas.</div>`;
 }

@@ -7,6 +7,8 @@ import { buildAdvisorsHTML }  from '../features/advisors.js';
 import { buildCrisisAutoTag } from '../features/crisis-auto.js';
 import { setFooterQuote }     from './screens.js';
 import { getEventImage, getEventImageFallback, getLocalFallback } from '../data/event-images.js';
+import { variacionDeOpcion, estadoDeCapital, topeDeCapital } from '../engine/capital.js';
+import { tipBtn }             from './tooltip.js';
 
 // ============================================================
 // EVENT UI — Renderizado de la tarjeta de evento
@@ -94,6 +96,7 @@ export function renderEvent(event, state) {
   }
 
   // ── Opciones ───────────────────────────────────────────────
+  renderCapitalBar(state);
   renderOptions(event, state);
 
   // ── Panel de asesores ──────────────────────────────────────
@@ -152,6 +155,39 @@ export function ordenDeOpciones(evento) {
   return orden;
 }
 
+/** «🏛️ −8» / «🏛️ +2»: cuánto capital político mueve la opción (nada si no mueve). */
+function _chipCapital(v) {
+  if (!v) return '';
+  const signo = v > 0 ? '+' : '−';
+  const clase = v > 0 ? 'cap-gana' : 'cap-gasta';
+  const dice = v > 0 ? `devuelve ${v} de capital político` : `cuesta ${-v} de capital político`;
+  return `<span class="opt-capital ${clase}" title="Capital político: ${dice}" aria-label="${dice}">🏛️ ${signo}${Math.abs(v)}</span>`;
+}
+
+const _ESTADO_CAPITAL = {
+  debil:   { texto: 'Gobierno débil',   ayuda: 'Con poco capital político, lo que te sale mal duele más.' },
+  estable: { texto: 'Gobierno estable', ayuda: 'Capital político en la zona media: las decisiones rinden lo normal.' },
+  fuerte:  { texto: 'Gobierno fuerte',  ayuda: 'Con mucho capital político, lo que te sale bien rinde más.' },
+};
+
+/** Dibuja la barra de capital político (arriba de las opciones). */
+export function renderCapitalBar(state) {
+  const el = document.getElementById('capital-bar');
+  if (!el || typeof state?.capital !== 'number') return;
+  const cap = Math.round(state.capital);
+  const est = estadoDeCapital(cap);
+  const info = _ESTADO_CAPITAL[est];
+  el.className = `capital-bar capital-${est}`;
+  el.innerHTML = `
+    <span class="capital-label">🏛️ Capital político ${tipBtn('capital')}</span>
+    <span class="capital-track" role="progressbar" aria-valuemin="0" aria-valuemax="100"
+          aria-valuenow="${cap}" aria-label="Capital político: ${cap} de 100">
+      <span class="capital-fill" style="width:${cap}%"></span>
+    </span>
+    <span class="capital-valor">${cap}<small>/${topeDeCapital(state)}</small></span>
+    <span class="capital-estado" title="${info.ayuda}">${info.texto}</span>`;
+}
+
 /**
  * Renderiza los botones de opciones del evento.
  * @param {object} event
@@ -170,6 +206,7 @@ function renderOptions(event, state) {
     return `
       <button class="option-btn" data-index="${i}">
         <span class="opt-text">${opt.texto}</span>
+        ${_chipCapital(variacionDeOpcion(opt, state.mandateType))}
       </button>
     `;
   }).join('');

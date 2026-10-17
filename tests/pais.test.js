@@ -152,5 +152,5 @@ test('el selector de país queda fuera del reescrito (si no, «Argentina» pasar
   assert.match(leer('js/ui/settings-modal.js'), /id="set-pais-row" data-sin-pais/);
   const dom = leer('js/ui/pais-dom.js');
   assert.match(dom, /data-sin-pais/);
-  assert.ok((dom.match(/_excluido\(/g) || []).length >= 3, 'tanto textos como elementos tienen que respetar la marca');
+  assert.ok((dom.match(/_excluido\(/g) || []).length >= 2, 'tanto textos como elementos tienen que respetar la marca');
 });

@@ -7,6 +7,7 @@ import { getScore, getDiploma, getMandateVerdict,
 import { EVENTS }                  from '../data/events.js';
 import { showScreen }              from './screens.js';
 import { iniciarDiapositivas }     from './end-slides.js';
+import { textosDiploma, motivoDeDerrota } from './end-texto.js';
 import { soundVictory, soundDefeat } from '../audio.js';
 
 // ============================================================
@@ -76,33 +77,17 @@ export function showEndScreen(state, countryName) {
 // ── DIPLOMA ───────────────────────────────────────────────────
 
 function _renderDiploma(state, score, diploma, countryName) {
-  const medals = { gold: '🥇', silver: '🥈', bronze: '🥉', null: '📜' };
-  const labels = {
-    gold:   'DIPLOMA DE ORO',
-    silver: 'DIPLOMA DE PLATA',
-    bronze: 'DIPLOMA DE BRONCE',
-    null:   'GESTIÓN CRITICADA',
-  };
-  const titles = {
-    gold:   'Estadista Excepcional',
-    silver: 'Gobierno Sólido',
-    bronze: 'Gestión Regular',
-    null:   'Mandato Difícil',
-  };
-
-  const key = diploma || 'null';
+  const t = textosDiploma(state, diploma);
 
   const box = document.getElementById('diploma-box');
   if (box) {
-    box.className = `diploma diploma-${diploma || 'none'}${state.isSecondTerm ? ' diploma-second' : ''}`;
+    box.className = `diploma diploma-${t.clase}${state.isSecondTerm ? ' diploma-second' : ''}`;
   }
 
   const setTxt = (id, txt) => { const el = document.getElementById(id); if (el) el.textContent = txt; };
-  setTxt('dip-medal', medals[key]);
-  setTxt('dip-tipo',  state.isSecondTerm
-    ? `2do MANDATO · ${labels[key]}`
-    : labels[key]);
-  setTxt('dip-title', state.won ? titles[key] : 'Mandato Interrumpido');
+  setTxt('dip-medal', t.medal);
+  setTxt('dip-tipo',  t.tipo);
+  setTxt('dip-title', t.title);
 
   // Línea del presidente/partido (usa identity si está disponible)
   const identity     = state.identity;
@@ -166,7 +151,7 @@ function _renderAnalysis(state, score) {
     ? '<p style="color:#e74c3c">⚠️ Eligiste al menos una opción de dudosa ética durante el mandato.</p>'
     : '<p style="color:#27ae60">✅ Tu gestión fue intachable: nunca elegiste opciones corruptas.</p>';
 
-  el.innerHTML = `<p>${verdict}</p>${corrupt}
+  el.innerHTML = `${motivoDeDerrota(state)}<p>${verdict}</p>${corrupt}
     <p><small>Turnos completados: <strong>${state.turn}</strong> de 48 · Crisis superadas: <strong>${state.adata.crisisCount}</strong></small></p>`;
 }
 

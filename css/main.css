@@ -1248,6 +1248,9 @@ body.reduce-motion .end-slide.activa { animation:none; }
 .end-dot.activo { background:var(--gold); }
 .end-informe-link { flex-basis:100%; background:none; border:none; color:var(--text-dim); font-size:.82rem; text-decoration:underline; cursor:pointer; min-height:44px; font-family:inherit; }
 .end-informe-link:hover { color:var(--gold-light); }
+.end-motivo { background:rgba(192,57,43,.14); border:1px solid rgba(231,76,60,.5); border-radius:var(--radius-sm); padding:12px 16px; margin-bottom:14px; }
+.end-motivo strong { color:#ff8a80; }
+.end-motivo p { margin:6px 0 0; font-size:.95rem; color:var(--text); }
 .end-capital { display:flex; align-items:center; gap:16px; text-align:left; background:var(--navy-card); border:1px solid rgba(201,168,76,.35); border-radius:var(--radius); padding:16px 22px; margin-bottom:18px; }
 .end-capital:empty { display:none; }
 .end-capital-valor { font-family:var(--font-condensed); font-size:2.2rem; color:var(--gold); white-space:nowrap; }

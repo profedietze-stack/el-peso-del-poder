@@ -88,7 +88,7 @@ export const EVENTS = [
     descripcion:"Organizaciones sociales, piqueteros y desocupados cortan rutas y accesos a ciudades principales en 14 provincias. Las imágenes de familias sin alimento recorren las redes sociales y el mundo. El INDEC confirma que la desocupación ya alcanzó el 18% y la informalidad laboral toca el 45%. Tu gobierno enfrenta la mayor presión social desde que asumió. La respuesta que des será recordada en la historia política del país.",
     opciones:[
       { texto:"💼 Programa de empleo de emergencia: contratar desocupados en obras de infraestructura pública.", efectos:{ipc:3,deuda:4,reservas:-2,riesgo:-2,pobreza:-5,desocupacion:-5,produccion:3,confianza:9}, duracion:3, efectosPersistentes:{desocupacion:-1,pobreza:-0.8,deuda:0.8} },
-      { texto:"💬 Mesa de diálogo nacional: convocar a sindicatos, empresas y organizaciones sociales.", efectos:{ipc:0,deuda:0,reservas:0,riesgo:-3,pobreza:-2,desocupacion:-1,produccion:0,confianza:7} },
+      { texto:"💬 Mesa de diálogo nacional: convocar a sindicatos, empresas y organizaciones sociales.", capital:5, efectos:{ipc:0,deuda:0,reservas:0,riesgo:-3,pobreza:-2,desocupacion:-1,produccion:0,confianza:7} },
       { texto:"🚔 Despejar los cortes por orden judicial: priorizar la libertad de circulación sobre el derecho a protesta.", efectos:{ipc:0,deuda:0,reservas:0,riesgo:4,pobreza:2,desocupacion:0,produccion:1,confianza:-12} },
     ]
   },
@@ -97,7 +97,7 @@ export const EVENTS = [
     titulo:"Reforma Tributaria Integral",
     descripcion:"Tu equipo económico presenta un ambicioso proyecto de reforma impositiva. El sistema actual es regresivo, ineficiente y lleno de exenciones que benefician a los sectores más concentrados. La reforma propone eliminar beneficios a grandes fortunas, crear un impuesto a la herencia y simplificar el sistema para los pequeños contribuyentes. Las cámaras empresariales amenazan con desinversión. Economistas progresistas la apoyan. El Congreso se muestra dividido.",
     opciones:[
-      { texto:"💎 Reforma progresiva completa: impuesto a la riqueza, herencia y eliminación de exenciones a grandes capitales.", efectos:{ipc:-2,deuda:-5,reservas:3,riesgo:4,pobreza:-6,desocupacion:-2,produccion:-3,confianza:8} },
+      { texto:"💎 Reforma progresiva completa: impuesto a la riqueza, herencia y eliminación de exenciones a grandes capitales.", capital:-12, efectos:{ipc:-2,deuda:-5,reservas:3,riesgo:4,pobreza:-6,desocupacion:-2,produccion:-3,confianza:8} },
       { texto:"📋 Reforma parcial: solo simplificación tributaria para pymes, sin tocar grandes fortunas.", efectos:{ipc:-1,deuda:-2,reservas:1,riesgo:0,pobreza:-2,desocupacion:-1,produccion:2,confianza:3} },
       { texto:"📉 Reforma regresiva: bajar el impuesto a las ganancias corporativas para atraer inversión extranjera.", efectos:{ipc:0,deuda:-1,reservas:0,riesgo:-4,pobreza:2,desocupacion:-2,produccion:5,confianza:-4}, chain:{eventId:7,delayTurns:6} },
       { texto:"🚫 Suspender la reforma: el Congreso no tiene los votos y el conflicto político es demasiado alto.", efectos:{ipc:0,deuda:0,reservas:0,riesgo:-1,pobreza:0,desocupacion:0,produccion:1,confianza:-3} },
@@ -435,7 +435,7 @@ export const EVENTS = [
     descripcion:"La oposición presenta un pedido de juicio político contra vos y logra los votos necesarios para abrir la investigación. La acusación: mal desempeño de funciones y violación de la división de poderes. Tus aliados en el Senado prometen frenar el proceso. La ciudadanía está dividida y las manifestaciones llenan las plazas de todo el país. El sistema republicano muestra sus grietas más profundas. Cada movimiento tuyo será histórico.",
     opciones:[
       { texto:"⚖️ Colaborar con el proceso constitucional: presentar toda la documentación y enfrentar el debate.", efectos:{ipc:0,deuda:0,reservas:0,riesgo:-5,pobreza:0,desocupacion:0,produccion:-2,confianza:8} },
-      { texto:"🤝 Acuerdo político: negociar con la oposición mediana para frenar el juicio a cambio de concesiones.", efectos:{ipc:0,deuda:2,reservas:0,riesgo:-3,pobreza:-1,desocupacion:0,produccion:0,confianza:3} },
+      { texto:"🤝 Acuerdo político: negociar con la oposición mediana para frenar el juicio a cambio de concesiones.", capital:6, efectos:{ipc:0,deuda:2,reservas:0,riesgo:-3,pobreza:-1,desocupacion:0,produccion:0,confianza:3} },
       { texto:"📢 Campaña de comunicación agresiva: denunciar el juicio como golpe institucional en todos los medios.", efectos:{ipc:0,deuda:0,reservas:0,riesgo:4,pobreza:0,desocupacion:0,produccion:0,confianza:-6} },
     ]
   },
@@ -705,7 +705,7 @@ export const EVENTS = [
     titulo:"Los Supermercados Hacen Cartel: Precios Coordinados",
     descripcion:"La Comisión Nacional de Defensa de la Competencia (CNDC) detecta que las cinco principales cadenas de supermercados coordinaron subas de precios en forma simultánea y homogénea, en lo que configura un cartel ilegal. El daño al consumidor se estima en $600.000 millones. Las cadenas son empleadoras de 180.000 trabajadores. La multa máxima prevista por ley es risible frente a las ganancias. El sistema de defensa de la competencia mostró sus límites.",
     opciones:[
-      { texto:"⚖️ Multa máxima y reforma de la Ley de Defensa de la Competencia con nuevas herramientas.", efectos:{ipc:-3,deuda:0,reservas:0,riesgo:-3,pobreza:-4,desocupacion:0,produccion:-2,confianza:10} },
+      { texto:"⚖️ Multa máxima y reforma de la Ley de Defensa de la Competencia con nuevas herramientas.", capital:-6, efectos:{ipc:-3,deuda:0,reservas:0,riesgo:-3,pobreza:-4,desocupacion:0,produccion:-2,confianza:10} },
       { texto:"🤝 Acuerdo voluntario: las cadenas se comprometen a no reeditar la práctica a cambio de no ser multadas.", efectos:{ipc:-1,deuda:0,reservas:0,riesgo:0,pobreza:-1,desocupacion:0,produccion:0,confianza:2} },
       { texto:"🏪 Crear cadenas de supermercados estatales para competir directamente y bajar precios.", efectos:{ipc:-4,deuda:5,reservas:-3,riesgo:2,pobreza:-5,desocupacion:-5,produccion:2,confianza:8} },
     ]
@@ -772,7 +772,7 @@ export const EVENTS = [
     titulo:"Brecha Salarial de Género: El Informe que Sacudió al País",
     descripcion:"El INDEC publica un informe que confirma que las mujeres ganan en promedio un 27% menos que los varones en el sector privado por igual tarea. La CTA Femenina convoca a un paro de mujeres y convoca al Congreso a debatir la Ley de Igualdad Salarial. Cámaras empresarias advierten que regulaciones forzosas aumentarán costos laborales. Los datos evidencian que la brecha es mayor en sectores rurales e informales.",
     opciones:[
-      { texto:"⚖️ Ley de Igualdad Salarial con auditoría: impulsar la ley con registros de transparencia salarial obligatorios en empresas de más de 50 empleados.", efectos:{ipc:2,deuda:2,reservas:-1,riesgo:-2,pobreza:-5,desocupacion:-2,produccion:2,confianza:10} },
+      { texto:"⚖️ Ley de Igualdad Salarial con auditoría: impulsar la ley con registros de transparencia salarial obligatorios en empresas de más de 50 empleados.", capital:-8, efectos:{ipc:2,deuda:2,reservas:-1,riesgo:-2,pobreza:-5,desocupacion:-2,produccion:2,confianza:10} },
       { texto:"🎓 Programa de capacitación y sensibilización: lanzar campañas de concientización y subsidios a empresas que reduzcan la brecha voluntariamente.", efectos:{ipc:1,deuda:2,reservas:-1,riesgo:-1,pobreza:-2,desocupacion:-1,produccion:1,confianza:5} },
       { texto:"📋 Derivar al diálogo sectorial: dejar la resolución en manos de negociaciones paritarias sin legislación nacional.", efectos:{ipc:0,deuda:0,reservas:0,riesgo:0,pobreza:0,desocupacion:0,produccion:0,confianza:-4} },
     ]
@@ -784,7 +784,7 @@ export const EVENTS = [
     opciones:[
       { texto:"📋 Protocolo integral con sanciones: impulsar el protocolo con comisiones independientes, sanciones efectivas y garantías de anonimato para denunciantes.", efectos:{ipc:0,deuda:1,reservas:0,riesgo:-3,pobreza:-2,desocupacion:0,produccion:1,confianza:12} },
       { texto:"🔍 Investigar caso por caso: abrir sumarios internos y dejar la política general para una etapa posterior.", efectos:{ipc:0,deuda:0,reservas:0,riesgo:0,pobreza:0,desocupacion:0,produccion:0,confianza:-2} },
-      { texto:"🔄 Aceptar el proyecto opositor: negociar con la oposición para sacar un protocolo más débil a cambio de apoyo parlamentario en otra agenda.", efectos:{ipc:0,deuda:0,reservas:0,riesgo:-1,pobreza:0,desocupacion:0,produccion:0,confianza:-6} },
+      { texto:"🔄 Aceptar el proyecto opositor: negociar con la oposición para sacar un protocolo más débil a cambio de apoyo parlamentario en otra agenda.", capital:3, efectos:{ipc:0,deuda:0,reservas:0,riesgo:-1,pobreza:0,desocupacion:0,produccion:0,confianza:-6} },
     ]
   },
   {
@@ -862,7 +862,7 @@ export const EVENTS = [
     titulo:"Crisis en el Poder Judicial: Reforma o Colapso",
     descripcion:"El Consejo de la Magistratura colapsa tras meses de parálisis política: hay 1.200 juzgados vacantes en todo el país, causas de corrupción demoradas por años y el índice de impunidad alcanza el 87%. Organismos de derechos humanos, el sector empresario y la sociedad civil —por razones distintas— reclaman una reforma judicial integral. El gobierno tiene la oportunidad histórica de proponer un rediseño del sistema.",
     opciones:[
-      { texto:"⚖️ Reforma integral con amplia consulta: proponer una reforma del Consejo de la Magistratura con participación de universidades, colegios de abogados y sociedad civil.", efectos:{ipc:0,deuda:2,reservas:-1,riesgo:-6,pobreza:-2,desocupacion:0,produccion:2,confianza:11} },
+      { texto:"⚖️ Reforma integral con amplia consulta: proponer una reforma del Consejo de la Magistratura con participación de universidades, colegios de abogados y sociedad civil.", capital:-12, efectos:{ipc:0,deuda:2,reservas:-1,riesgo:-6,pobreza:-2,desocupacion:0,produccion:2,confianza:11} },
       { texto:"🔧 Reforma acotada: sólo modificar el sistema de designación de jueces para destrabar las vacantes urgentes.", efectos:{ipc:0,deuda:1,reservas:0,riesgo:-3,pobreza:-1,desocupacion:0,produccion:1,confianza:5} },
       { texto:"📋 Postergar: declarar que la reforma judicial no es prioridad y concentrar el capital político en la agenda económica.", efectos:{ipc:0,deuda:0,reservas:0,riesgo:2,pobreza:0,desocupacion:0,produccion:0,confianza:-7} },
     ]
@@ -1022,9 +1022,9 @@ export const EVENTS = [
     titulo:"El Gran Acuerdo: ¿Pacto de Gobernabilidad o Rendición?",
     descripcion:"A mitad del mandato, los indicadores muestran que la situación económica es manejable pero el país necesita reformas estructurales que ningún gobierno logró sostener. El principal partido opositor propone un 'Gran Acuerdo Nacional' de largo plazo para reformar el sistema previsional, el régimen impositivo y la coparticipación federal a cambio de apoyo parlamentario. Las bases de tu coalición lo ven como una traición. Los mercados lo celebran como señal de estabilidad.",
     opciones:[
-      { texto:"🤝 Firmar el Gran Acuerdo: negociar con la oposición un programa de reformas consensuadas con cronograma de implementación y control parlamentario conjunto.", efectos:{ipc:-3,deuda:-5,reservas:4,riesgo:-8,pobreza:-3,desocupacion:-2,produccion:5,confianza:2} },
+      { texto:"🤝 Firmar el Gran Acuerdo: negociar con la oposición un programa de reformas consensuadas con cronograma de implementación y control parlamentario conjunto.", capital:10, efectos:{ipc:-3,deuda:-5,reservas:4,riesgo:-8,pobreza:-3,desocupacion:-2,produccion:5,confianza:2} },
       { texto:"⚖️ Acuerdo parcial: acordar sólo las reformas tributarias y dejar las previsionales y la coparticipación para una próxima legislatura.", efectos:{ipc:-1,deuda:-3,reservas:2,riesgo:-4,pobreza:-1,desocupacion:-1,produccion:3,confianza:4} },
-      { texto:"✊ Rechazar el acuerdo: gobernar sin acuerdos con la oposición, confiando en la movilización de la base propia y en el desgaste del adversario.", efectos:{ipc:2,deuda:2,reservas:-2,riesgo:5,pobreza:-2,desocupacion:1,produccion:-2,confianza:3} },
+      { texto:"✊ Rechazar el acuerdo: gobernar sin acuerdos con la oposición, confiando en la movilización de la base propia y en el desgaste del adversario.", capital:-6, efectos:{ipc:2,deuda:2,reservas:-2,riesgo:5,pobreza:-2,desocupacion:1,produccion:-2,confianza:3} },
     ]
   },
 
@@ -1133,9 +1133,9 @@ export const EVENTS = [
     descripcion:"Un bloque parlamentario interno —el tercio más grande dentro de tu propio partido— anunció que votará contra el próximo proyecto de ley central del gobierno. Sin ese bloque, el gobierno pierde la mayoría parlamentaria para prácticamente todo. Sus tres líderes exigen cinco ministerios, cambio en la política exterior y revisión del programa económico. El acuerdo es político, no técnico. Cualquier decisión que tomés afecta la gobernabilidad.",
     opciones:[
       { texto:"🤝 Negociar los ministerios: ceder tres carteras secundarias al sector interno y ajustar la política exterior sin tocar lo económico.", efectos:{ipc:0,deuda:1,reservas:0,riesgo:-4,pobreza:0,desocupacion:0,produccion:0,confianza:-3} },
-      { texto:"✊ Gobernar en minoría: rechazar el chantaje y buscar apoyos puntuales en la oposición moderada proyecto por proyecto.", efectos:{ipc:1,deuda:0,reservas:0,riesgo:4,pobreza:0,desocupacion:0,produccion:0,confianza:5} },
+      { texto:"✊ Gobernar en minoría: rechazar el chantaje y buscar apoyos puntuales en la oposición moderada proyecto por proyecto.", capital:-8, efectos:{ipc:1,deuda:0,reservas:0,riesgo:4,pobreza:0,desocupacion:0,produccion:0,confianza:5} },
       { texto:"🔄 Buscar alianza alternativa: acercarse al partido de centro que tiene 40 diputados a cambio de incluir parte de su agenda.", efectos:{ipc:-1,deuda:-1,reservas:1,riesgo:-2,pobreza:-1,desocupacion:0,produccion:1,confianza:3} },
-      { texto:"🗳️ Consulta popular: llamar a un referéndum sobre los puntos de conflicto y plebiscitar el programa de gobierno.", efectos:{ipc:2,deuda:2,reservas:-1,riesgo:2,pobreza:0,desocupacion:0,produccion:0,confianza:8} },
+      { texto:"🗳️ Consulta popular: llamar a un referéndum sobre los puntos de conflicto y plebiscitar el programa de gobierno.", capital:6, efectos:{ipc:2,deuda:2,reservas:-1,riesgo:2,pobreza:0,desocupacion:0,produccion:0,confianza:8} },
     ]
   },
 
@@ -1147,7 +1147,7 @@ export const EVENTS = [
     titulo:"El Ultimátum del FMI: Todo o Nada",
     descripcion:"El FMI envió al gobierno un memorándum secreto —ahora filtrado a los medios— con un ultimátum de 72 horas: ajuste fiscal del 4% del PBI de forma inmediata, despido de 80.000 empleados públicos y liberación del tipo de cambio. Si el gobierno no acepta, el Fondo retira su apoyo y activa el proceso de default técnico de la deuda. Todas las opciones disponibles implican un costo social enorme. No hay salida sin daño grave.",
     opciones:[
-      { texto:"💉 Aceptar el ajuste completo: el FMI cumple pero el gobierno pierde legitimidad social y puede caer por la calle.", efectos:{ipc:-5,deuda:-10,reservas:15,riesgo:-18,pobreza:15,desocupacion:10,produccion:-6,confianza:-18} },
+      { texto:"💉 Aceptar el ajuste completo: el FMI cumple pero el gobierno pierde legitimidad social y puede caer por la calle.", capital:-20, efectos:{ipc:-5,deuda:-10,reservas:15,riesgo:-18,pobreza:15,desocupacion:10,produccion:-6,confianza:-18} },
       { texto:"🔴 Rechazo y default controlado: asumir el default técnico, salvar los servicios esenciales y reestructurar luego.", efectos:{ipc:18,deuda:-20,reservas:-10,riesgo:30,pobreza:10,desocupacion:7,produccion:-15,confianza:-10} },
       { texto:"⚖️ Ajuste parcial negociado: ofrecer el 60% de las medidas y jugar al límite del tiempo con el Fondo.", efectos:{ipc:-2,deuda:-5,reservas:5,riesgo:-8,pobreza:7,desocupacion:4,produccion:-3,confianza:-8} },
       { texto:"💰 Impuesto de emergencia a la riqueza: financiar el ajuste con un tributo extraordinario sobre las 200 mayores fortunas del país.", efectos:{ipc:0,deuda:-3,reservas:3,riesgo:4,pobreza:-2,desocupacion:0,produccion:-3,confianza:4} },

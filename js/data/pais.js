@@ -68,6 +68,30 @@ export const FRASES = [
   ['rodean Casa Rosada', 'rodean la Casa de Gobierno'],
 ];
 
+/**
+ * VOSEO → TUTEO. El juego está escrito en español rioplatense («podés», «elegí», «vos»).
+ * En Latinoamérica se pasa al tuteo, que entiende todo el mundo hispano. Es una lista
+ * cerrada (el juego usa unas 60 formas) y no una regla de conjugación: así no se rompe
+ * un nombre propio ni una palabra que termina igual (país, más, interés). El test
+ * revisa que no quede ninguna forma de PROHIBIDOS y que esta tabla sea el único origen.
+ */
+export const VOSEO = {
+  // presente
+  podés: 'puedes', tenés: 'tienes', querés: 'quieres', debés: 'debes', sos: 'eres', creés: 'crees',
+  elegís: 'eliges', asumís: 'asumes', cubrís: 'cubres', seguís: 'sigues', pedís: 'pides',
+  cerrás: 'cierras', arrancás: 'arrancas', enfrentás: 'enfrentas', cambiás: 'cambias',
+  respondés: 'respondes', necesitás: 'necesitas', defendés: 'defiendes', sacrificás: 'sacrificas',
+  iniciás: 'inicias', dejás: 'dejas', comprás: 'compras', perdés: 'pierdes', empezás: 'empiezas',
+  continuás: 'continúas', accedés: 'accedes', heredás: 'heredas', ganás: 'ganas',
+  atendés: 'atiendes', gobernás: 'gobiernas', contás: 'cuentas', intentás: 'intentas',
+  justificás: 'justificas', rechazás: 'rechazas',
+  // subjuntivo
+  tomés: 'tomes',
+  // imperativo
+  mirá: 'mira', ingresá: 'ingresa', tocá: 'toca', cargá: 'carga', usá: 'usa', iniciá: 'inicia',
+  seguí: 'sigue', definí: 'define', elegí: 'elige', asumí: 'asume', pedí: 'pide',
+};
+
 /** [regex, reemplazo]. El orden importa. Los nombres propios van sin artículo
  *  para que "del INDEC" quede "del Instituto de Estadística". */
 export const TERMINOS = [
@@ -145,6 +169,8 @@ export const TERMINOS = [
 
 /** Lo que NO puede quedar en Latinoamérica (lo usa el test y `localizarDatos`). */
 export const PROHIBIDOS = [
+  // voseo rioplatense (en Latinoamérica se tutea)
+  new RegExp(String.raw`(?<![\wáéíóúñÁÉÍÓÚÑ])(vos|${Object.keys(VOSEO).join('|')})(?![\wáéíóúñÁÉÍÓÚÑ])`, 'i'),
   /argentin/i, /\bARG\b/, /INDEC/, /INVAP/, /CONICET/i, /\bYPF\b/, /ANSES/, /\bAFA\b/, /Mercosur/i,
   /Casa Rosada/, /BCRA/, /Buenos Aires/, /Patagon/i, /Malvinas/, /Rosario/, /C[óo]rdoba/,
   /corralito del/i, /Vaca Muerta/, /kirchner/i, /Jujuy|Salta\b|Catamarca|Puna\b/,
@@ -170,12 +196,26 @@ export function adaptarCitas(citas) {
   return sacadas;
 }
 
-/** Aplica FRASES y TERMINOS a un texto. */
+const _LETRA = String.raw`[\wáéíóúñÁÉÍÓÚÑ]`;
+const _mayus = (palabra) => palabra[0].toUpperCase() + palabra.slice(1);
+const _REGLAS_VOSEO = [
+  // «con vos» → «contigo»; «a/de/para… vos» → «ti»; el resto, «tú».
+  [new RegExp(`(?<!${_LETRA})([Cc])on vos(?!${_LETRA})`, 'g'), (_, c) => `${c}ontigo`],
+  [new RegExp(`(?<!${_LETRA})(a|de|para|contra|por|sin|en|hacia|sobre|ante|tras) vos(?!${_LETRA})`, 'gi'), (_, p) => `${p} ti`],
+  [new RegExp(`(?<!${_LETRA})([Vv])os(?!${_LETRA})`, 'g'), (_, v) => (v === 'V' ? 'Tú' : 'tú')],
+  ...Object.entries(VOSEO).map(([vos, tu]) => [
+    new RegExp(`(?<!${_LETRA})${vos}(?!${_LETRA})`, 'gi'),
+    (m) => (m[0] === m[0].toUpperCase() ? _mayus(tu) : tu),
+  ]),
+];
+
+/** Aplica FRASES, TERMINOS y el paso de voseo a tuteo a un texto. */
 export function textoPais(s) {
-  if (typeof s !== 'string' || s.length < 4) return s;
+  if (typeof s !== 'string' || s.length < 3) return s;
   let t = s;
   for (const [de, a] of FRASES) t = t.split(de).join(a);
   for (const [re, a] of TERMINOS) t = t.replace(re, a);
+  for (const [re, a] of _REGLAS_VOSEO) t = t.replace(re, a);
   return t;
 }
 

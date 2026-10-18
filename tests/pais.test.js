@@ -154,3 +154,41 @@ test('el selector de país queda fuera del reescrito (si no, «Argentina» pasar
   assert.match(dom, /data-sin-pais/);
   assert.ok((dom.match(/_excluido\(/g) || []).length >= 2, 'tanto textos como elementos tienen que respetar la marca');
 });
+
+// ── Voseo → tuteo ────────────────────────────────────────────
+
+test('Latinoamérica tutea: el voseo rioplatense pasa a «tú»', () => {
+  const casos = [
+    ['¿A qué dificultad querés jugar?', '¿A qué dificultad quieres jugar?'],
+    ['Podés cambiarla en cada partida.', 'Puedes cambiarla en cada partida.'],
+    ['Elegí con cuidado.', 'Elige con cuidado.'],
+    ['definí quién sos.', 'define quién eres.'],
+    ['Si no tenés reservas, perdés confianza.', 'Si no tienes reservas, pierdes confianza.'],
+    ['Antes de ver números, mirá a quién afectan.', 'Antes de ver números, mira a quién afectan.'],
+    ['Ingresá el nombre del partido.', 'Ingresa el nombre del partido.'],
+    ['Un juicio político contra vos.', 'Un juicio político contra ti.'],
+    ['podría arrastrarte a vos también', 'podría arrastrarte a ti también'],
+    ['hablar con vos', 'hablar contigo'],
+    ['vos debés decidir', 'tú debes decidir'],
+  ];
+  for (const [vos, tu] of casos) assert.equal(textoPais(vos), tu, vos);
+});
+
+test('el tuteo no toca palabras que terminan igual ni nombres propios', () => {
+  for (const t of ['El país gana más interés', 'Después de atrás, además', 'Tomás y Andrés viajan a París', 'estás seguro', 'perderás el apoyo', 'deberás decidir']) {
+    assert.equal(textoPais(t), t, t);
+  }
+});
+
+test('el juego trae voseo que el tuteo tiene que sacar (si no, el barrido no prueba nada)', () => {
+  const voseo = PROHIBIDOS[0];
+  assert.ok(voseo.test('podés'), 'PROHIBIDOS[0] tiene que ser la regla del voseo');
+  assert.ok(originales.filter(([, t]) => voseo.test(t)).length >= 3, 'los datos casi no traen voseo');
+});
+
+test('una forma de voseo que falta en la tabla la encuentra el barrido del código', () => {
+  const sinTabla = textoPais('Hacé lo que querés.');
+  // «Hacé» no está en la tabla: queda, y quien lo agregue tiene que sumarlo a VOSEO.
+  assert.match(sinTabla, /Hacé/);
+  assert.match(sinTabla, /quieres/);
+});

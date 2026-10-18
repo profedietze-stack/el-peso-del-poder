@@ -13,7 +13,7 @@ import { HERITAGE_PROFILES } from './heritage.js';
 import { VICEPRESIDENTS } from './vicepresident.js';
 import { STICKER_MAP } from './stickers.js';
 import { GLOSSARY } from '../ui/tooltip.js';
-import { localizarDatos, adaptarCitas, PAISES } from './pais.js';
+import { localizarDatos, adaptarCitas, fijarPais, PAISES } from './pais.js';
 import { EVENTS_LATAM, EVENTOS_OCULTOS_LATAM, construirComentarios } from './events-latam.js';
 
 export { QUOTES };
@@ -43,6 +43,7 @@ export function agregarEventosLatam() {
 /** Pasa los datos del juego a Latinoamérica, en el lugar. Una vez por carga de página. */
 export function aplicarPais(pais) {
   if (PAISES[pais]?.base !== 'latam') return 0;
+  fijarPais(pais);
   agregarEventosLatam();
   adaptarCitas(QUOTES);
   return localizarDatos(DATOS);

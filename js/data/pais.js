@@ -22,6 +22,8 @@
 
 // `base`: de qué capa de textos parte (null = los originales). `reglas.turnos` es la
 // duración real del mandato en meses (ver engine/mandato.js).
+import { TERMINOS_PAIS, PROHIBIDOS_PAIS } from './pais-capas.js';
+
 export const PAISES = {
   ar:    { id: 'ar',    nombre: 'Argentina',     bandera: '🇦🇷', base: null,    reglas: { turnos: 48, medioTermino: 24, segundoMandato: true } },
   latam: { id: 'latam', nombre: 'Latinoamérica', bandera: '🌎', base: 'latam', reglas: { turnos: 48, medioTermino: 24, segundoMandato: true } },
@@ -145,11 +147,13 @@ export const TERMINOS = [
   [/\bintendentes\b/g, 'alcaldes'],
   [/\bconurbano\b/g, 'cinturón urbano'],
   [/Casa Rosada/g, 'Casa de Gobierno'],
+  [/Banco Central de la República Argentina/g, 'Banco Central'],
   [/\bBCRA\b/g, 'Banco Central'],
   [/\bINDEC\b/g, 'Instituto de Estadística'],
   [/\bINVAP\b/g, 'Empresa Nuclear Estatal'],
   [/\bCONICET\b/g, 'Consejo Científico Nacional'],
   [/\bYPF\b/g, 'Petrolera Estatal'],
+  [/\b([Ee]l) ANSES\b/g, '$1 organismo de Seguridad Social'],
   [/\bANSES\b/g, 'Seguridad Social'],
   [/\bAFA\b/g, 'Federación de Fútbol'],
   [/\bMERCOSUR\b|\bMercosur\b/g, 'Bloque Regional'],
@@ -253,13 +257,27 @@ const _REGLAS_VOSEO = [
   ]),
 ];
 
-/** Aplica FRASES, TERMINOS y el paso de voseo a tuteo a un texto. */
+// País activo: decide qué capa de nombres se suma a la de Latinoamérica (ver pais-capas.js).
+let _paisActivo = 'latam';
+
+/** Fija el país de la capa de nombres. Un id sin capa (ar, latam) deja solo la genérica. */
+export function fijarPais(id) {
+  _paisActivo = Object.hasOwn(TERMINOS_PAIS, id) ? id : 'latam';
+}
+
+/** Lo que no puede quedar en el país `id`: lo de PROHIBIDOS más lo propio del país. */
+export function prohibidosDe(id) {
+  return [...PROHIBIDOS, ...(PROHIBIDOS_PAIS[id] ?? [])];
+}
+
+/** Aplica FRASES, TERMINOS, el paso de voseo a tuteo y la capa del país a un texto. */
 export function textoPais(s) {
   if (typeof s !== 'string' || s.length < 3) return s;
   let t = s;
   for (const [de, a] of FRASES) t = t.split(de).join(a);
   for (const [re, a] of TERMINOS) t = t.replace(re, a);
   for (const [re, a] of _REGLAS_VOSEO) t = t.replace(re, a);
+  for (const [re, a] of TERMINOS_PAIS[_paisActivo] ?? []) t = t.replace(re, a);
   return t;
 }
 

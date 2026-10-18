@@ -151,3 +151,42 @@ test('el ritmo escala los efectos de una decisión: un golpe de -10 pega menos e
   assert.ok(mx.confianza < 50);
   assert.ok(mx.ipc < 50 && mx.ipc > 40, 'una mejora también rinde menos');
 });
+
+// ── Revisión final: año del historial y manual del medio mandato ─────
+
+import { anioDelTurno, valorDeDuracion } from '../js/engine/mandato.js';
+
+test('el año de un turno sigue la duración del mandato: México llega al año 6', () => {
+  aplicarReglas('ar');
+  assert.deepEqual([1, 12, 13, 36, 37, 48].map(anioDelTurno), [1, 1, 2, 3, 4, 4]);
+  aplicarReglas('mx');
+  assert.deepEqual([1, 36, 37, 48, 49, 60, 61, 72].map(anioDelTurno), [1, 3, 4, 4, 5, 5, 6, 6]);
+  assert.equal(anioDelTurno(0), 1);
+  assert.equal(anioDelTurno(999), 6, 'nunca pasa del último año');
+});
+
+test('el historial por año no tiene un 4 fijo: usa anioDelTurno', () => {
+  for (const f of ['js/ui/endscreen.js', 'js/ui/trophies-ui.js']) {
+    const t = readFileSync(new URL(`../${f}`, import.meta.url), 'utf8');
+    assert.doesNotMatch(t, /const year = Math\.min\(4, Math\.ceil\(h\.turn \/ 12\)/, f);
+  }
+});
+
+test('valorDeDuracion da lo que el manual necesita en cada país', () => {
+  aplicarReglas('ar');
+  assert.deepEqual(['anios', 'turnos', 'medio', 'medio-aviso', 'medio-nombre'].map(valorDeDuracion), ['4', '48', '24', '22', 'Legislativas']);
+  aplicarReglas('mx');
+  assert.deepEqual(['anios', 'turnos', 'medio', 'medio-aviso', 'medio-nombre'].map(valorDeDuracion), ['6', '72', '36', '34', 'Legislativas']);
+  aplicarReglas('co');
+  assert.equal(valorDeDuracion('medio-nombre'), 'Regionales y Locales');
+  aplicarReglas('cl');
+  assert.equal(valorDeDuracion('medio-nombre'), 'Municipales y Regionales');
+});
+
+test('el manual no deja los turnos 22 y 24 fijos ni «Legislativas» fijo en el medio mandato', () => {
+  const html = readFileSync(new URL('../index.html', import.meta.url), 'utf8');
+  const i = html.indexOf('Medio Término</h2>');
+  const seccion = html.slice(html.lastIndexOf('<div class="manual-section">', i), html.indexOf('</div>', i));
+  assert.doesNotMatch(seccion.replace(/<span data-duracion="[^"]+">[^<]*<\/span>/g, ''), /turno 2[24]|Turno 2[24]/);
+  assert.match(seccion, /data-duracion="medio-nombre"/);
+});

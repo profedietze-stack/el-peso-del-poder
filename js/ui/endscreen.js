@@ -1,7 +1,7 @@
 "use strict";
 
 import { IND_META }                from '../config.js';
-import { totalTurnos, notaDeMandato, permiteSegundoMandato } from '../engine/mandato.js';
+import { totalTurnos, notaDeMandato, permiteSegundoMandato, aniosDeMandato, anioDelTurno } from '../engine/mandato.js';
 import { logrosVisibles }          from '../data/achievements.js';
 import { getScore, getDiploma, getMandateVerdict,
          computeReelection, getColor, getZone } from '../engine/scoring.js';
@@ -301,10 +301,9 @@ function _renderHistory(state) {
   const panelEl = document.getElementById('history-panel');
   if (!tabsEl || !panelEl) return;
 
-  const byYear = { 1: [], 2: [], 3: [], 4: [] };
+  const byYear = Object.fromEntries(Array.from({ length: aniosDeMandato() }, (_, i) => [i + 1, []]));
   state.history.forEach(h => {
-    const year = Math.min(4, Math.ceil(h.turn / 12) || 1);
-    byYear[year].push(h);
+    byYear[anioDelTurno(h.turn)].push(h);
   });
 
   // Tabs de años

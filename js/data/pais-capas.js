@@ -29,6 +29,14 @@ const SIN_DICTADURA = [
   [/Los Archivos de una Dictadura/g, 'Los Archivos de un Período de Violencia Política'],
   [/Hace décadas gobernó un régimen autoritario que dejó miles de desaparecidos\./g, 'Durante décadas, un período de violencia política dejó miles de desaparecidos.'],
 ];
+// Evento 40 (ancla de la segunda mitad): en estos países no es una elección legislativa. En
+// México ya hubo la legislativa intermedia (turno 36), así que acá son elecciones estatales.
+const sinLegislativas = (nombre, que, cargos) => [
+  [/Elecciones Legislativas de Medio Término/g, `Elecciones ${nombre}`],
+  [/Se acercan las elecciones legislativas que renovarán la mitad del Congreso\. Tu bloque perdió la mayoría en la primera vuelta y necesita alianzas urgentes\. La oposición tiene expectativas de hacerse con el control de ambas cámaras, lo que paralizaría toda tu agenda de gobierno\./g,
+    `Se acercan las elecciones ${que}. Tu partido necesita alianzas urgentes en el territorio. La oposición tiene expectativas de quedarse con ${cargos}, lo que frenaría la ejecución de tu agenda de gobierno.`],
+  [/proponer agenda legislativa concreta/g, 'proponer una agenda concreta para el territorio'],
+];
 const PETROLERA = /\b(?:[Ll]a )?Petrolera Estatal\b/g;
 const FUERA = String.raw`(?<![\wáéíóúñÁÉÍÓÚÑ])`;
 
@@ -44,6 +52,7 @@ export const TERMINOS_PAIS = {
     [LA_CAPITAL, 'la Ciudad de México'],
     [PETROLERA, 'Pemex'],
     ...SIN_DICTADURA,
+    ...sinLegislativas('Estatales y Locales', 'estatales y locales', 'las principales gubernaturas y alcaldías'),
   ],
   co: [
     [BANCO_CENTRAL, 'Banco de la República'],
@@ -51,6 +60,7 @@ export const TERMINOS_PAIS = {
     [LA_CAPITAL, 'Bogotá'],
     [PETROLERA, 'Ecopetrol'],
     ...SIN_DICTADURA,
+    ...sinLegislativas('Regionales y Locales', 'regionales y locales', 'las principales gobernaciones y alcaldías'),
   ],
   cl: [
     [BANCO_CENTRAL, 'Banco Central de Chile'],
@@ -58,6 +68,7 @@ export const TERMINOS_PAIS = {
     [/\bCasa de Gobierno\b/g, 'La Moneda'],
     [LA_CAPITAL, 'Santiago'],
     [PETROLERA, 'ENAP'],
+    ...sinLegislativas('Municipales y Regionales', 'municipales y regionales', 'las principales alcaldías y gobiernos regionales'),
   ],
 };
 

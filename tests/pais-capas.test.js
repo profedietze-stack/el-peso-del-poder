@@ -188,3 +188,20 @@ test('«archivos de una dictadura»: en México y Colombia no hubo ese régimen,
   fijarPais('latam');
   assert.match(textoPais(todo), /Dictadura/);
 });
+
+test('el evento ancla «Elecciones Legislativas de Medio Término» no habla de legislativas en Colombia, Chile ni México', () => {
+  const e = DATOS.EVENTS.find((x) => x.id === 40);
+  const todo = [e.titulo, e.descripcion, ...e.opciones.map((o) => o.texto)].join(' | ');
+  for (const id of PAISES_NUEVOS) {
+    fijarPais(id);
+    assert.doesNotMatch(textoPais(todo), /egislativ|Congreso|cámaras/, id);
+  }
+  fijarPais('co');
+  assert.match(textoPais(e.titulo), /Regionales y Locales/);
+  fijarPais('cl');
+  assert.match(textoPais(e.titulo), /Municipales y Regionales/);
+  fijarPais('mx');
+  assert.match(textoPais(e.titulo), /Estatales y Locales/);
+  fijarPais('latam');
+  assert.match(textoPais(e.titulo), /Legislativas/, 'Latinoamérica no cambia');
+});

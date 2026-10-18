@@ -52,3 +52,22 @@ export const aniosDeMandato = () => CONFIG.TOTAL_TURNS / 12;
 export function textoConDuracion(texto) {
   return String(texto).replaceAll('{{ANIOS}}', String(aniosDeMandato())).replaceAll('{{TURNOS}}', String(CONFIG.TOTAL_TURNS));
 }
+
+/** Año del mandato (1..años) al que pertenece un turno. */
+export function anioDelTurno(turno) {
+  return Math.min(aniosDeMandato(), Math.ceil(turno / 12) || 1);
+}
+
+const NOMBRE_MEDIO = { legislativas: 'Legislativas', 'regional-co': 'Regionales y Locales', 'regional-cl': 'Municipales y Regionales' };
+
+/** Lo que el HTML fijo (manual) muestra en cada `data-duracion`. */
+export function valorDeDuracion(clave) {
+  switch (clave) {
+    case 'anios': return String(aniosDeMandato());
+    case 'turnos': return String(totalTurnos());
+    case 'medio': return String(turnoMedioTermino());
+    case 'medio-aviso': return String(turnoMedioTermino() - 2);
+    case 'medio-nombre': return NOMBRE_MEDIO[medioTerminoTipo()] ?? NOMBRE_MEDIO.legislativas;
+    default: return '';
+  }
+}

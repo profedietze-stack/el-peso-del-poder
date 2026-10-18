@@ -4,7 +4,7 @@ import { logrosVisibles }         from '../data/achievements.js';
 import { EVENTS }                  from '../data/events.js';
 import { nombreDeHerencia }        from '../data/heritage.js';
 import { IND_META, CONFIG }        from '../config.js';
-import { totalTurnos }             from '../engine/mandato.js';
+import { totalTurnos, aniosDeMandato, anioDelTurno } from '../engine/mandato.js';
 import { loadGlobal }              from '../engine/storage.js';
 import { getScore }                from '../engine/scoring.js';
 import { showScreen }              from './screens.js';
@@ -191,13 +191,14 @@ function renderTrophiesHistory(state) {
   }
 
   // Agrupar por año
-  const byYear = { 1: [], 2: [], 3: [], 4: [] };
+  const byYear = Object.fromEntries(Array.from({ length: aniosDeMandato() }, (_, i) => [i + 1, []]));
   state.history.forEach(h => {
-    const year = Math.min(4, Math.ceil(h.turn / 12) || 1);
-    byYear[year].push(h);
+    byYear[anioDelTurno(h.turn)].push(h);
   });
 
-  const YEAR_LABELS = { 1: '🌱 Año 1 — Inicio del Mandato', 2: '📈 Año 2 — Consolidación', 3: '⚡ Año 3 — Punto Crítico', 4: '🏁 Año 4 — Tramo Final' };
+  // El último año es siempre el tramo final; los años intermedios de un mandato largo (México) no tienen nombre propio.
+  const YEAR_LABELS = { 1: '🌱 Año 1 — Inicio del Mandato', 2: '📈 Año 2 — Consolidación', 3: '⚡ Año 3 — Punto Crítico' };
+  YEAR_LABELS[aniosDeMandato()] = `🏁 Año ${aniosDeMandato()} — Tramo Final`;
 
   container.innerHTML = Object.entries(byYear)
     .filter(([, entries]) => entries.length > 0)

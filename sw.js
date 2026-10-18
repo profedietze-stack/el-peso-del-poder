@@ -1,4 +1,4 @@
-const CACHE = 'sdr-v69';
+const CACHE = 'sdr-v70';
 
 /**
  * El juego sin internet.

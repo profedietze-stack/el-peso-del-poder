@@ -204,3 +204,15 @@ test('Latinoamérica: «la Patagonia» no queda como «la sur» (el artículo ca
   }
   assert.deepEqual(mal, []);
 });
+
+test('Latinoamérica: «conurbano bonaerense» queda «cinturón urbano», sin restos como «locales»', () => {
+  assert.equal(textoPais('una toma en el conurbano bonaerense concentra familias'), 'una toma en el cinturón urbano concentra familias');
+  assert.equal(textoPais('la policía bonaerense espera'), 'la policía provincial espera');
+  assert.equal(textoPais('municipios bonaerenses denuncian'), 'municipios del cinturón urbano denuncian');
+  const mal = [];
+  for (const [ruta, t] of textos(DATOS)) {
+    const m = quitarTags(t).match(/cinturón urbano (locales|bonaerense)|urbano locales/i);
+    if (m) mal.push(`${ruta}: «${m[0]}»`);
+  }
+  assert.deepEqual(mal, []);
+});

@@ -117,7 +117,8 @@ export const TERMINOS = [
   [/acuerdo paritario/g, 'acuerdo salarial'],
   [/porte[ñn]o-céntrico/g, 'capitalino'],
   [/\bporte[ñn]os?\b/g, 'capitalinos'],
-  [/pol[ií]cia bonaerense|policía bonaerense/g, 'policía provincial'],
+  [/conurbano bonaerense/gi, 'cinturón urbano'],   // antes que «bonaerense» suelto
+  [/policía bonaerense/g, 'policía provincial'],
   [/municipios bonaerenses/g, 'municipios del cinturón urbano'],
   [/\bbonaerenses?\b/g, 'locales'],
   [/\bboleto de colectivo\b/g, 'pasaje de transporte público'],
@@ -137,7 +138,6 @@ export const TERMINOS = [
   [/\bobra social\b/g, 'seguro de salud'],
   [/\bpiqueteros\b/g, 'manifestantes'],
   [/\bintendentes\b/g, 'alcaldes'],
-  [/conurbano bonaerense/gi, 'cinturón urbano'],
   [/\bconurbano\b/g, 'cinturón urbano'],
   [/Casa Rosada/g, 'Casa de Gobierno'],
   [/\bBCRA\b/g, 'Banco Central'],

@@ -1,6 +1,7 @@
 "use strict";
 
 import { IND_META }                from '../config.js';
+import { totalTurnos }             from '../engine/mandato.js';
 import { ACHIEVEMENTS }            from '../data/achievements.js';
 import { getScore, getDiploma, getMandateVerdict,
          computeReelection, getColor, getZone } from '../engine/scoring.js';
@@ -152,7 +153,7 @@ function _renderAnalysis(state, score) {
     : '<p style="color:#27ae60">✅ Tu gestión fue intachable: nunca elegiste opciones corruptas.</p>';
 
   el.innerHTML = `${motivoDeDerrota(state)}<p>${verdict}</p>${corrupt}
-    <p><small>Turnos completados: <strong>${state.turn}</strong> de 48 · Crisis superadas: <strong>${state.adata.crisisCount}</strong></small></p>`;
+    <p><small>Turnos completados: <strong>${state.turn}</strong> de ${totalTurnos()} · Crisis superadas: <strong>${state.adata.crisisCount}</strong></small></p>`;
 }
 
 // ── REELECCIÓN ────────────────────────────────────────────────

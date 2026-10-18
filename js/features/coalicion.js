@@ -14,8 +14,13 @@
 // ============================================================
 
 import { topeDeCapital } from '../engine/capital.js';
+import { escalarTurno } from '../engine/mandato.js';
 
+/** Turnos del pedido en un mandato de 48; ver `turnosDePedido()` para el país activo. */
 export const TURNOS_PEDIDO = [10, 20, 30, 40];
+
+/** Los turnos de pedido ajustados a la duración del mandato activo. */
+export const turnosDePedido = () => TURNOS_PEDIDO.map((t) => escalarTurno(t));
 
 /** Lo que cuesta aceptar un pedido del socio. */
 export const COSTO_ACEPTAR = 8;
@@ -51,9 +56,9 @@ const PEDIDOS = [
 const EFECTOS_CEDER = { confianza: 2, deuda: 2 };
 const EFECTOS_RECHAZAR = { confianza: -6, riesgo: 5, produccion: -2 };
 
-/** El pedido del turno indicado (10, 20, 30 o 40), o null. También lo usa el guardado. */
+/** El pedido del turno indicado (uno de `turnosDePedido()`), o null. También lo usa el guardado. */
 export function construirPedido(turno) {
-  const i = TURNOS_PEDIDO.indexOf(turno);
+  const i = turnosDePedido().indexOf(turno);
   if (i < 0) return null;
   const p = PEDIDOS[i];
   return {

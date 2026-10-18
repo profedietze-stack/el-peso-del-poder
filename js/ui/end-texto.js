@@ -1,5 +1,7 @@
 "use strict";
 
+import { totalTurnos } from '../engine/mandato.js';
+
 // ============================================================
 // TEXTOS DE LA PANTALLA FINAL (puros, sin DOM, para poder probarlos)
 //
@@ -48,6 +50,6 @@ function _escapar(t) {
  */
 export function motivoDeDerrota(state) {
   if (!state || state.lost !== true || !state.lostReason) return '';
-  const mes = Number.isFinite(state.turn) ? ` Fue en el mes ${state.turn} de 48.` : '';
+  const mes = Number.isFinite(state.turn) ? ` Fue en el mes ${state.turn} de ${totalTurnos()}.` : '';
   return `<div class="end-motivo"><strong>💀 Por qué terminó tu mandato</strong><p>${_escapar(state.lostReason)}${mes}</p></div>`;
 }

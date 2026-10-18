@@ -31,3 +31,11 @@ export function escalarTurno(turnoEn48, total = CONFIG.TOTAL_TURNS) {
 export const totalTurnos = () => CONFIG.TOTAL_TURNS;
 export const turnoMedioTermino = () => CONFIG.MEDIO_TERMINO;
 export const permiteSegundoMandato = () => CONFIG.SEGUNDO_MANDATO;
+
+/** Años de gobierno del mandato activo (turnos / 12). */
+export const aniosDeMandato = () => CONFIG.TOTAL_TURNS / 12;
+
+/** Rellena `{{ANIOS}}` y `{{TURNOS}}` en un texto fijo del juego con la duración del país. */
+export function textoConDuracion(texto) {
+  return String(texto).replaceAll('{{ANIOS}}', String(aniosDeMandato())).replaceAll('{{TURNOS}}', String(CONFIG.TOTAL_TURNS));
+}

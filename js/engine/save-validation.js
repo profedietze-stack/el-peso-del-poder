@@ -29,13 +29,13 @@ import { MINISTER_SLOTS, getMinisterById, getMinistersBySlot } from '../data/min
 import { getVPById, getDefaultVP } from '../data/vicepresident.js';
 import { newState } from './state.js';
 import { limpiarNombre } from './texto.js';
+import { totalTurnos } from './mandato.js';
 
 /** Versión del esquema del guardado. Se sube cuando cambia la forma de algún campo. */
 export const SAVE_VERSION = 1;
 
 const CLAVES_IND = IND_META.map((m) => m.key);
 const DIFICULTADES = ['easy', 'normal', 'hard', 'ultra'];
-const TOTAL_TURNOS = 48;
 const SLOTS_ASESOR = ['vp', 'economia', 'social', 'gabinete', 'produccion'];
 
 // ── Helpers de tipo ───────────────────────────────────────────
@@ -243,8 +243,8 @@ function _validar(raw) {
 
   const indicadores = validarIndicadores(raw.indicadores);
   if (!indicadores) return { estado: 'danado', motivo: 'faltan indicadores o no son números' };
-  if (!esEntero(raw.turn) || raw.turn < 1 || raw.turn > TOTAL_TURNOS) {
-    return { estado: 'danado', motivo: 'el turno no es un entero entre 1 y 48' };
+  if (!esEntero(raw.turn) || raw.turn < 1 || raw.turn > totalTurnos()) {
+    return { estado: 'danado', motivo: `el turno no es un entero entre 1 y ${totalTurnos()}` };
   }
 
   const difficulty = DIFICULTADES.includes(raw.difficulty) ? raw.difficulty : 'normal';
@@ -291,7 +291,7 @@ function _validar(raw) {
     alianzaRota: raw.alianzaRota === true,
     midtermBonus: esNumero(raw.midtermBonus) ? acotar(raw.midtermBonus, -30, 30) : 0,
     midtermDone: raw.midtermDone === true,
-    lastSpecialEventTurn: esEntero(raw.lastSpecialEventTurn) ? acotar(raw.lastSpecialEventTurn, 0, TOTAL_TURNOS) : 0,
+    lastSpecialEventTurn: esEntero(raw.lastSpecialEventTurn) ? acotar(raw.lastSpecialEventTurn, 0, totalTurnos()) : 0,
     startedTurn: iniciado ? raw.startedTurn : undefined,
     currentEvent: iniciado ? evento : null,
     currentEventTurn: iniciado && evento && raw.currentEventTurn === raw.turn ? raw.turn : undefined,
@@ -305,7 +305,7 @@ function _validar(raw) {
       score: raw.firstTermData.score,
       diploma: ['gold', 'silver', 'bronze'].includes(raw.firstTermData.diploma) ? raw.firstTermData.diploma : null,
       reelection: esObjeto(raw.firstTermData.reelection) ? raw.firstTermData.reelection : null,
-      turn: esNumero(raw.firstTermData.turn) ? raw.firstTermData.turn : TOTAL_TURNOS,
+      turn: esNumero(raw.firstTermData.turn) ? raw.firstTermData.turn : totalTurnos(),
     };
   }
 

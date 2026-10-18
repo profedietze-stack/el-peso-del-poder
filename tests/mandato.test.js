@@ -57,3 +57,61 @@ test('los cinco países existen con nombre, bandera y reglas completas', () => {
   assert.equal(PAISES.ar.base, null);
   for (const id of ['latam', 'mx', 'co', 'cl']) assert.equal(PAISES[id].base, 'latam', id);
 });
+
+// ── Todo lo que antes decía «48» ─────────────────────────────
+
+import { readFileSync } from 'node:fs';
+import { anclasDelMandato } from '../js/engine/state.js';
+import { turnosDePedido, construirPedido } from '../js/features/coalicion.js';
+import { validarGuardado } from '../js/engine/save-validation.js';
+import { newState } from '../js/engine/state.js';
+
+test('con Argentina las anclas y los pedidos de coalición son los de siempre', () => {
+  aplicarReglas('ar');
+  assert.deepEqual(anclasDelMandato(), [
+    { id: 28, minTurn: 10, maxTurn: 18 }, { id: 36, minTurn: 20, maxTurn: 30 }, { id: 40, minTurn: 35, maxTurn: 45 },
+  ]);
+  assert.deepEqual(turnosDePedido(), [10, 20, 30, 40]);
+  assert.equal(construirPedido(10).id, 'coalicion-socio-10');
+});
+
+test('México: anclas y pedidos escalados caen dentro de los 72 turnos y en orden', () => {
+  aplicarReglas('mx');
+  const anclas = anclasDelMandato();
+  for (const a of anclas) assert.ok(a.minTurn >= 1 && a.minTurn < a.maxTurn && a.maxTurn <= 72, JSON.stringify(a));
+  assert.deepEqual(turnosDePedido(), [15, 30, 45, 60]);
+  assert.equal(construirPedido(15).id, 'coalicion-socio-15');
+  assert.equal(construirPedido(10), null, 'el turno 10 ya no es de pedido en México');
+});
+
+function partidaEnTurno(turn) {
+  const s = newState({ heritageId: 'estable', mandateType: 'amplio', difficulty: 'normal' });
+  s.turn = turn;
+  return JSON.parse(JSON.stringify({ ...s, usedEventIds: [...s.usedEventIds] }));
+}
+
+test('un guardado del turno 60 vale con México y está dañado con Argentina, con el motivo correcto', () => {
+  const crudo = partidaEnTurno(60);
+  aplicarReglas('mx');
+  assert.notEqual(validarGuardado(crudo).estado, 'danado');
+  aplicarReglas('ar');
+  const r = validarGuardado(crudo);
+  assert.equal(r.estado, 'danado');
+  assert.match(r.motivo, /entre 1 y 48/);
+});
+
+test('ningún módulo de juego deja un 48 suelto: la duración sale de mandato.js', () => {
+  const archivos = [
+    'js/engine/state.js', 'js/engine/save-validation.js', 'js/features/coalicion.js', 'js/main.js',
+    'js/ui/screens.js', 'js/ui/end-texto.js', 'js/ui/endscreen.js', 'js/ui/trophies-ui.js',
+    'js/data/achievements.js',
+  ];
+  const sueltos = [];
+  for (const f of archivos) {
+    readFileSync(new URL(`../${f}`, import.meta.url), 'utf8').split(/\r?\n/).forEach((l, i) => {
+      const codigo = l.replace(/\/\/.*$/, '').replace(/\/\*.*$/, '').replace(/^\s*\*.*$/, '');
+      if (/\b48\b/.test(codigo)) sueltos.push(`${f}:${i + 1}: ${l.trim().slice(0, 80)}`);
+    });
+  }
+  assert.deepEqual(sueltos, []);
+});

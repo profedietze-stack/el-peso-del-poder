@@ -15,6 +15,7 @@
 // ============================================================
 
 import { textoUmbralesDeDerrota } from '../engine/scoring.js';
+import { textoConDuracion } from '../engine/mandato.js';
 
 // ── GLOSARIO ─────────────────────────────────────────────────
 // Cada entrada tiene: icon, title, body, zona? (indicadores)
@@ -183,7 +184,7 @@ export const GLOSSARY = {
   mandato: {
     icon:  '📅',
     title: 'Mandato Presidencial',
-    body:  'El <strong>período de 4 años</strong> que debés gestionar como presidente. Cada turno del juego representa un mes de gobierno. Tu objetivo es completar los 48 turnos sin que la confianza caiga a 0% o la pobreza llegue al límite crítico, tomando las mejores decisiones posibles en cada evento.',
+    body:  'El <strong>período de {{ANIOS}} años</strong> que debés gestionar como presidente. Cada turno del juego representa un mes de gobierno. Tu objetivo es completar los {{TURNOS}} turnos sin que la confianza caiga a 0% o la pobreza llegue al límite crítico, tomando las mejores decisiones posibles en cada evento.',
   },
 
   pasivos: {
@@ -252,7 +253,7 @@ const _el = id => document.getElementById(id);
 export function showTip(key) {
   const entry = GLOSSARY[key];
   if (!entry) return;
-  _openModal(entry.icon || 'ℹ️', entry.title, entry.body, entry.zona || '');
+  _openModal(entry.icon || 'ℹ️', entry.title, textoConDuracion(entry.body), entry.zona || '');
 }
 
 /**

@@ -1,5 +1,7 @@
 "use strict";
 
+import { aniosDeMandato, totalTurnos } from '../engine/mandato.js';
+
 // ============================================================
 // SCREENS — Gestión de pantallas y transiciones
 // ============================================================
@@ -138,7 +140,15 @@ export function setFooterQuote(text, author) {
 export function renderYearMarkers() {
   const container = document.getElementById('year-markers');
   if (!container) return;
-  container.innerHTML = [1, 2, 3, 4].map(y =>
-    `<span class="year-marker" style="left:${((y * 12 / 48) * 100).toFixed(1)}%">Año ${y}</span>`
+  const anios = Array.from({ length: aniosDeMandato() }, (_, i) => i + 1);
+  container.innerHTML = anios.map(y =>
+    `<span class="year-marker" style="left:${((y * 12 / totalTurnos()) * 100).toFixed(1)}%">Año ${y}</span>`
   ).join('');
+}
+
+/** Rellena en el HTML fijo (manual, tutorial) la duración del mandato del país activo. */
+export function rellenarDuracion() {
+  document.querySelectorAll('[data-duracion]').forEach((el) => {
+    el.textContent = String(el.dataset.duracion === 'anios' ? aniosDeMandato() : totalTurnos());
+  });
 }

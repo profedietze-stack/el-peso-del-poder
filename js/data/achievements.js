@@ -1,6 +1,7 @@
 "use strict";
 
 import { getDiploma } from '../engine/scoring.js';
+import { totalTurnos } from '../engine/mandato.js';
 
 // ============================================================
 // LOGROS — 20 en total (12 originales + 8 nuevos)
@@ -10,7 +11,7 @@ import { getDiploma } from '../engine/scoring.js';
 //
 // Campos de s usados:
 //   s.indicadores.{ipc,deuda,reservas,riesgo,pobreza,desocupacion,produccion,confianza}
-//   s.turn         → turno actual (48 = mandato completo)
+//   s.turn         → turno actual (el último turno = mandato completo)
 //   s.won          → boolean — ganó el mandato
 //   s.history[]    → array de { snap:{...indicadores} } por turno
 //   s.adata        → objeto de seguimiento acumulado (ver state.js)
@@ -31,7 +32,7 @@ const ORIGINAL_ACHIEVEMENTS = [
     icon: "🛡️",
     name: "Estabilidad de Hierro",
     desc: "El IPC nunca superó 55 durante todo el mandato.",
-    why: s => `Mantuviste la inflación bajo control durante las 48 decisiones. El IPC final fue ${Math.round(s.indicadores.ipc)}%.`,
+    why: s => `Mantuviste la inflación bajo control durante las ${totalTurnos()} decisiones. El IPC final fue ${Math.round(s.indicadores.ipc)}%.`,
     check: (s, _ctx) => s.adata.ipcNeverHigh && s.turn >= 12,
   },
   {
@@ -95,8 +96,8 @@ const ORIGINAL_ACHIEVEMENTS = [
     icon: "🧗",
     name: "Superviviente",
     desc: "Completaste el mandato después de que al menos 3 indicadores entraran en zona crítica.",
-    why: s => `Tu gobierno enfrentó ${s.adata.crisisCount} situaciones en zona crítica y aun así terminaste los 48 meses.`,
-    check: (s, _ctx) => s.adata.crisisCount >= 3 && s.turn >= 48,
+    why: s => `Tu gobierno enfrentó ${s.adata.crisisCount} situaciones en zona crítica y aun así terminaste los ${totalTurnos()} meses.`,
+    check: (s, _ctx) => s.adata.crisisCount >= 3 && s.turn >= totalTurnos(),
   },
   {
     id: "ejemplar",

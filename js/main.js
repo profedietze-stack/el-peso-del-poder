@@ -9,7 +9,7 @@ import { initErrorBanner }             from './ui/error-banner.js';
 import { loadSettings, applySettings } from './engine/settings.js';
 import { aplicarPais } from './data/pais-datos.js';
 import { PAISES } from './data/pais.js';
-import { aplicarReglas } from './engine/mandato.js';
+import { aplicarReglas, turnoMedioTermino } from './engine/mandato.js';
 import { iniciarPaisDom } from './ui/pais-dom.js';
 import { openSettingsModal, closeSettingsModal } from './ui/settings-modal.js';
 import { CONFIG, IND_META }            from './config.js';
@@ -47,7 +47,7 @@ import { updateDangerTracking,
 import { showScreen, flashAutosave,
          showNotif, hideNotif,
          toggleRecentLog, addLogEntry,
-         renderYearMarkers }           from './ui/screens.js';
+         renderYearMarkers, rellenarDuracion } from './ui/screens.js';
 import { renderDashboard, updateMandateBar,
          initSparklines, pushSparkline,
          animateIndicatorChanges,
@@ -213,6 +213,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initGlosarioTooltips();
   initTooltips();
   renderYearMarkers();
+  rellenarDuracion();
 
   // Mostrar/ocultar botón de cargar partida
   const loadBtn = document.getElementById('load-btn');
@@ -399,8 +400,8 @@ function _startTurn() {
   // Resetear asesores para el nuevo turno
   resetAdvisorsForTurn(G);
 
-  // ── Elecciones de medio término (turno 22: aviso; turno 24: resolución) ──
-  if (G.turn === 22 && !G.midtermDone) {
+  // ── Elecciones de medio término (dos turnos antes del medio término: aviso; en el medio término: resolución) ──
+  if (G.turn === turnoMedioTermino() - 2 && !G.midtermDone) {
     // Mostrar evento de campaña (reemplaza el evento normal de este turno)
     const warnEvent = buildWarningEvent();
     G.currentEvent = warnEvent;
@@ -412,7 +413,7 @@ function _startTurn() {
     return;
   }
 
-  if (G.turn === 24 && !G.midtermDone) {
+  if (G.turn === turnoMedioTermino() && !G.midtermDone) {
     // Resolución automática: calcular resultado ANTES del evento normal
     G.midtermDone = true;
     showScreen('screen-game');
@@ -1274,7 +1275,7 @@ function startSecondTerm() {
       '  .forceEvent(id)             — fuerza un evento por ID en el siguiente turno\n',
       '  .listEvents(filter?)        — lista eventos (filter: string busca en titulo/tag)\n',
       '  .exportState()              — copia JSON del estado al portapapeles\n',
-      '  .skipToEnd()                — salta al turno 48 y dispara fin de juego\n',
+      '  .skipToEnd()                — salta al último turno y dispara fin de juego\n',
       '  .autoPlay(turns, strategy)  — simula N turnos (strategy: "random"|"first"|"last"|"worst")\n',
       '  .help()                     — muestra este mensaje\n',
     );

@@ -4,6 +4,7 @@ import { ACHIEVEMENTS }           from '../data/achievements.js';
 import { EVENTS }                  from '../data/events.js';
 import { nombreDeHerencia }        from '../data/heritage.js';
 import { IND_META, CONFIG }        from '../config.js';
+import { totalTurnos }             from '../engine/mandato.js';
 import { loadGlobal }              from '../engine/storage.js';
 import { getScore }                from '../engine/scoring.js';
 import { showScreen }              from './screens.js';
@@ -308,7 +309,7 @@ function _renderDocenteGameSummary(s) {
           <div class="dc-ficha-row"><span class="dc-fr-label">Dificultad</span><span class="dc-fr-val">${DIFF_NAMES[s.difficulty] || s.difficulty}</span></div>
           <div class="dc-ficha-row"><span class="dc-fr-label">Herencia</span><span class="dc-fr-val">${nombreDeHerencia(s.heritageId)}</span></div>
           <div class="dc-ficha-row"><span class="dc-fr-label">Mandato</span><span class="dc-fr-val">${MANDATE_NAMES[s.mandateType] || s.mandateType}</span></div>
-          <div class="dc-ficha-row"><span class="dc-fr-label">Turnos jugados</span><span class="dc-fr-val">${s.history.length} / 48</span></div>
+          <div class="dc-ficha-row"><span class="dc-fr-label">Turnos jugados</span><span class="dc-fr-val">${s.history.length} / ${totalTurnos()}</span></div>
           <div class="dc-ficha-row"><span class="dc-fr-label">Logros obtenidos</span><span class="dc-fr-val">${s.unlockedAchievements.length} de ${ACHIEVEMENTS.length}</span></div>
         </div>
       </div>

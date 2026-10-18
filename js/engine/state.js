@@ -5,6 +5,7 @@ import { EVENTS }           from '../data/events.js';
 import { HERITAGE_PROFILES, MANDATE_MODS } from '../data/heritage.js';
 import { getZone, applyEffects } from './scoring.js';
 import { capitalInicial } from './capital.js';
+import { escalarTurno } from './mandato.js';
 import {
   applyMinisterPassives,
   getCombinedEffectMods,
@@ -50,13 +51,18 @@ export function aplicarDificultad(difficulty) {
 }
 
 // ── EVENTOS ANCLA ─────────────────────────────────────────────
-// Se garantizan en rangos específicos del mandato (turnos 1-48).
-// IDs tomados del original v11.
-const ANCHOR_EVENTS = [
+// Se garantizan en rangos del mandato. Los turnos están pensados para 48 y se
+// escalan a la duración del país (México: 72). IDs tomados del original v11.
+const ANCHOR_EVENTS_BASE = [
   { id: 28, minTurn: 10, maxTurn: 18 },  // Evento sindical / crisis laboral
   { id: 36, minTurn: 20, maxTurn: 30 },  // Evento de corrupción (ancla)
   { id: 40, minTurn: 35, maxTurn: 45 },  // Evento electoral / FMI final
 ];
+
+/** Las anclas con sus turnos ya ajustados a la duración del mandato activo. */
+export function anclasDelMandato() {
+  return ANCHOR_EVENTS_BASE.map((a) => ({ id: a.id, minTurn: escalarTurno(a.minTurn), maxTurn: escalarTurno(a.maxTurn) }));
+}
 
 // ── PROBABILIDAD DE EVENTOS ESPECIALES ───────────────────────
 // Probabilidad por turno de que aparezca un evento isExtreme.
@@ -140,7 +146,7 @@ export function pickNextEvent(state) {
   }
 
   // 1. Verificar si hay un evento ancla para este turno
-  for (const anchor of ANCHOR_EVENTS) {
+  for (const anchor of anclasDelMandato()) {
     if (
       turn >= anchor.minTurn &&
       turn <= anchor.maxTurn &&
@@ -183,14 +189,14 @@ export function pickNextEvent(state) {
     !usedEventIds.has(e.id) &&
     !e.isCrisisAuto &&
     !e.isSpecial &&                               // ← excluir los 30 especiales del pool normal
-    !ANCHOR_EVENTS.some(a => a.id === e.id)
+    !ANCHOR_EVENTS_BASE.some(a => a.id === e.id)
   );
 
   if (pool.length === 0) {
     // Fallback: reusar eventos ya vistos normales
     const fallback = EVENTS.filter(e =>
       !e.isCrisisAuto && !e.isSpecial &&
-      !ANCHOR_EVENTS.some(a => a.id === e.id)
+      !ANCHOR_EVENTS_BASE.some(a => a.id === e.id)
     );
     if (fallback.length > 0) {
       return fallback[Math.floor(Math.random() * fallback.length)];

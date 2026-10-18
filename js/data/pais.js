@@ -159,6 +159,10 @@ export const TERMINOS = [
   [/Banco Central de la República Argentina/g, 'Banco Central'],
   [/\bBCRA\b/g, 'Banco Central'],
   [/\bINDEC\b/g, 'Instituto de Estadística'],
+  [/\bEl INVAP\b/g, 'La Empresa Nuclear Estatal'],
+  [/\bel INVAP\b/g, 'la Empresa Nuclear Estatal'],
+  [/\bdel INVAP\b/g, 'de la Empresa Nuclear Estatal'],
+  [/\bal INVAP\b/g, 'a la Empresa Nuclear Estatal'],
   [/\bINVAP\b/g, 'Empresa Nuclear Estatal'],
   [/\bCONICET\b/g, 'Consejo Científico Nacional'],
   [/\bYPF\b/g, 'Petrolera Estatal'],
@@ -213,13 +217,17 @@ export const TERMINOS = [
   [/\bargentino\b/g, 'nacional'],
   [/\bargentina\b/g, 'nacional'],
   [/\bArgentina\b/g, 'el país'],
-  // Arreglos de gramática que dejan las sustituciones.
-  [/\b(del|al) el\b/g, '$1'],
-  [/\bde el\b/g, 'del'],
-  [/\ba el\b/g, 'al'],
-  [/\b([Ee]l) el\b/g, '$1'],
-  [/\b([Ll]a) la\b/g, '$1'],
-  [/\b([Ll]a) el\b/g, '$1'],
+  // Arreglos de gramática que dejan las sustituciones. El límite de palabra es el de las letras
+  // con tilde: con \b, «energía eléctrica» perdía el espacio («energíaléctrica»).
+  [/(?<![\wáéíóúñÁÉÍÓÚÑ])(del|al) el(?![\wáéíóúñÁÉÍÓÚÑ])/g, '$1'],
+  [/(?<![\wáéíóúñÁÉÍÓÚÑ])de el(?![\wáéíóúñÁÉÍÓÚÑ])/g, 'del'],
+  [/(?<![\wáéíóúñÁÉÍÓÚÑ])a el(?![\wáéíóúñÁÉÍÓÚÑ])/g, 'al'],
+  [/(?<![\wáéíóúñÁÉÍÓÚÑ])([Ee]l) el(?![\wáéíóúñÁÉÍÓÚÑ])/g, '$1'],
+  [/(?<![\wáéíóúñÁÉÍÓÚÑ])([Ll]a) la(?![\wáéíóúñÁÉÍÓÚÑ])/g, '$1'],
+  [/(?<![\wáéíóúñÁÉÍÓÚÑ])([Dd])e la el(?![\wáéíóúñÁÉÍÓÚÑ])/g, '$1el'],
+  [/(?<![\wáéíóúñÁÉÍÓÚÑ])([Aa]) la el(?![\wáéíóúñÁÉÍÓÚÑ])/g, '$1l'],
+  [/(?<![\wáéíóúñÁÉÍÓÚÑ])La el(?![\wáéíóúñÁÉÍÓÚÑ])/g, 'El'],
+  [/(?<![\wáéíóúñÁÉÍÓÚÑ])la el(?![\wáéíóúñÁÉÍÓÚÑ])/g, 'el'],
 ];
 
 /** Lo que NO puede quedar en Latinoamérica (lo usa el test y `localizarDatos`). */

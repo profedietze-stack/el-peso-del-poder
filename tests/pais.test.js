@@ -69,7 +69,14 @@ test('Latinoamérica: se sacan las citas de autores de un solo país y quedan ci
 
 test('Latinoamérica: la gramática no queda rota por las sustituciones', () => {
   const rotas = [];
-  const mal = [/\b(el|la|los|las|del|al) \1\b/i, /\bde el\b/, /\ba el\b/];
+  // El límite de palabra tiene que contar las letras con tilde: con \b, «haría el» parecía «a el»
+  // (y la regla de arreglo de gramática dejaba «haríal modelo» sin que este test lo viera).
+  const L = String.raw`[\wáéíóúñÁÉÍÓÚÑ]`;
+  const mal = [
+    new RegExp(String.raw`(?<!${L})(el|la|los|las|del|al) \1(?!${L})`, 'i'),
+    new RegExp(`(?<!${L})de el(?!${L})`), new RegExp(`(?<!${L})a el(?!${L})`),
+    /\b[Ll]a país\b/, /ía(?=l[éáíóú])/,
+  ];
   for (const [ruta, t] of textos(DATOS)) {
     const antes = originalPorRuta.get(ruta);
     if (antes === undefined || antes === t) continue; // solo lo que cambió la localización
@@ -216,4 +223,18 @@ test('Latinoamérica: «conurbano bonaerense» queda «cinturón urbano», sin r
     if (m) mal.push(`${ruta}: «${m[0]}»`);
   }
   assert.deepEqual(mal, []);
+});
+
+// ── Gramática de «Argentina» → «el país» ──────────────────────
+
+test('Latinoamérica: «la Argentina» no deja «la país» ni se come las letras de «energía eléctrica»', () => {
+  const casos = [
+    ['La Argentina aún no definió su postura', 'El país aún no definió su postura'],
+    ['posiciona a la Argentina en la vanguardia', 'posiciona al país en la vanguardia'],
+    ['la historia de la Argentina', 'la historia del país'],
+    ['baja el costo de la energía eléctrica a largo plazo', 'baja el costo de la energía eléctrica a largo plazo'],
+    ['la energía en el sur del mapa', 'la energía en el sur del mapa'],
+    ['El INVAP no puede retener a sus ingenieros', 'La Empresa Nuclear Estatal no puede retener a sus ingenieros'],
+  ];
+  for (const [de, a] of casos) assert.equal(textoPais(de), a, de);
 });

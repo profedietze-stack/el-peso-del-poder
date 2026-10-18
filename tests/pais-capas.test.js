@@ -205,3 +205,36 @@ test('el evento ancla «Elecciones Legislativas de Medio Término» no habla de 
   fijarPais('latam');
   assert.match(textoPais(e.titulo), /Legislativas/, 'Latinoamérica no cambia');
 });
+
+test('Colombia y Chile no tienen centrales: lo nuclear es un plan a futuro y el accidente, de un país vecino', () => {
+  const sinCentral = /Central Nuclear (?:II|III|Norte)|Comisión de Energía Atómica|Empresa Nuclear Estatal|Atucha|planta Central/;
+  for (const id of ['co', 'cl']) {
+    fijarPais(id);
+    const quedan = originales.filter(([, t]) => sinCentral.test(textoPais(t))).map(([r]) => r);
+    assert.deepEqual(quedan, [], id);
+    const ev = (n) => DATOS.EVENTS.find((e) => e.id === n);
+    const todo = (e) => textoPais([e.titulo, e.descripcion, ...e.opciones.map((o) => o.texto)].join(' | '));
+    assert.match(todo(ev(88)), /Dar el Primer Paso/, id);
+    assert.match(todo(ev(88)), /primera central nuclear del país/, id);
+    assert.doesNotMatch(todo(ev(88)), /duplicaría|Ampliar/, id);
+    assert.match(todo(ev(120)), /País Vecino/, id);
+    assert.doesNotMatch(todo(ev(120)), /enfriar el reactor/, id);
+    assert.match(todo(ev(60)), /crear su primer programa nuclear/, id);
+  }
+});
+
+test('México y Latinoamérica conservan lo nuclear como estaba', () => {
+  for (const id of ['mx', 'latam']) {
+    fijarPais(id);
+    const t = textoPais(DATOS.EVENTS.find((e) => e.id === 88).titulo);
+    assert.match(t, /Ampliar la Capacidad Atómica/, id);
+    assert.match(textoPais(DATOS.EVENTS.find((e) => e.id === 120).titulo), /Central Nuclear Norte/, id);
+  }
+});
+
+test('los eventos nucleares de Colombia y Chile no cambian ningún efecto: solo el contexto', () => {
+  for (const n of [60, 88, 120]) {
+    const e = DATOS.EVENTS.find((x) => x.id === n);
+    assert.ok(e.opciones.every((o) => Object.keys(o.efectos).length === 8), `${n}`);
+  }
+});

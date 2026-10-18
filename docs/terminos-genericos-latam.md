@@ -31,6 +31,6 @@ Inventario hecho el 2026-10-18 sobre los textos que deja la capa Latinoamérica 
 
 ## A revisar con una persona de cada país
 
-- **Central Nuclear (6), Comisión de Energía Atómica y Empresa Nuclear Estatal:** Colombia y Chile no tienen centrales nucleares; México tiene una (Laguna Verde). Los eventos del sector nuclear son ficción en esos dos países.
+- **Sector nuclear:** resuelto para Colombia y Chile (plan a futuro y accidente en un país vecino, ver `NUCLEAR_A_FUTURO` en `pais-capas.js`). México y Latinoamérica conservan «Central Nuclear III»; México sí tiene una central (Laguna Verde).
 - **Cinturón Urbano / Área Metropolitana / la ciudad del centro:** geografía genérica.
 - **Reservas «negativas» del Banco Central:** es un estado del juego, pero ahora lleva el nombre real del banco.

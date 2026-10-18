@@ -81,7 +81,7 @@ export function loadFromStorage() {
 /**
  * Lee y VALIDA la partida guardada. Distingue los tres casos que antes se
  * confundían: no hay nada, hay una partida buena, y hay algo pero está dañado.
- * @returns {{estado:'vacio'|'ok'|'danado', state:object|null, motivo?:string}}
+ * @returns {{estado:'vacio'|'ok'|'danado'|'otro-pais', state:object|null, motivo?:string, paisGuardado?:string}}
  */
 export function cargarGuardado() {
   const raw = leerCrudo();
@@ -93,6 +93,8 @@ export function cargarGuardado() {
     return { estado: 'danado', state: null, motivo: 'el texto guardado no es JSON válido' };
   }
   const r = validarGuardado(parsed);
+  // Una partida de otro país no está dañada: se conserva y el juego pregunta qué hacer.
+  if (r.estado === 'otro-pais') return { estado: 'otro-pais', state: null, paisGuardado: r.paisGuardado };
   if (r.estado !== 'ok') {
     console.warn('[storage] guardado descartado:', r.motivo);
     return { estado: 'danado', state: null, motivo: r.motivo };
@@ -108,7 +110,7 @@ export function cargarGuardado() {
 export function hayPartidaValida() {
   const r = cargarGuardado();
   if (r.estado === 'danado') clearSave();
-  return r.estado === 'ok';
+  return r.estado === 'ok' || r.estado === 'otro-pais';
 }
 
 /**

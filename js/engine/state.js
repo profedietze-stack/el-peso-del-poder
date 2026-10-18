@@ -343,6 +343,7 @@ export function newState({ heritageId, mandateType, difficulty, ministers, ident
     lost:         false,
     lostReason:   null,
     reelection:   null,  // Se llena con computeReelection() al terminar el mandato
+    pais:         CONFIG.PAIS,  // el país en que se juega: una partida guardada no cambia de país
 
     // ── Segundo mandato ───────────────────────────────────────────
     isSecondTerm,

@@ -17,7 +17,9 @@ const TURNOS_BASE = 48;
 
 /** Escribe las reglas del país en CONFIG. Un id desconocido cae en Argentina. */
 export function aplicarReglas(id) {
-  const { reglas } = PAISES[Object.hasOwn(PAISES, id) ? id : PAIS_POR_DEFECTO];
+  const pais = Object.hasOwn(PAISES, id) ? id : PAIS_POR_DEFECTO;
+  const { reglas } = PAISES[pais];
+  CONFIG.PAIS = pais;
   CONFIG.TOTAL_TURNS = reglas.turnos;
   CONFIG.MEDIO_TERMINO = reglas.medioTermino;
   CONFIG.SEGUNDO_MANDATO = reglas.segundoMandato;
@@ -31,6 +33,8 @@ export function escalarTurno(turnoEn48, total = CONFIG.TOTAL_TURNS) {
   return Math.max(1, Math.round((turnoEn48 * total) / TURNOS_BASE));
 }
 
+/** El país activo ('ar', 'latam', 'mx', 'co' o 'cl'). */
+export const paisActivo = () => CONFIG.PAIS;
 export const totalTurnos = () => CONFIG.TOTAL_TURNS;
 export const turnoMedioTermino = () => CONFIG.MEDIO_TERMINO;
 export const permiteSegundoMandato = () => CONFIG.SEGUNDO_MANDATO;

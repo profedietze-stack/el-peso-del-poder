@@ -6,7 +6,7 @@
 // ============================================================
 
 import { initErrorBanner }             from './ui/error-banner.js';
-import { loadSettings, applySettings } from './engine/settings.js';
+import { loadSettings, applySettings, setPais } from './engine/settings.js';
 import { aplicarPais } from './data/pais-datos.js';
 import { PAISES } from './data/pais.js';
 import { aplicarReglas, turnoMedioTermino, permiteSegundoMandato } from './engine/mandato.js';
@@ -285,8 +285,17 @@ function startGame() {
  */
 function loadGame() {
   soundClick();
-  const { estado, state: saved } = cargarGuardado();
+  const { estado, state: saved, paisGuardado } = cargarGuardado();
   if (!saved) {
+    if (estado === 'otro-pais') {
+      // No se borra nada: la partida sigue guardada en su país. Si el jugador acepta, se cambia de país.
+      const nombre = PAISES[paisGuardado]?.nombre ?? 'otro país';
+      if (window.confirm(`La partida guardada es de ${nombre}. ¿Continuarla ahí? El país cambia y la página se recarga.`)) {
+        setPais(paisGuardado);
+        location.reload();
+      }
+      return;
+    }
     if (estado === 'danado') {
       // Lo que había no se podía leer: se descarta para que el botón no quede apuntando a nada.
       clearSave();

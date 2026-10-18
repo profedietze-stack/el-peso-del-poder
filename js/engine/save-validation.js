@@ -29,7 +29,8 @@ import { MINISTER_SLOTS, getMinisterById, getMinistersBySlot } from '../data/min
 import { getVPById, getDefaultVP } from '../data/vicepresident.js';
 import { newState } from './state.js';
 import { limpiarNombre } from './texto.js';
-import { totalTurnos } from './mandato.js';
+import { totalTurnos, paisActivo } from './mandato.js';
+import { PAISES } from '../data/pais.js';
 
 /** Versión del esquema del guardado. Se sube cuando cambia la forma de algún campo. */
 export const SAVE_VERSION = 1;
@@ -224,7 +225,7 @@ function validarNoticias(v) {
 /**
  * Valida y normaliza una partida cargada desde el almacenamiento.
  * @param {unknown} raw lo que devolvió `JSON.parse`
- * @returns {{estado:'ok', state:object} | {estado:'danado', motivo:string}}
+ * @returns {{estado:'ok', state:object} | {estado:'danado', motivo:string} | {estado:'otro-pais', paisGuardado:string}}
  */
 export function validarGuardado(raw) {
   try {
@@ -240,6 +241,11 @@ function _validar(raw) {
     return { estado: 'danado', motivo: 'es de una versión más nueva del juego' };
   }
   if (raw.won === true || raw.lost === true) return { estado: 'danado', motivo: 'la partida ya había terminado' };
+  // Una partida es del país en que se jugó (duración y reglas distintas): no se abre en otro.
+  // Un guardado sin país o con uno desconocido se acepta, como antes de que existiera el campo.
+  if (esTexto(raw.pais) && Object.hasOwn(PAISES, raw.pais) && raw.pais !== paisActivo()) {
+    return { estado: 'otro-pais', paisGuardado: raw.pais };
+  }
 
   const indicadores = validarIndicadores(raw.indicadores);
   if (!indicadores) return { estado: 'danado', motivo: 'faltan indicadores o no son números' };
@@ -272,6 +278,7 @@ function _validar(raw) {
   const state = {
     ...base,
     saveVersion: SAVE_VERSION,
+    pais: paisActivo(),
     turn: raw.turn,
     indicadores,
     startingIndicadores: validarIndicadores(raw.startingIndicadores) ?? { ...indicadores },

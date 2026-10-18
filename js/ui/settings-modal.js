@@ -52,7 +52,7 @@ function _build() {
                 <span class="set-font-name">${p.nombre}</span>
               </button>`).join('')}
           </div>
-          <div class="set-hint">Latinoamérica usa un país imaginario, sin datos de un solo país. La página se recarga y tu partida queda guardada.</div>
+          <div class="set-hint">Latinoamérica usa un país imaginario, sin datos de un solo país; México, Colombia y Chile suman sus instituciones y la duración real del mandato. Cambiar de país recarga la página. Una partida guardada en otro país se continúa cambiando de país (se pide confirmación).</div>
         </div>
 
         <div class="set-group">

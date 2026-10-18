@@ -141,6 +141,8 @@ export const TERMINOS = [
   [/Precios Justos/g, 'Precios Acordados'],
   [/Formulario Terap[ée]utico Nacional/g, 'Listado Nacional de Medicamentos'],
   [/Patagonia andina/g, 'cordillera sur'],
+  [/\bde la Patagonia\b/g, 'del sur'],
+  [/\bla Patagonia\b/g, 'el sur'],
   [/Patagonia/g, 'el sur'],
   [/patag[óo]nic[oa]s?/g, 'del sur'],
   [/Bolsa de Comercio de Rosario/g, 'Bolsa de Comercio'],

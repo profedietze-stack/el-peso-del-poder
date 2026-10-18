@@ -192,3 +192,15 @@ test('una forma de voseo que falta en la tabla la encuentra el barrido del códi
   assert.match(sinTabla, /Hacé/);
   assert.match(sinTabla, /quieres/);
 });
+
+test('Latinoamérica: «la Patagonia» no queda como «la sur» (el artículo cambia con el género)', () => {
+  assert.equal(textoPais('Incendios en la Patagonia: El Bosque Arde'), 'Incendios en el sur: El Bosque Arde');
+  assert.equal(textoPais('los ecosistemas de la Patagonia'), 'los ecosistemas del sur');
+  assert.equal(textoPais('una refinería en la Patagonia'), 'una refinería en el sur');
+  const mal = [];
+  for (const [ruta, t] of textos(DATOS)) {
+    const m = quitarTags(t).match(/\b(?:la|de la|en la|por la) sur\b/i);
+    if (m) mal.push(`${ruta}: «${m[0]}»`);
+  }
+  assert.deepEqual(mal, []);
+});

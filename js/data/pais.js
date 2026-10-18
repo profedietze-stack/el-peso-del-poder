@@ -20,9 +20,14 @@
 // queda algo de PROHIBIDOS: así un texto nuevo con "INDEC" no se cuela.
 // ============================================================
 
+// `base`: de qué capa de textos parte (null = los originales). `reglas.turnos` es la
+// duración real del mandato en meses (ver engine/mandato.js).
 export const PAISES = {
-  ar:    { id: 'ar',    nombre: 'Argentina',     bandera: '🇦🇷' },
-  latam: { id: 'latam', nombre: 'Latinoamérica', bandera: '🌎' },
+  ar:    { id: 'ar',    nombre: 'Argentina',     bandera: '🇦🇷', base: null,    reglas: { turnos: 48, medioTermino: 24, segundoMandato: true } },
+  latam: { id: 'latam', nombre: 'Latinoamérica', bandera: '🌎', base: 'latam', reglas: { turnos: 48, medioTermino: 24, segundoMandato: true } },
+  mx:    { id: 'mx',    nombre: 'México',        bandera: '🇲🇽', base: 'latam', reglas: { turnos: 72, medioTermino: 36, segundoMandato: false } },
+  co:    { id: 'co',    nombre: 'Colombia',      bandera: '🇨🇴', base: 'latam', reglas: { turnos: 48, medioTermino: 24, segundoMandato: false } },
+  cl:    { id: 'cl',    nombre: 'Chile',         bandera: '🇨🇱', base: 'latam', reglas: { turnos: 48, medioTermino: 24, segundoMandato: false } },
 };
 export const PAIS_POR_DEFECTO = 'ar';
 

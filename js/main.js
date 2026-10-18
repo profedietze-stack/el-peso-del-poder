@@ -8,6 +8,8 @@
 import { initErrorBanner }             from './ui/error-banner.js';
 import { loadSettings, applySettings } from './engine/settings.js';
 import { aplicarPais } from './data/pais-datos.js';
+import { PAISES } from './data/pais.js';
+import { aplicarReglas } from './engine/mandato.js';
 import { iniciarPaisDom } from './ui/pais-dom.js';
 import { openSettingsModal, closeSettingsModal } from './ui/settings-modal.js';
 import { CONFIG, IND_META }            from './config.js';
@@ -200,8 +202,9 @@ document.addEventListener('DOMContentLoaded', () => {
   applySettings();
 
   // ── País: Latinoamérica reescribe los textos con datos de Argentina ──
-  if (ajustes.pais === 'latam') {
-    aplicarPais('latam');
+  aplicarReglas(ajustes.pais);
+  if (PAISES[ajustes.pais]?.base === 'latam') {
+    aplicarPais(ajustes.pais);
     iniciarPaisDom();
   }
 

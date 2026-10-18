@@ -1,7 +1,10 @@
 "use strict";
 
 export const CONFIG = {
+  // Se reescriben al arrancar según el país (engine/mandato.js → aplicarReglas).
   TOTAL_TURNS: 48,
+  MEDIO_TERMINO: 24,
+  SEGUNDO_MANDATO: true,
 
   INITIAL: {
     ipc:          50,

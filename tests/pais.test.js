@@ -27,10 +27,11 @@ const citasAntes = QUOTES.length;
 test('los ajustes aceptan solo países que existen', () => {
   assert.equal(sanearAjustes({ pais: 'latam' }).pais, 'latam');
   assert.equal(sanearAjustes({ pais: 'ar' }).pais, 'ar');
+  for (const id of ['mx', 'co', 'cl']) assert.equal(sanearAjustes({ pais: id }).pais, id);
   assert.equal(sanearAjustes({ pais: 'chile' }).pais, 'ar', 'un país inventado cae a Argentina');
   assert.equal(sanearAjustes({ pais: 7 }).pais, 'ar');
   assert.equal(sanearAjustes({}).pais, 'ar');
-  assert.deepEqual(Object.keys(PAISES), ['ar', 'latam']);
+  assert.deepEqual(Object.keys(PAISES), ['ar', 'latam', 'mx', 'co', 'cl']);
 });
 
 test('con Argentina no se toca ningún texto', () => {

@@ -1,8 +1,8 @@
 "use strict";
 
 import { IND_META }                from '../config.js';
-import { totalTurnos }             from '../engine/mandato.js';
-import { ACHIEVEMENTS }            from '../data/achievements.js';
+import { totalTurnos, notaDeMandato, permiteSegundoMandato } from '../engine/mandato.js';
+import { logrosVisibles }          from '../data/achievements.js';
 import { getScore, getDiploma, getMandateVerdict,
          computeReelection, getColor, getZone } from '../engine/scoring.js';
 import { EVENTS }                  from '../data/events.js';
@@ -71,6 +71,8 @@ export function showEndScreen(state, countryName) {
   if (shareOpts) shareOpts.style.display = 'none';
 
   _renderCapital(state);
+  const nota = document.getElementById('end-nota-mandato');
+  if (nota) nota.textContent = state.won ? notaDeMandato() : '';
   iniciarDiapositivas(state);
   showScreen('screen-end');
 }
@@ -172,8 +174,8 @@ function _renderReelection(state, score) {
   const content = document.getElementById('reelection-content');
   if (!content) return;
 
-  // Ocultar en derrota o en segundo mandato (ya no hay reelección)
-  if (!state.won || state.isSecondTerm) {
+  // Ocultar en derrota, en segundo mandato o donde la ley no permite reelegirse
+  if (!state.won || state.isSecondTerm || !permiteSegundoMandato()) {
     if (section) section.style.display = 'none';
     return;
   }
@@ -282,7 +284,7 @@ function _renderAchievements(state, score) {
 
   const unlockedSet = new Set(state.unlockedAchievements || []);
 
-  grid.innerHTML = ACHIEVEMENTS
+  grid.innerHTML = logrosVisibles()
     .filter(a => unlockedSet.has(a.id))
     .map(a => `
       <div class="ach-card unlocked" title="${a.desc}">
@@ -569,7 +571,7 @@ function _showLegacyScreen(state, countryName) {
   const party   = id.partyName ? ` · ${id.partyName.split('(')[0].trim()}` : '';
   const diff    = { easy:'Fácil', normal:'Normal', hard:'Difícil', ultra:'Ultra 💀' }[state.difficulty] || 'Normal';
   const unlockedSet = new Set(state.unlockedAchievements || []);
-  const unlockedAchs = ACHIEVEMENTS.filter(a => unlockedSet.has(a.id));
+  const unlockedAchs = logrosVisibles().filter(a => unlockedSet.has(a.id));
   const totalDecisions = (state.history || []).length;
   const crisisCount    = state.adata?.crisisCount ?? 0;
   const neverCorrupt   = !!state.adata?.neverCorrupt;

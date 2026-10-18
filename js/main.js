@@ -9,7 +9,7 @@ import { initErrorBanner }             from './ui/error-banner.js';
 import { loadSettings, applySettings } from './engine/settings.js';
 import { aplicarPais } from './data/pais-datos.js';
 import { PAISES } from './data/pais.js';
-import { aplicarReglas, turnoMedioTermino } from './engine/mandato.js';
+import { aplicarReglas, turnoMedioTermino, permiteSegundoMandato } from './engine/mandato.js';
 import { iniciarPaisDom } from './ui/pais-dom.js';
 import { openSettingsModal, closeSettingsModal } from './ui/settings-modal.js';
 import { CONFIG, IND_META }            from './config.js';
@@ -681,7 +681,7 @@ function _advanceTurn(option) {
   if (G.turn >= CONFIG.TOTAL_TURNS) {
     G.won = true;
     // Calcular reelección y almacenar en el estado antes de guardar
-    G.reelection = computeReelection(G);
+    if (permiteSegundoMandato()) G.reelection = computeReelection(G);
     saveToStorage(G);
     recordGameToGlobal(G, getScore(G.indicadores));
     clearSave();

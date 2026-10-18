@@ -14,14 +14,17 @@
 // «📜 Informe completo» salta directo a la 4 desde cualquier diapositiva.
 // ============================================================
 
+import { permiteSegundoMandato } from '../engine/mandato.js';
+
 export const DIAPOSITIVAS = ['diploma', 'gestion', 'eleccion', 'informe'];
 
 /**
  * Qué diapositivas se muestran para esta partida. La de elecciones solo existe si se
- * ganó el primer mandato (en derrota o en segundo mandato no hay reelección que mostrar).
+ * ganó el primer mandato en un país con reelección (en derrota, en segundo mandato o
+ * donde la ley no permite reelegirse no hay reelección que mostrar).
  */
 export function diapositivasVisibles(state) {
-  const hayEleccion = state?.won === true && state?.isSecondTerm !== true;
+  const hayEleccion = permiteSegundoMandato() && state?.won === true && state?.isSecondTerm !== true;
   return DIAPOSITIVAS.filter((d) => d !== 'eleccion' || hayEleccion);
 }
 

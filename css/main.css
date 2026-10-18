@@ -1253,6 +1253,8 @@ body.reduce-motion .end-slide.activa { animation:none; }
 .end-motivo p { margin:6px 0 0; font-size:.95rem; color:var(--text); }
 .end-capital { display:flex; align-items:center; gap:16px; text-align:left; background:var(--navy-card); border:1px solid rgba(201,168,76,.35); border-radius:var(--radius); padding:16px 22px; margin-bottom:18px; }
 .end-capital:empty { display:none; }
+.end-nota-mandato { margin:14px 0 0; font-size:.85rem; color:var(--text-dim); text-align:center; }
+.end-nota-mandato:empty { display:none; }
 .end-capital-valor { font-family:var(--font-condensed); font-size:2.2rem; color:var(--gold); white-space:nowrap; }
 .end-capital-valor small { font-size:1rem; color:var(--text-dim); }
 .end-capital-texto { font-size:.9rem; line-height:1.5; color:var(--text); }

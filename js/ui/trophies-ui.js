@@ -1,6 +1,6 @@
 "use strict";
 
-import { ACHIEVEMENTS }           from '../data/achievements.js';
+import { logrosVisibles }         from '../data/achievements.js';
 import { EVENTS }                  from '../data/events.js';
 import { nombreDeHerencia }        from '../data/heritage.js';
 import { IND_META, CONFIG }        from '../config.js';
@@ -142,8 +142,9 @@ function renderTrophiesAchievements(state) {
     state.unlockedAchievements.forEach(id => unlockedSet.add(id));
   }
 
-  const unlocked = unlockedSet.size;
-  const total    = ACHIEVEMENTS.length;
+  const visibles = logrosVisibles();
+  const unlocked = visibles.filter(a => unlockedSet.has(a.id)).length;
+  const total    = visibles.length;
 
   const countEl = document.getElementById('tr-ach-unlocked-count');
   const barEl   = document.getElementById('tr-ach-bar');
@@ -154,7 +155,7 @@ function renderTrophiesAchievements(state) {
   if (!grid) return;
 
   // Ordenar: desbloqueados primero
-  const sorted = [...ACHIEVEMENTS].sort((a, b) => {
+  const sorted = [...visibles].sort((a, b) => {
     const ua = unlockedSet.has(a.id) ? 0 : 1;
     const ub = unlockedSet.has(b.id) ? 0 : 1;
     return ua - ub;
@@ -310,7 +311,7 @@ function _renderDocenteGameSummary(s) {
           <div class="dc-ficha-row"><span class="dc-fr-label">Herencia</span><span class="dc-fr-val">${nombreDeHerencia(s.heritageId)}</span></div>
           <div class="dc-ficha-row"><span class="dc-fr-label">Mandato</span><span class="dc-fr-val">${MANDATE_NAMES[s.mandateType] || s.mandateType}</span></div>
           <div class="dc-ficha-row"><span class="dc-fr-label">Turnos jugados</span><span class="dc-fr-val">${s.history.length} / ${totalTurnos()}</span></div>
-          <div class="dc-ficha-row"><span class="dc-fr-label">Logros obtenidos</span><span class="dc-fr-val">${s.unlockedAchievements.length} de ${ACHIEVEMENTS.length}</span></div>
+          <div class="dc-ficha-row"><span class="dc-fr-label">Logros obtenidos</span><span class="dc-fr-val">${s.unlockedAchievements.length} de ${logrosVisibles().length}</span></div>
         </div>
       </div>
     </div>`;

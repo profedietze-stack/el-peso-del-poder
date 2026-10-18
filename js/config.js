@@ -5,6 +5,7 @@ export const CONFIG = {
   TOTAL_TURNS: 48,
   MEDIO_TERMINO: 24,
   SEGUNDO_MANDATO: true,
+  NOTA_MANDATO: '',
 
   INITIAL: {
     ipc:          50,

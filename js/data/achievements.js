@@ -1,7 +1,7 @@
 "use strict";
 
 import { getDiploma } from '../engine/scoring.js';
-import { totalTurnos } from '../engine/mandato.js';
+import { totalTurnos, permiteSegundoMandato } from '../engine/mandato.js';
 
 // ============================================================
 // LOGROS — 20 en total (12 originales + 8 nuevos)
@@ -256,6 +256,17 @@ const REELECTION_ACHIEVEMENTS = [
 
 export const ACHIEVEMENTS = [...ORIGINAL_ACHIEVEMENTS, ...NEW_ACHIEVEMENTS, ...REELECTION_ACHIEVEMENTS];
 
+/** Los logros que solo existen donde hay reelección. */
+export const IDS_DE_REELECCION = REELECTION_ACHIEVEMENTS.map(a => a.id);
+
+/**
+ * Los logros que se pueden ganar en el país activo: sin segundo mandato no hay logros
+ * de reelección, y no se muestran como «bloqueados para siempre» ni cuentan en el total.
+ */
+export function logrosVisibles() {
+  return permiteSegundoMandato() ? ACHIEVEMENTS : ACHIEVEMENTS.filter(a => !IDS_DE_REELECCION.includes(a.id));
+}
+
 /**
  * Evalúa todos los logros contra el estado actual del juego.
  * @param {object} s   - estado del juego (ver engine/state.js)
@@ -263,7 +274,7 @@ export const ACHIEVEMENTS = [...ORIGINAL_ACHIEVEMENTS, ...NEW_ACHIEVEMENTS, ...R
  * @returns {string[]} array de IDs de logros desbloqueados
  */
 export function checkAchievements(s, ctx) {
-  return ACHIEVEMENTS
+  return logrosVisibles()
     .filter(a => a.check(s, ctx))
     .map(a => a.id);
 }
@@ -284,7 +295,7 @@ export function getAchievementById(id) {
  */
 export function buildAchievementsGridHTML(unlockedIds) {
   const unlockedSet = new Set(unlockedIds);
-  return ACHIEVEMENTS.map(a => {
+  return logrosVisibles().map(a => {
     const unlocked = unlockedSet.has(a.id);
     return `<div class="ach-card ${unlocked ? 'unlocked' : 'locked'}" title="${a.desc}">
       <span class="ach-icon">${unlocked ? a.icon : '🔒'}</span>

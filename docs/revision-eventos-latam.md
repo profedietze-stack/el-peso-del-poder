@@ -60,3 +60,13 @@ Los eventos de la lista que además se reescribieron a mano para Latinoamérica 
 1. Leer los eventos de «Argentino de fondo» uno por uno y decidir: reescribir la trama para la región, reemplazarlo por un evento nuevo de `js/data/events-latam.js`, o dejarlo si el tema es universal.
 2. Cada evento reescrito o reemplazado tiene que seguir cumpliendo `tests/decisiones-reales.test.js` y `tests/ministros-dicen-la-verdad.test.js`.
 3. Para el primer país concreto (México o Colombia), repetir esta revisión con sus propios marcadores.
+
+## Hecho el 2026-10-18
+Aprobado por el docente: **8 reemplazos** (en Latinoamérica se ocultan los originales 85, 91, 53, 58, 66, 99, 24 y 75, y entran los
+eventos 211 a 218 de `js/data/events-latam.js`: juicio a un expresidente, archivos de una dictadura, recorte a la cultura, obra del metro
+con sobrecostos, sede del Mundial de Fútbol, candidatura a los Juegos Olímpicos, exportadores que retienen divisas, brecha salarial con
+negociación por sector). Con Argentina siguen los 130 originales, sin cambios.
+**Reescrituras menores** (solo Latinoamérica, en `pais.js`): retenciones → impuestos a la exportación, cepo → control de cambios,
+paritarias → negociaciones colectivas, monotributo, obra social, piqueteros, conurbano bonaerense, «lawfare», «porteño», «colectivo»
+y «laburo». El test los exige: ahora `PROHIBIDOS` incluye esa jerga.
+Medido (2.500 partidas por celda, con y sin los 18 eventos regionales): sin cambio en el balance.

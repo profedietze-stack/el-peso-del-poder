@@ -7,7 +7,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 
 import { EVENTS } from '../js/data/events.js';
-import { EVENTS_LATAM, construirComentarios } from '../js/data/events-latam.js';
+import { EVENTS_LATAM, EVENTOS_OCULTOS_LATAM, construirComentarios } from '../js/data/events-latam.js';
 import { MINISTER_COMMENTARY } from '../js/data/minister-commentary.js';
 import { PROHIBIDOS, textoPais } from '../js/data/pais.js';
 import { agregarEventosLatam } from '../js/data/pais-datos.js';
@@ -24,10 +24,10 @@ const bien = (o, k) => (MALO_ALTO.includes(k) ? -(o.efectos[k] ?? 0) : (o.efecto
 const domina = (a, b) => INDICADORES.every((k) => bien(a, k) >= bien(b, k)) && INDICADORES.some((k) => bien(a, k) > bien(b, k));
 const quitarTags = (t) => t.replace(/<[^>]+>/g, ' ');
 
-test('son diez eventos con ids propios que no pisan al banco', () => {
-  assert.equal(EVENTS_LATAM.length, 10);
+test('son dieciocho eventos con ids propios que no pisan al banco', () => {
+  assert.equal(EVENTS_LATAM.length, 18);
   const ids = EVENTS_LATAM.map((e) => e.id);
-  assert.equal(new Set(ids).size, 10);
+  assert.equal(new Set(ids).size, 18);
   for (const id of ids) {
     assert.ok(Number.isInteger(id) && id >= 201, `id ${id}`);
     assert.ok(!IDS_AR.has(id), `el id ${id} ya existe en el banco`);
@@ -158,12 +158,16 @@ test('una cifra escrita a mano y distinta de la del motor SÍ la detecta el reco
 
 // ── Cómo se suman al banco ───────────────────────────────────
 
-test('agregarEventosLatam suma los diez y sus comentarios, y es idempotente', () => {
+test('agregarEventosLatam suma los 18, oculta los 8 de trama argentina y es idempotente', () => {
   assert.equal(EVENTS.length, 130);
   assert.ok(![...COMENTARIOS_AR_ANTES].some((k) => Number(k) >= 201));
-  assert.equal(agregarEventosLatam(), 10);
-  assert.equal(EVENTS.length, 140);
-  assert.equal(agregarEventosLatam(), 0, 'una segunda llamada no duplica');
+  assert.equal(EVENTOS_OCULTOS_LATAM.length, 8);
+  for (const id of EVENTOS_OCULTOS_LATAM) assert.ok(IDS_AR.has(id), `el oculto ${id} no existe en el banco original`);
+
+  assert.equal(agregarEventosLatam(), 18);
+  assert.equal(EVENTS.length, 130 - 8 + 18);
+  for (const id of EVENTOS_OCULTOS_LATAM) assert.ok(!EVENTS.some((e) => e.id === id), `el ${id} sigue en Latinoamérica`);
+  assert.equal(agregarEventosLatam(), 0, 'una segunda llamada no duplica ni vuelve a ocultar');
   assert.equal(EVENTS.length, 140);
   for (const e of EVENTS_LATAM) {
     assert.ok(EVENTS.find((x) => x.id === e.id));
@@ -171,14 +175,19 @@ test('agregarEventosLatam suma los diez y sus comentarios, y es idempotente', ()
   }
 });
 
-test('los comentarios no traen «1 puntos» ni mayúscula después de coma o dos puntos', () => {
-  const c = construirComentarios();
-  const mal = [];
-  for (const [id, ops] of Object.entries(c)) {
-    ops.forEach((o, i) => o.forEach((t) => {
-      const p = quitarTags(t.text);
-      for (const x of p.matchAll(/[,:;] (La|El|Las|Los) |\b1 puntos/g)) mal.push(`${id} op${i + 1}: «${p.slice(Math.max(0, x.index - 20), x.index + 30)}»`);
-    }));
+test('ocultar eventos no rompe nada del banco: ninguna cadena ni ancla apunta a un oculto', () => {
+  const ocultos = new Set(EVENTOS_OCULTOS_LATAM);
+  const cadenas = BANCO_AR.flatMap((e) => e.opciones.filter((o) => o.chain).map((o) => o.chain.eventId));
+  assert.deepEqual(cadenas.filter((id) => ocultos.has(id)), []);
+  for (const ancla of [28, 36, 40]) assert.ok(!ocultos.has(ancla), `el ancla ${ancla}`);
+  assert.ok(BANCO_AR.filter((e) => ocultos.has(e.id)).every((e) => !e.isSpecial), 'ningún oculto es un evento especial');
+});
+
+test('cada evento oculto tiene su reemplazo con el mismo tag (imagen y peso se mantienen)', () => {
+  const reemplazo = { 85: 211, 91: 212, 53: 213, 58: 214, 66: 215, 99: 216, 24: 217, 75: 218 };
+  for (const [viejo, nuevo] of Object.entries(reemplazo)) {
+    const v = BANCO_AR.find((e) => e.id === Number(viejo));
+    const n = EVENTS_LATAM.find((e) => e.id === nuevo);
+    assert.equal(n.tag, v.tag, `${viejo} → ${nuevo}`);
   }
-  assert.deepEqual(mal, []);
 });

@@ -181,8 +181,8 @@ test('el tuteo no toca palabras que terminan igual ni nombres propios', () => {
 });
 
 test('el juego trae voseo que el tuteo tiene que sacar (si no, el barrido no prueba nada)', () => {
-  const voseo = PROHIBIDOS[0];
-  assert.ok(voseo.test('podés'), 'PROHIBIDOS[0] tiene que ser la regla del voseo');
+  const voseo = PROHIBIDOS.find((re) => re.test('podés'));
+  assert.ok(voseo, 'PROHIBIDOS tiene que traer la regla del voseo');
   assert.ok(originales.filter(([, t]) => voseo.test(t)).length >= 3, 'los datos casi no traen voseo');
 });
 

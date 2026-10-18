@@ -25,6 +25,15 @@ const IND = {
 };
 const MALO_ALTO = ['ipc', 'deuda', 'riesgo', 'pobreza', 'desocupacion'];
 
+/**
+ * Eventos del banco original que NO se muestran en Latinoamérica porque su trama es de un solo país
+ * (cada uno tiene su reemplazo regional más abajo). Con Argentina siguen todos: el banco original no se toca.
+ *   85 Lawfare y Justicia → 211 · 91 Sitios de Memoria → 212 · 53 Recorte al instituto de cine → 213
+ *   58 Tren entre tres ciudades → 214 · 66 «Ganó el Mundial» → 215 · 99 Sede del Mundial Sub-20 → 216
+ *   24 «El campo no liquida» → 217 · 75 Brecha salarial con paritarias → 218
+ */
+export const EVENTOS_OCULTOS_LATAM = [85, 91, 53, 58, 66, 99, 24, 75];
+
 export const EVENTS_LATAM = [
   {
     id: 201, tag: '🌍 Migración',
@@ -126,6 +135,86 @@ export const EVENTS_LATAM = [
       { texto: '🏭 Plan de diversificación: incentivos a la industria y los servicios para depender menos de una sola materia prima.', efectos: { ipc: 2, deuda: 5, reservas: -2, riesgo: 0, pobreza: 1, desocupacion: -2, produccion: 4, confianza: 3 } },
     ],
   },
+  {
+    id: 211, tag: '🏛️ Instituciones',
+    titulo: 'Juicio a un Expresidente: ¿Justicia o Persecución?',
+    descripcion: 'La fiscalía acusa de corrupción a un expresidente que lidera a la principal fuerza opositora. Sus seguidores hablan de persecución política y llenan las plazas; sectores del oficialismo piden acelerar la condena para impedir que vuelva a postularse. Los jueces esperan una señal del gobierno y los organismos internacionales siguen el caso de cerca.',
+    opciones: [
+      { texto: '🕊️ Respeto irrestricto a la Justicia: declarar que el proceso sigue su curso, sin comentarios ni presiones.', efectos: { ipc: 0, deuda: 0, reservas: 0, riesgo: -4, pobreza: 0, desocupacion: 0, produccion: -1, confianza: 7 } },
+      { texto: '📢 Cuestionar el proceso: advertir públicamente que la causa es política y que los tiempos de la fiscalía son sospechosos.', efectos: { ipc: 1, deuda: 0, reservas: 0, riesgo: 5, pobreza: 0, desocupacion: 0, produccion: 2, confianza: -9 } },
+      { texto: '📋 Ley de plazos judiciales: proponer plazos máximos y transparencia para todos los juicios, no solo este.', efectos: { ipc: 0, deuda: 1, reservas: 1, riesgo: -1, pobreza: 0, desocupacion: 0, produccion: 1, confianza: 4 } },
+    ],
+  },
+  {
+    id: 212, tag: '⚖️ Derechos Humanos',
+    titulo: 'Los Archivos de una Dictadura: ¿Abrirlos o Sellarlos?',
+    descripcion: 'Hace décadas gobernó un régimen autoritario que dejó miles de desaparecidos. Aparecen archivos militares con nombres de víctimas y de responsables, algunos de ellos vivos y con cargos en la actualidad. Las organizaciones de familiares exigen abrirlos; sectores militares y políticos advierten que reabrir el pasado amenaza la gobernabilidad.',
+    opciones: [
+      { texto: '📂 Abrir todos los archivos: crear una comisión independiente con acceso total y publicar los nombres.', efectos: { ipc: 0, deuda: 1, reservas: 0, riesgo: -2, pobreza: 0, desocupacion: 0, produccion: -1, confianza: 9 } },
+      { texto: '🔐 Apertura gradual: abrir por etapas, proteger a los testigos y publicar primero lo que ya tiene sentencia.', efectos: { ipc: 0, deuda: 0, reservas: 0, riesgo: -1, pobreza: 0, desocupacion: 0, produccion: 0, confianza: 4 } },
+      { texto: '🧱 Sellarlos por treinta años: priorizar la estabilidad y evitar un conflicto con las Fuerzas Armadas.', efectos: { ipc: 0, deuda: 0, reservas: 0, riesgo: 2, pobreza: 0, desocupacion: 0, produccion: 1, confianza: -12 } },
+    ],
+  },
+  {
+    id: 213, tag: '🎭 Cultura',
+    titulo: 'Recorte a la Cultura: ¿Hay Futuro para las Artes y el Cine?',
+    descripcion: 'Economía propone eliminar el fondo de fomento al cine y las artes para reducir el déficit. Los artistas y las productoras advierten que miles de empleos y la identidad cultural del país dependen de ese fondo; los defensores del recorte sostienen que las plataformas y el mercado pueden financiar lo que el público quiere ver.',
+    opciones: [
+      { texto: '🎬 Defender el fondo: mantenerlo e imponer un impuesto a las plataformas digitales extranjeras para financiarlo.', efectos: { ipc: 1, deuda: 1, reservas: 1, riesgo: -1, pobreza: -1, desocupacion: -2, produccion: 2, confianza: 8 } },
+      { texto: '⚖️ Reformar el fondo: mantenerlo reducido y exigir más coproducción privada y resultados de taquilla.', efectos: { ipc: 0, deuda: -1, reservas: 0, riesgo: 0, pobreza: 0, desocupacion: -1, produccion: 1, confianza: 3 } },
+      { texto: '✂️ Eliminarlo: que el mercado y las plataformas decidan qué contenidos se producen.', efectos: { ipc: 0, deuda: -2, reservas: 0, riesgo: -1, pobreza: 0, desocupacion: 2, produccion: -1, confianza: -7 } },
+    ],
+  },
+  {
+    id: 214, tag: '🚆 Infraestructura',
+    titulo: 'La Obra del Metro Triplicó su Costo',
+    descripcion: 'La gran obra de transporte de la capital va por la mitad y su costo se triplicó respecto del presupuesto original. La auditoría detecta sobreprecios en los contratos, pero hay 12.000 obreros trabajando y miles de comerciantes con las calles cortadas desde hace años. Detener la obra deja un túnel abandonado; continuarla exige más deuda.',
+    opciones: [
+      { texto: '🏗️ Completar con financiamiento adicional: pedir un crédito multilateral y terminar la obra en el plazo previsto.', efectos: { ipc: 1, deuda: 9, reservas: -3, riesgo: 2, pobreza: -3, desocupacion: -5, produccion: 6, confianza: 3 } },
+      { texto: '🔎 Auditar y renegociar: revisar los contratos, recuperar lo cobrado de más y reprogramar las etapas.', efectos: { ipc: 0, deuda: 3, reservas: -1, riesgo: -2, pobreza: -1, desocupacion: -1, produccion: 2, confianza: 6 } },
+      { texto: '⛔ Paralizar la obra: frenar hasta que termine la investigación y evitar más gasto.', efectos: { ipc: 0, deuda: -2, reservas: 1, riesgo: 1, pobreza: 1, desocupacion: 4, produccion: -3, confianza: -6 } },
+    ],
+  },
+  {
+    id: 215, tag: '🏋️ Deporte',
+    titulo: 'El País Será Sede del Mundial de Fútbol',
+    descripcion: 'La federación internacional ofrece al país la organización de un Mundial de fútbol. El torneo traería turismo, obras y un impulso de identidad nacional, pero exige construir estadios nuevos y garantías de seguridad y transporte. Las experiencias de otros países muestran estadios vacíos y deudas que duraron una década.',
+    opciones: [
+      { texto: '🏟️ Aceptar con estadios nuevos: construir los recintos que exige la federación y apostar al turismo y al empleo.', efectos: { ipc: 2, deuda: 7, reservas: -2, riesgo: -2, pobreza: -1, desocupacion: -5, produccion: 4, confianza: 10 } },
+      { texto: '🤝 Co-sede con un país vecino: compartir estadios y costos con otro país de la región.', efectos: { ipc: 1, deuda: 3, reservas: -1, riesgo: -2, pobreza: -1, desocupacion: -3, produccion: 3, confianza: 6 } },
+      { texto: '🚫 Rechazar la candidatura: destinar el presupuesto a emergencias sociales.', efectos: { ipc: 0, deuda: -1, reservas: 0, riesgo: 0, pobreza: -4, desocupacion: -1, produccion: 0, confianza: -2 } },
+    ],
+  },
+  {
+    id: 216, tag: '🏋️ Deporte',
+    titulo: 'Candidatura a los Juegos Olímpicos',
+    descripcion: 'El comité olímpico invita a la capital a presentar su candidatura para organizar los Juegos. Es la mayor vidriera internacional que el país podría tener, con inversión en infraestructura y transporte. También es el evento que más veces terminó en sobrecostos: la villa olímpica, los estadios y la seguridad se pagan durante años.',
+    opciones: [
+      { texto: '🏅 Candidatura completa: construir la villa y las sedes nuevas, con fondos públicos y privados.', efectos: { ipc: 2, deuda: 8, reservas: -3, riesgo: 0, pobreza: -1, desocupacion: -6, produccion: 5, confianza: 9 } },
+      { texto: '♻️ Juegos austeros: reutilizar instalaciones existentes, usar sedes temporales y limitar el gasto público.', efectos: { ipc: 0, deuda: 3, reservas: -1, riesgo: -2, pobreza: -1, desocupacion: -3, produccion: 2, confianza: 6 } },
+      { texto: '❌ No presentarse: priorizar la salud, la educación y el transporte antes que la vidriera internacional.', efectos: { ipc: 0, deuda: 0, reservas: 0, riesgo: -1, pobreza: -3, desocupacion: -1, produccion: 0, confianza: -3 } },
+    ],
+  },
+  {
+    id: 217, tag: '🌾 Agroexportaciones',
+    titulo: 'Cosecha Récord: Los Exportadores Retienen las Divisas',
+    descripcion: 'La cosecha es récord y los precios internacionales son buenos, pero los exportadores liquidan solo una parte de lo vendido: esperan una devaluación para cobrar más pesos por cada dólar. Las reservas del Banco Central caen justo cuando más deberían subir. Un tipo de cambio especial o un recorte de impuestos podría traer los dólares, pero cada medida tiene costos.',
+    opciones: [
+      { texto: '💱 Tipo de cambio especial y temporal: un dólar diferencial para quienes liquiden en el plazo fijado.', efectos: { ipc: 4, deuda: -2, reservas: 12, riesgo: -6, pobreza: -1, desocupacion: -2, produccion: 5, confianza: 2 } },
+      { texto: '📉 Bajar los impuestos a la exportación: reducirlos cinco puntos de manera permanente.', efectos: { ipc: 1, deuda: 1, reservas: 9, riesgo: -5, pobreza: -1, desocupacion: -1, produccion: 4, confianza: 3 } },
+      { texto: '🔒 No ceder: sostener las reglas y esperar que el mercado liquide por sí solo.', efectos: { ipc: 2, deuda: -2, reservas: 2, riesgo: 3, pobreza: 0, desocupacion: 0, produccion: 2, confianza: 0 } },
+    ],
+  },
+  {
+    id: 218, tag: '♀️ Género y Diversidad',
+    titulo: 'Brecha Salarial de Género: Un Informe Sacude al País',
+    descripcion: 'Un informe oficial revela que las mujeres cobran en promedio un 27 % menos que los varones por el mismo trabajo, y que la brecha es mayor en las empresas grandes. Las organizaciones sociales exigen una ley; las cámaras empresarias advierten que los costos laborales se encarecen y que la informalidad aumentaría.',
+    opciones: [
+      { texto: '⚖️ Ley de Igualdad Salarial con auditoría: obligar a las empresas a publicar sus salarios y corregir las diferencias.', efectos: { ipc: 2, deuda: 2, reservas: -1, riesgo: -2, pobreza: -5, desocupacion: -2, produccion: 0, confianza: 10 } },
+      { texto: '🎓 Programa de capacitación: lanzar campañas de sensibilización y subsidios para las empresas que cierren la brecha.', efectos: { ipc: 1, deuda: 2, reservas: -1, riesgo: -1, pobreza: -2, desocupacion: -1, produccion: 1, confianza: 5 } },
+      { texto: '📋 Derivar a la negociación por sector: dejar la resolución en manos de las mesas de negociación, sin una ley nacional.', efectos: { ipc: 0, deuda: 0, reservas: 0, riesgo: 0, pobreza: 0, desocupacion: 0, produccion: 0, confianza: -4 } },
+    ],
+  },
 ];
 
 // ── Comentarios de los ministros ────────────────────────────────
@@ -208,6 +297,63 @@ const PLANTILLAS = {
      ['social', 'El ajuste cae sobre los más pobres: {desocupacion}.']],
     [['produccion', 'Es la salida estructural: {produccion} y {desocupacion}. Los resultados tardan: {deuda} por los incentivos.'],
      ['economia', 'Mientras tanto, la caída de la materia prima sigue: {reservas}.']],
+  ],
+  211: [
+    [['gabinete', 'Es la salida que protege a las instituciones: {confianza} y {riesgo}. Tu base política te lo va a reprochar.'],
+     ['economia', 'Los mercados premian la previsibilidad: {produccion}.']],
+    [['gabinete', 'Interferir en un juicio se paga caro: {confianza} y {riesgo}. Parece una defensa y se lee como presión.'],
+     ['economia', 'Algo de actividad sube con la polarización, pero {ipc}.']],
+    [['gabinete', 'Es la respuesta de fondo: cambia las reglas para todos y no para un caso. {confianza}, aunque nadie se siente defendido.'],
+     ['economia', 'El costo fiscal es chico: {deuda}.']],
+  ],
+  212: [
+    [['social', 'Es lo que las familias esperan desde hace décadas: {confianza}. Las Fuerzas Armadas lo van a sentir como un ataque: {riesgo}.'],
+     ['produccion', 'La tensión institucional tiene un costo en la actividad: {produccion}, y {deuda} por la comisión y los peritajes.']],
+    [['gabinete', 'Es una apertura que se puede sostener: {confianza} y {riesgo}. Las víctimas dirán que llega tarde.']],
+    [['gabinete', 'Compra tranquilidad con los cuarteles: {riesgo}. Pero {confianza}: sellar los archivos se interpreta como encubrimiento.']],
+  ],
+  213: [
+    [['social', 'Defiende miles de empleos y la identidad cultural: {desocupacion} y {confianza}.'],
+     ['economia', 'El impuesto a las plataformas financia el fondo: {reservas} y {produccion}, con {deuda}.']],
+    [['economia', 'Ahorra sin destruir el sector: {deuda}. Es un equilibrio: {confianza}.'],
+     ['produccion', 'La industria se achica un poco: {desocupacion} y {produccion}.']],
+    [['economia', 'El ahorro es real: {deuda}. Pero {desocupacion} y {confianza}: es el recorte que más se nota en la calle.']],
+  ],
+  214: [
+    [['produccion', 'Terminar la obra es empleo y actividad: {desocupacion} y {produccion}. Pero {deuda} y {riesgo}.'],
+     ['gabinete', 'Es premiar un sobrecosto: {confianza}.']],
+    [['economia', 'Recupera dinero y ordena los pagos: {riesgo} y {confianza}. Pero {deuda} y la obra se demora un tiempo.'],
+     ['produccion', 'El ritmo baja: {produccion}.']],
+    [['economia', 'Evita más gasto: {deuda} y {reservas}. Pero {desocupacion} y {produccion}, con un túnel abandonado en la ciudad.'],
+     ['gabinete', 'Políticamente se paga: {confianza}.']],
+  ],
+  215: [
+    [['produccion', 'El torneo mueve la construcción y el turismo: {desocupacion} y {produccion}. Pero {deuda}.'],
+     ['gabinete', 'Es una vidriera enorme: {confianza}. Si los estadios quedan vacíos, la factura llega después: {ipc}.']],
+    [['economia', 'Comparte el riesgo y el costo: {deuda} y {riesgo}. Es una apuesta más prudente: {confianza}.'],
+     ['produccion', 'Se pierde algo de impacto: {produccion} y {desocupacion}.']],
+    [['social', 'Prioriza a los hogares más pobres: {pobreza}. Pero {confianza}: el fútbol es parte de la identidad nacional.'],
+     ['economia', 'Cuida las cuentas: {deuda}.']],
+  ],
+  216: [
+    [['produccion', 'Es la mayor obra pública en una generación: {desocupacion} y {produccion}. {deuda} y {reservas}.'],
+     ['gabinete', 'La vidriera internacional pesa: {confianza}, aunque los Juegos suelen cerrar con sobrecostos.']],
+    [['economia', 'Es la forma menos riesgosa de organizarlos: {deuda} y {riesgo}. {confianza}, sin la gran obra.'],
+     ['produccion', 'El empleo es menor: {desocupacion} y {produccion}.']],
+    [['social', 'Elige la salud y la educación antes que la vidriera: {pobreza} y {riesgo}. El costo político: {confianza}.']],
+  ],
+  217: [
+    [['economia', 'Trae los dólares enseguida: {reservas} y {riesgo}. Pero {ipc} y es una medida de emergencia, no una solución de fondo.'],
+     ['produccion', 'La actividad acompaña: {produccion} y {desocupacion}.']],
+    [['economia', 'Es una señal de largo plazo: {reservas} y {riesgo}. Cuesta recaudación: {deuda}.'],
+     ['produccion', 'Los productores invierten más: {produccion}.']],
+    [['economia', 'Mantiene las reglas pero no resuelve nada: {reservas} y {riesgo}. {confianza}: no hay respuesta para la escasez de divisas.']],
+  ],
+  218: [
+    [['social', 'Es la reforma que más reduce la desigualdad: {pobreza} y {confianza}. Las empresas lo sienten en los costos: {ipc} y {deuda}.'],
+     ['produccion', 'Ordena el mercado laboral: {desocupacion} y {produccion}.']],
+    [['social', 'Avanza sin conflicto: {pobreza} y {confianza}, con {deuda} por los subsidios.']],
+    [['economia', 'Evita costos para las empresas, y por eso no cambia nada: {confianza}. Las organizaciones lo leen como falta de voluntad.']],
   ],
 };
 

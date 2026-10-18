@@ -14,7 +14,7 @@ import { VICEPRESIDENTS } from './vicepresident.js';
 import { STICKER_MAP } from './stickers.js';
 import { GLOSSARY } from '../ui/tooltip.js';
 import { localizarDatos, adaptarCitas } from './pais.js';
-import { EVENTS_LATAM, construirComentarios } from './events-latam.js';
+import { EVENTS_LATAM, EVENTOS_OCULTOS_LATAM, construirComentarios } from './events-latam.js';
 
 export { QUOTES };
 
@@ -33,6 +33,8 @@ export const DATOS = {
  */
 export function agregarEventosLatam() {
   if (EVENTS.some((e) => e.id === EVENTS_LATAM[0].id)) return 0;
+  // Los de trama de un solo país se ocultan SOLO acá; el archivo original no se toca.
+  for (let i = EVENTS.length - 1; i >= 0; i--) if (EVENTOS_OCULTOS_LATAM.includes(EVENTS[i].id)) EVENTS.splice(i, 1);
   EVENTS.push(...EVENTS_LATAM);
   Object.assign(MINISTER_COMMENTARY, construirComentarios());
   return EVENTS_LATAM.length;

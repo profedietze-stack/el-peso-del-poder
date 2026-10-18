@@ -1,5 +1,6 @@
 "use strict";
 
+import { CONFIG } from '../config.js';
 import { iniciarTurnoCapital } from './capital.js';
 
 // ============================================================
@@ -175,7 +176,7 @@ export const INERTIA_RULES = [
  */
 export function applyInertia(state) {
   const diff = state.difficulty || 'normal';
-  const mult = INERTIA_MULT[diff] ?? 0.6;
+  const mult = (INERTIA_MULT[diff] ?? 0.6) * (CONFIG.RITMO?.inercia ?? 1);
 
   if (mult === 0) return { changed: false, triggered: [], delta: {} };
 

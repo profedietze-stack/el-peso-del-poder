@@ -7,6 +7,11 @@ export const CONFIG = {
   MEDIO_TERMINO_TIPO: 'legislativas',
   SEGUNDO_MANDATO: true,
   NOTA_MANDATO: '',
+  // Un mandato más largo tiene más turnos: el ritmo baja lo que se cobra POR TURNO para que el
+  // mandato entero tenga una dificultad parecida (ver engine/mandato.js). 1 = sin cambio.
+  //   efectos: todo efecto de una decisión · malos: además, solo los que empeoran un indicador
+  //   inercia: círculos viciosos y virtuosos de cada turno · especiales: probabilidad de eventos graves
+  RITMO: { efectos: 1, malos: 1, inercia: 1, especiales: 1 },
 
   INITIAL: {
     ipc:          50,

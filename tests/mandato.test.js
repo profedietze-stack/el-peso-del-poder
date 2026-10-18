@@ -115,3 +115,39 @@ test('ningún módulo de juego deja un 48 suelto: la duración sale de mandato.j
   }
   assert.deepEqual(sueltos, []);
 });
+
+// ── Ritmo: un mandato largo cobra menos por turno ────────────
+
+import { CONFIG } from '../js/config.js';
+import { applyEffects } from '../js/engine/scoring.js';
+
+const SIN_RITMO = { efectos: 1, malos: 1, inercia: 1, especiales: 1 };
+
+test('Argentina, Latinoamérica, Colombia y Chile no cambian nada por turno', () => {
+  for (const id of ['ar', 'latam', 'co', 'cl']) {
+    aplicarReglas(id);
+    assert.deepEqual(CONFIG.RITMO, SIN_RITMO, id);
+  }
+});
+
+test('México, con 72 turnos, cobra menos por turno: efectos, efectos malos e inercia', () => {
+  aplicarReglas('mx');
+  assert.ok(CONFIG.RITMO.efectos < 1 && CONFIG.RITMO.efectos >= 0.6, 'efectos');
+  assert.ok(CONFIG.RITMO.malos < 1 && CONFIG.RITMO.malos >= 0.8, 'malos');
+  assert.ok(CONFIG.RITMO.inercia < 1 && CONFIG.RITMO.inercia >= 0.6, 'inercia');
+  assert.equal(CONFIG.RITMO.especiales, 1);
+  aplicarReglas('ar');
+  assert.deepEqual(CONFIG.RITMO, SIN_RITMO, 'al volver a Argentina el ritmo vuelve a 1');
+});
+
+test('el ritmo escala los efectos de una decisión: un golpe de -10 pega menos en México', () => {
+  const ind = { confianza: 50, ipc: 50 };
+  aplicarReglas('ar');
+  const ar = applyEffects(ind, { confianza: -10, ipc: -10 });
+  assert.deepEqual([ar.confianza, ar.ipc], [40, 40]);
+  aplicarReglas('mx');
+  const mx = applyEffects(ind, { confianza: -10, ipc: -10 });
+  assert.ok(mx.confianza > 40, `el golpe malo en México (${mx.confianza}) tiene que pegar menos que en 48 turnos (40)`);
+  assert.ok(mx.confianza < 50);
+  assert.ok(mx.ipc < 50 && mx.ipc > 40, 'una mejora también rinde menos');
+});

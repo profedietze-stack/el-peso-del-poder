@@ -160,7 +160,7 @@ export function pickNextEvent(state) {
   // 2. ── Ruleta de eventos EXTREMOS (preEffects) ────────────────
   // Ultra: eventos extremos también en los primeros turnos (earlyGame ignorado)
   if ((!earlyGame || diff === 'ultra') && cooldownOk && diff !== 'easy') {
-    const extremeProb = EXTREME_PROB[diff] || 0.05;
+    const extremeProb = (EXTREME_PROB[diff] || 0.05) * (CONFIG.RITMO?.especiales ?? 1);
     if (Math.random() < extremeProb) {
       const extremePool = EVENTS.filter(e =>
         e.isExtreme && !usedEventIds.has(e.id)
@@ -173,7 +173,7 @@ export function pickNextEvent(state) {
 
   // 3. ── Ruleta de eventos GRAVES (isSevere, sin preEffects) ────
   if (!earlyGame && cooldownOk) {
-    const severeProb = SEVERE_PROB[diff] || 0.08;
+    const severeProb = (SEVERE_PROB[diff] || 0.08) * (CONFIG.RITMO?.especiales ?? 1);
     if (Math.random() < severeProb) {
       const severePool = EVENTS.filter(e =>
         e.isSevere && !e.isExtreme && !usedEventIds.has(e.id)

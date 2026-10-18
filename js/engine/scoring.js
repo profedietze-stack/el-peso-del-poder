@@ -100,8 +100,9 @@ export function computeReelectionPct(ind) {
  * @returns {object} nuevos indicadores (copia modificada, mismos keys)
  */
 export function applyEffects(ind, efectos, effectMods = {}) {
-  const mult    = CONFIG.EFFECT_MULTIPLIER;
-  const multBad = CONFIG.EFFECT_MULTIPLIER_BAD ?? mult;
+  const ritmo   = CONFIG.RITMO?.efectos ?? 1;
+  const mult    = CONFIG.EFFECT_MULTIPLIER * ritmo;
+  const multBad = (CONFIG.EFFECT_MULTIPLIER_BAD ?? CONFIG.EFFECT_MULTIPLIER) * ritmo * (CONFIG.RITMO?.malos ?? 1);
   const next = { ...ind };
   for (const key of Object.keys(efectos)) {
     if (next[key] === undefined) continue;

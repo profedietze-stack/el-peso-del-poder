@@ -152,3 +152,20 @@ Hoy el selector dice «tu partida queda guardada» al cambiar de país. Con 72 t
 3. Colombia y Chile (48 turnos): capa de nombres, prohibidos, tests.
 4. México (72 turnos): capa de nombres, medición de balance, ajuste si hace falta.
 5. Guardados, ajustes, manual, caché, partida completa de cada país en navegador.
+
+## Medición del balance de México (2026-10-18)
+
+2.500 partidas por celda, motor real, mandatos Amplio / Ajustado / Coalición. Sin tocar nada, 72 turnos hundían el juego:
+
+| | hardRandom | ultraGreedy | normalRandom |
+|---|---|---|---|
+| Latinoamérica, 48 turnos (referencia) | 13 / 10 / 11 | 60 / 45 / 38 | 87 / 82 / 84 |
+| Argentina, 48 turnos (sin cambio) | 14 / 11 / 11 | 58 / 44 / 38 | 86 / 83 / 85 |
+| México, 72 turnos, sin ajuste | 2 / 2 / 1 | 28 / 19 / 8 | 77 / 73 / 74 |
+| **México, 72 turnos, con ritmo** | **7 / 5 / 6** | **62 / 45 / 32** | **88 / 86 / 86** |
+
+El ritmo (`reglas.ritmo` en `data/pais.js`) cobra menos por turno: efectos de las decisiones ×0,79, los que empeoran un indicador ×0,95 más, y la inercia (círculos viciosos y virtuosos de cada turno) ×0,90. La probabilidad de eventos graves quedó en 1: movida de 0,67 a 1 casi no cambia nada.
+
+**Resultado:** normalRandom a ±4 y ultraGreedy a ±6 de Latinoamérica; hardRandom queda 5-6 puntos más difícil (el que juega al azar en Difícil sobrevive menos en 72 turnos). No llegué a ±5 en todas las celdas: el resultado de `ultraGreedy` salta de 24 a 60 con cambios de 0,02 en un parámetro (depende de umbrales de los círculos virtuosos y del redondeo de cada efecto), así que afinar más habría sido ajustar al ruido. Es una decisión mía (ruling): México es un poco más difícil para quien clica al azar en Difícil.
+
+Argentina, Latinoamérica, Colombia y Chile usan ritmo 1 en todo: sus simulaciones no cambian.

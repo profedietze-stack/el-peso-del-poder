@@ -23,6 +23,7 @@ export function aplicarReglas(id) {
   CONFIG.SEGUNDO_MANDATO = reglas.segundoMandato;
   CONFIG.MEDIO_TERMINO_TIPO = reglas.medioTerminoTipo;
   CONFIG.NOTA_MANDATO = reglas.notaMandato ?? '';
+  CONFIG.RITMO = { efectos: 1, malos: 1, inercia: 1, especiales: 1, ...(reglas.ritmo ?? {}) };
 }
 
 /** Pasa un turno pensado para 48 a la duración del mandato activo (mínimo 1). */

@@ -27,7 +27,16 @@ import { TERMINOS_PAIS, PROHIBIDOS_PAIS } from './pais-capas.js';
 export const PAISES = {
   ar:    { id: 'ar',    nombre: 'Argentina',     bandera: '🇦🇷', base: null,    reglas: { turnos: 48, medioTermino: 24, medioTerminoTipo: 'legislativas', segundoMandato: true } },
   latam: { id: 'latam', nombre: 'Latinoamérica', bandera: '🌎', base: 'latam', reglas: { turnos: 48, medioTermino: 24, medioTerminoTipo: 'legislativas', segundoMandato: true } },
-  mx:    { id: 'mx',    nombre: 'México',        bandera: '🇲🇽', base: 'latam', reglas: { turnos: 72, medioTermino: 36, medioTerminoTipo: 'legislativas', segundoMandato: false, notaMandato: 'En México el mandato presidencial dura seis años y la ley no permite la reelección.' } },
+  mx:    {
+    id: 'mx', nombre: 'México', bandera: '🇲🇽', base: 'latam',
+    reglas: {
+      turnos: 72, medioTermino: 36, medioTerminoTipo: 'legislativas', segundoMandato: false,
+      notaMandato: 'En México el mandato presidencial dura seis años y la ley no permite la reelección.',
+      // 72 turnos: se cobra menos por turno para que el mandato entero cueste algo parecido a uno de
+      // 48. Valores medidos con 2.500 partidas por celda (ver el spec de los modos por país).
+      ritmo: { efectos: 0.79, malos: 0.95, inercia: 0.9 },
+    },
+  },
   co:    { id: 'co',    nombre: 'Colombia',      bandera: '🇨🇴', base: 'latam', reglas: { turnos: 48, medioTermino: 24, medioTerminoTipo: 'regional-co', segundoMandato: false, notaMandato: 'En Colombia el mandato presidencial dura cuatro años y la Constitución no permite la reelección.' } },
   cl:    { id: 'cl',    nombre: 'Chile',         bandera: '🇨🇱', base: 'latam', reglas: { turnos: 48, medioTermino: 24, medioTerminoTipo: 'regional-cl', segundoMandato: false, notaMandato: 'En Chile el mandato presidencial dura cuatro años y la ley no permite la reelección inmediata.' } },
 };

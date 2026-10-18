@@ -76,7 +76,7 @@ import { initResignations, openResignConfirm, closeResignConfirm,
          selectReplacement, getResignationCount }  from './features/resignations.js';
 import { initTutorial }                           from './features/tutorial.js';
 import { buildWarningEvent, showElectionResult,
-         calcElectoralScore }                     from './features/midterm.js';
+         calcElectoralScore, noticiasDeMedioTermino } from './features/midterm.js';
 import { showMinisterModal }                      from './ui/minister-modal.js';
 import { initSplash }                             from './ui/splash.js';
 import { preloadUpcomingImages }                  from './ui/image-preloader.js';
@@ -1128,28 +1128,16 @@ function _buildElectionNews(won) {
   const p   = (id.presidentName || 'el Presidente').split(' ').slice(-1)[0];
   const par = (id.partyName || 'el Partido').split('(')[0].trim().substring(0, 28);
 
-  if (won) {
-    return [
-      { source:'cronista', sourceName:'El Cronista Nacional', sourceIcon:'🗞️', sourceType:'paper', sourceColor:'#5b8dee',
-        headline:`${p} triunfa en las legislativas: el oficialismo retiene la mayoría`,
-        body:`El bloque del ${par} logró mantener el control del Congreso. Analistas señalan que la gestión económica y la imagen presidencial fueron claves para el resultado.`,
-        isForecast:false, forecastTag:null },
-      { source:'tendencias', sourceName:'@TendenciasPol', sourceIcon:'🐦', sourceType:'social', sourceColor:'#1da1f2',
-        headline:`#VictoriaLegislativa: el oficialismo celebra. ¿Qué viene ahora?`,
-        body:`Las redes explotan de reacciones. El triunfo del ${par} despeja el camino para la segunda mitad del mandato de ${p}.`,
-        isForecast:false, forecastTag:null },
-    ];
-  }
-  return [
-    { source:'cronista', sourceName:'El Cronista Nacional', sourceIcon:'🗞️', sourceType:'paper', sourceColor:'#5b8dee',
-      headline:`Derrota legislativa: la oposición toma el control del Congreso`,
-      body:`La elección dejó al gobierno de ${p} sin mayoría parlamentaria. El ${par} deberá negociar cada proyecto de ley en la segunda mitad del mandato.`,
-      isForecast:false, forecastTag:null },
-    { source:'tribuna', sourceName:'Tribuna Libre', sourceIcon:'⚡', sourceType:'paper', sourceColor:'#e74c3c',
-      headline:`Congreso opositor: el mandato de ${p} entra en una zona de alta turbulencia`,
-      body:`Con la oposición en el Congreso, el ejecutivo perderá iniciativa legislativa. Economistas advierten sobre posibles bloqueos al presupuesto.`,
-      isForecast:false, forecastTag:null },
+  // Mismas dos noticias por resultado; el texto cambia según lo que se elige en el país.
+  const FUENTES = [
+    { source:'cronista', sourceName:'El Cronista Nacional', sourceIcon:'🗞️', sourceType:'paper', sourceColor:'#5b8dee' },
+    won
+      ? { source:'tendencias', sourceName:'@TendenciasPol', sourceIcon:'🐦', sourceType:'social', sourceColor:'#1da1f2' }
+      : { source:'tribuna', sourceName:'Tribuna Libre', sourceIcon:'⚡', sourceType:'paper', sourceColor:'#e74c3c' },
   ];
+  return noticiasDeMedioTermino(won, p, par).map((n, i) => ({
+    ...FUENTES[i], headline: n.headline, body: n.body, isForecast: false, forecastTag: null,
+  }));
 }
 
 // ── CONTROLES GLOBALES ────────────────────────────────────────

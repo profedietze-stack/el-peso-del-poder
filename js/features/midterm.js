@@ -1,7 +1,9 @@
 "use strict";
 
+import { medioTerminoTipo } from '../engine/mandato.js';
+
 // ============================================================
-// MIDTERM.JS — Elecciones legislativas de mitad de término
+// MIDTERM.JS — Elecciones de mitad de término (legislativas, o regionales y locales)
 //
 // Flujo:
 //   · Turno 22: evento de AVISO — el jugador elige una estrategia
@@ -63,20 +65,98 @@ export const CAMPAIGN_OPTIONS = [
   },
 ];
 
-// ── Resultados posibles (turno 24) ───────────────────────────
+// ── Qué se elige a mitad de mandato, según el país ────────────
+// Argentina y México tienen legislativas intermedias. Colombia y Chile no: a mitad de
+// mandato eligen autoridades regionales y locales (ver `medioTerminoTipo` en data/pais.js).
+// Cambia solo el texto: los efectos y el puntaje son los mismos en todos los países.
+const ESCENARIOS = {
+  legislativas: {
+    aviso: {
+      titulo: 'Elecciones Legislativas — Faltan 2 Meses',
+      descripcion: 'En dos meses se realizarán las elecciones legislativas que renovarán la mitad del Congreso. Las encuestas muestran un escenario competitivo: tu bloque no tiene garantizada la mayoría. El resultado dependerá de cómo los ciudadanos evalúen tu gestión económica y social — y de la estrategia de campaña que elijas ahora.',
+    },
+    win: {
+      titulo: '🗳️ ¡Victoria Legislativa!',
+      subtitulo: 'Tu bloque retuvo la mayoría en el Congreso',
+      desc: 'Los resultados confirmaron el apoyo ciudadano a tu gestión. Tu bloque ganó bancas y conserva la iniciativa legislativa. La oposición reconoce la derrota. El Congreso está de tu lado para la segunda mitad del mandato.',
+    },
+    lose: {
+      titulo: '🗳️ Derrota en las Urnas',
+      subtitulo: 'La oposición tomó el control del Congreso',
+      desc: 'Los resultados son contundentes: la oposición avanzó y tu bloque perdió la mayoría. Gobernar la segunda mitad del mandato será mucho más difícil. Cada proyecto de ley necesitará negociación y concesiones. La presión política se intensifica.',
+    },
+    noticias: (gano, p, par) => gano
+      ? [
+          { headline: `${p} triunfa en las legislativas: el oficialismo retiene la mayoría`, body: `El bloque del ${par} logró mantener el control del Congreso. Analistas señalan que la gestión económica y la imagen presidencial fueron claves para el resultado.` },
+          { headline: `#VictoriaLegislativa: el oficialismo celebra. ¿Qué viene ahora?`, body: `Las redes explotan de reacciones. El triunfo del ${par} despeja el camino para la segunda mitad del mandato de ${p}.` },
+        ]
+      : [
+          { headline: `Derrota legislativa: la oposición toma el control del Congreso`, body: `La elección dejó al gobierno de ${p} sin mayoría parlamentaria. El ${par} deberá negociar cada proyecto de ley en la segunda mitad del mandato.` },
+          { headline: `Congreso opositor: el mandato de ${p} entra en una zona de alta turbulencia`, body: `Con la oposición en el Congreso, el ejecutivo perderá iniciativa legislativa. Economistas advierten sobre posibles bloqueos al presupuesto.` },
+        ],
+  },
+  'regional-co': {
+    aviso: {
+      titulo: 'Elecciones Regionales y Locales — Faltan 2 Meses',
+      descripcion: 'En dos meses se realizarán las elecciones regionales y locales que renovarán gobernaciones y alcaldías. Las encuestas muestran un escenario competitivo: tu partido no tiene garantizado el triunfo en las principales regiones. El resultado dependerá de cómo los ciudadanos evalúen tu gestión económica y social — y de la estrategia de campaña que elijas ahora.',
+    },
+    win: {
+      titulo: '🗳️ ¡Victoria en las Regiones!',
+      subtitulo: 'Tus candidatos ganaron gobernaciones y alcaldías clave',
+      desc: 'Los resultados confirmaron el apoyo ciudadano a tu gestión. Tus candidatos ganaron gobernaciones y alcaldías importantes y tu agenda llega con aliados al territorio. La oposición reconoce la derrota. Gobernarás la segunda mitad del mandato con respaldo en las regiones.',
+    },
+    lose: {
+      titulo: '🗳️ Derrota en las Urnas',
+      subtitulo: 'La oposición ganó las principales gobernaciones y alcaldías',
+      desc: 'Los resultados son contundentes: la oposición avanzó y tu partido perdió terreno en las regiones. Gobernar la segunda mitad del mandato será mucho más difícil. Cada obra y cada programa necesitarán negociación con los nuevos gobiernos locales. La presión política se intensifica.',
+    },
+    noticias: (gano, p, par) => gano
+      ? [
+          { headline: `${p} gana las regionales: el oficialismo se impone en las principales gobernaciones`, body: `Los candidatos del ${par} ganaron en varias regiones y ciudades clave. Analistas señalan que la gestión económica y la imagen presidencial fueron claves para el resultado.` },
+          { headline: `#VictoriaRegional: el oficialismo celebra. ¿Qué viene ahora?`, body: `Las redes explotan de reacciones. El triunfo del ${par} despeja el camino para la segunda mitad del mandato de ${p}.` },
+        ]
+      : [
+          { headline: `Derrota regional: la oposición se queda con las principales gobernaciones`, body: `La elección dejó al gobierno de ${p} con menos aliados en el territorio. El ${par} deberá negociar cada obra con los nuevos gobiernos locales en la segunda mitad del mandato.` },
+          { headline: `Regiones opositoras: el mandato de ${p} entra en una zona de alta turbulencia`, body: `Con la oposición al mando de las grandes regiones, el ejecutivo perderá capacidad de ejecución en el territorio. Economistas advierten sobre posibles demoras en las obras.` },
+        ],
+  },
+  'regional-cl': {
+    aviso: {
+      titulo: 'Elecciones Municipales y Regionales — Faltan 2 Meses',
+      descripcion: 'En dos meses se realizarán las elecciones municipales y regionales que renovarán alcaldías y consejos regionales. Las encuestas muestran un escenario competitivo: tu coalición no tiene garantizado el triunfo en las principales comunas. El resultado dependerá de cómo los ciudadanos evalúen tu gestión económica y social — y de la estrategia de campaña que elijas ahora.',
+    },
+    win: {
+      titulo: '🗳️ ¡Victoria en las Comunas!',
+      subtitulo: 'Tus candidatos ganaron alcaldías y consejos regionales clave',
+      desc: 'Los resultados confirmaron el apoyo ciudadano a tu gestión. Tus candidatos ganaron alcaldías y consejos regionales importantes y tu agenda llega con aliados al territorio. La oposición reconoce la derrota. Gobernarás la segunda mitad del mandato con respaldo en las regiones.',
+    },
+    lose: {
+      titulo: '🗳️ Derrota en las Urnas',
+      subtitulo: 'La oposición ganó las principales alcaldías y consejos regionales',
+      desc: 'Los resultados son contundentes: la oposición avanzó y tu coalición perdió terreno en las comunas y las regiones. Gobernar la segunda mitad del mandato será mucho más difícil. Cada obra y cada programa necesitarán negociación con las nuevas autoridades locales. La presión política se intensifica.',
+    },
+    noticias: (gano, p, par) => gano
+      ? [
+          { headline: `${p} gana las municipales: el oficialismo se impone en las principales comunas`, body: `Los candidatos del ${par} ganaron en varias comunas y regiones clave. Analistas señalan que la gestión económica y la imagen presidencial fueron claves para el resultado.` },
+          { headline: `#VictoriaMunicipal: el oficialismo celebra. ¿Qué viene ahora?`, body: `Las redes explotan de reacciones. El triunfo del ${par} despeja el camino para la segunda mitad del mandato de ${p}.` },
+        ]
+      : [
+          { headline: `Derrota municipal: la oposición se queda con las principales comunas`, body: `La elección dejó al gobierno de ${p} con menos aliados en el territorio. El ${par} deberá negociar cada obra con las nuevas autoridades locales en la segunda mitad del mandato.` },
+          { headline: `Comunas opositoras: el mandato de ${p} entra en una zona de alta turbulencia`, body: `Con la oposición al mando de las grandes comunas, el ejecutivo perderá capacidad de ejecución en el territorio. Economistas advierten sobre posibles demoras en las obras.` },
+        ],
+  },
+};
+
+const _escenario = () => ESCENARIOS[medioTerminoTipo()] ?? ESCENARIOS.legislativas;
+
+// ── Efectos y colores del resultado (iguales en todos los países) ──
 const RESULTS = {
   win: {
-    titulo:  '🗳️ ¡Victoria Legislativa!',
-    subtitulo: 'Tu bloque retuvo la mayoría en el Congreso',
-    desc: 'Los resultados confirmaron el apoyo ciudadano a tu gestión. Tu bloque ganó bancas y conserva la iniciativa legislativa. La oposición reconoce la derrota. El Congreso está de tu lado para la segunda mitad del mandato.',
     efectos: { confianza: 8, riesgo: -4, deuda: 0, ipc: 0, pobreza: 0, desocupacion: 0, produccion: 2, reservas: 0 },
     color:  '#27ae60',
     icon:   '✅',
   },
   lose: {
-    titulo:  '🗳️ Derrota en las Urnas',
-    subtitulo: 'La oposición tomó el control del Congreso',
-    desc: 'Los resultados son contundentes: la oposición avanzó y tu bloque perdió la mayoría. Gobernar la segunda mitad del mandato será mucho más difícil. Cada proyecto de ley necesitará negociación y concesiones. La presión política se intensifica.',
     efectos: { confianza: -7, riesgo: 5, deuda: 0, ipc: 0, pobreza: 0, desocupacion: 0, produccion: -2, reservas: 0 },
     color:  '#e74c3c',
     icon:   '❌',
@@ -84,6 +164,16 @@ const RESULTS = {
 };
 
 // ── API pública ───────────────────────────────────────────────
+
+/** El resultado del medio término (texto del país + efectos, color e ícono). */
+export function resultadoDelMedioTermino(gano) {
+  return { ...(gano ? RESULTS.win : RESULTS.lose), ...(gano ? _escenario().win : _escenario().lose) };
+}
+
+/** Las dos noticias del resultado: `{ headline, body }`. */
+export function noticiasDeMedioTermino(gano, presidente, partido) {
+  return _escenario().noticias(gano, presidente, partido);
+}
 
 /**
  * Calcula el puntaje electoral (0-100) a partir del estado actual.
@@ -118,8 +208,8 @@ export function buildWarningEvent() {
     id:          'midterm-warning',
     isMidtermWarning: true,
     tag:         '🗳️ Elecciones',
-    titulo:      'Elecciones Legislativas — Faltan 2 Meses',
-    descripcion: 'En dos meses se realizarán las elecciones legislativas que renovarán la mitad del Congreso. Las encuestas muestran un escenario competitivo: tu bloque no tiene garantizada la mayoría. El resultado dependerá de cómo los ciudadanos evalúen tu gestión económica y social — y de la estrategia de campaña que elijas ahora.',
+    titulo:      _escenario().aviso.titulo,
+    descripcion: _escenario().aviso.descripcion,
     opciones:    CAMPAIGN_OPTIONS.map(o => ({
       texto:   `${o.emoji} ${o.texto}`,
       efectos: o.efectos,
@@ -138,7 +228,7 @@ export function buildWarningEvent() {
 export function showElectionResult(state, onClose) {
   const score  = calcElectoralScore(state);
   const won    = score >= 50;
-  const result = won ? RESULTS.win : RESULTS.lose;
+  const result = resultadoDelMedioTermino(won);
 
   // Calcular barra de puntaje
   const barColor = won ? '#27ae60' : '#e74c3c';

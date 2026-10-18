@@ -25,11 +25,11 @@
 import { TERMINOS_PAIS, PROHIBIDOS_PAIS } from './pais-capas.js';
 
 export const PAISES = {
-  ar:    { id: 'ar',    nombre: 'Argentina',     bandera: '🇦🇷', base: null,    reglas: { turnos: 48, medioTermino: 24, segundoMandato: true } },
-  latam: { id: 'latam', nombre: 'Latinoamérica', bandera: '🌎', base: 'latam', reglas: { turnos: 48, medioTermino: 24, segundoMandato: true } },
-  mx:    { id: 'mx',    nombre: 'México',        bandera: '🇲🇽', base: 'latam', reglas: { turnos: 72, medioTermino: 36, segundoMandato: false, notaMandato: 'En México el mandato presidencial dura seis años y la ley no permite la reelección.' } },
-  co:    { id: 'co',    nombre: 'Colombia',      bandera: '🇨🇴', base: 'latam', reglas: { turnos: 48, medioTermino: 24, segundoMandato: false, notaMandato: 'En Colombia el mandato presidencial dura cuatro años y la Constitución no permite la reelección.' } },
-  cl:    { id: 'cl',    nombre: 'Chile',         bandera: '🇨🇱', base: 'latam', reglas: { turnos: 48, medioTermino: 24, segundoMandato: false, notaMandato: 'En Chile el mandato presidencial dura cuatro años y la ley no permite la reelección inmediata.' } },
+  ar:    { id: 'ar',    nombre: 'Argentina',     bandera: '🇦🇷', base: null,    reglas: { turnos: 48, medioTermino: 24, medioTerminoTipo: 'legislativas', segundoMandato: true } },
+  latam: { id: 'latam', nombre: 'Latinoamérica', bandera: '🌎', base: 'latam', reglas: { turnos: 48, medioTermino: 24, medioTerminoTipo: 'legislativas', segundoMandato: true } },
+  mx:    { id: 'mx',    nombre: 'México',        bandera: '🇲🇽', base: 'latam', reglas: { turnos: 72, medioTermino: 36, medioTerminoTipo: 'legislativas', segundoMandato: false, notaMandato: 'En México el mandato presidencial dura seis años y la ley no permite la reelección.' } },
+  co:    { id: 'co',    nombre: 'Colombia',      bandera: '🇨🇴', base: 'latam', reglas: { turnos: 48, medioTermino: 24, medioTerminoTipo: 'regional-co', segundoMandato: false, notaMandato: 'En Colombia el mandato presidencial dura cuatro años y la Constitución no permite la reelección.' } },
+  cl:    { id: 'cl',    nombre: 'Chile',         bandera: '🇨🇱', base: 'latam', reglas: { turnos: 48, medioTermino: 24, medioTerminoTipo: 'regional-cl', segundoMandato: false, notaMandato: 'En Chile el mandato presidencial dura cuatro años y la ley no permite la reelección inmediata.' } },
 };
 export const PAIS_POR_DEFECTO = 'ar';
 

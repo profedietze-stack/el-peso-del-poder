@@ -4,6 +4,7 @@ export const CONFIG = {
   // Se reescriben al arrancar según el país (engine/mandato.js → aplicarReglas).
   TOTAL_TURNS: 48,
   MEDIO_TERMINO: 24,
+  MEDIO_TERMINO_TIPO: 'legislativas',
   SEGUNDO_MANDATO: true,
   NOTA_MANDATO: '',
 

@@ -23,6 +23,12 @@
 const BANCO_CENTRAL = /\bBanco Central(?! (?:de |chino|supranacional|Europeo))/g;
 // La universidad «de la capital» es genérica: no se la convierte en una universidad real.
 const LA_CAPITAL = /(?<!Universidad de )\bla capital\b/g;
+// Evento 212: México y Colombia no tuvieron una dictadura militar como la del Cono Sur; el
+// dilema (abrir o sellar archivos de la violencia política) es el mismo.
+const SIN_DICTADURA = [
+  [/Los Archivos de una Dictadura/g, 'Los Archivos de un Período de Violencia Política'],
+  [/Hace décadas gobernó un régimen autoritario que dejó miles de desaparecidos\./g, 'Durante décadas, un período de violencia política dejó miles de desaparecidos.'],
+];
 const PETROLERA = /\b(?:[Ll]a )?Petrolera Estatal\b/g;
 const FUERA = String.raw`(?<![\wáéíóúñÁÉÍÓÚÑ])`;
 
@@ -37,12 +43,14 @@ export const TERMINOS_PAIS = {
     [/\bCasa de Gobierno\b/g, 'Palacio Nacional'],
     [LA_CAPITAL, 'la Ciudad de México'],
     [PETROLERA, 'Pemex'],
+    ...SIN_DICTADURA,
   ],
   co: [
     [BANCO_CENTRAL, 'Banco de la República'],
     [/\bCasa de Gobierno\b/g, 'Casa de Nariño'],
     [LA_CAPITAL, 'Bogotá'],
     [PETROLERA, 'Ecopetrol'],
+    ...SIN_DICTADURA,
   ],
   cl: [
     [BANCO_CENTRAL, 'Banco Central de Chile'],

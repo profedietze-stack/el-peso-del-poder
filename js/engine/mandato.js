@@ -21,6 +21,7 @@ export function aplicarReglas(id) {
   CONFIG.TOTAL_TURNS = reglas.turnos;
   CONFIG.MEDIO_TERMINO = reglas.medioTermino;
   CONFIG.SEGUNDO_MANDATO = reglas.segundoMandato;
+  CONFIG.MEDIO_TERMINO_TIPO = reglas.medioTerminoTipo;
   CONFIG.NOTA_MANDATO = reglas.notaMandato ?? '';
 }
 
@@ -32,6 +33,9 @@ export function escalarTurno(turnoEn48, total = CONFIG.TOTAL_TURNS) {
 export const totalTurnos = () => CONFIG.TOTAL_TURNS;
 export const turnoMedioTermino = () => CONFIG.MEDIO_TERMINO;
 export const permiteSegundoMandato = () => CONFIG.SEGUNDO_MANDATO;
+
+/** Qué se elige a mitad de mandato: 'legislativas', 'regional-co' o 'regional-cl'. */
+export const medioTerminoTipo = () => CONFIG.MEDIO_TERMINO_TIPO;
 
 /** Línea que explica por qué el país no tiene segundo mandato ('' si lo tiene). */
 export const notaDeMandato = () => CONFIG.NOTA_MANDATO;

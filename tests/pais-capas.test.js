@@ -172,3 +172,19 @@ test('la capa cambia textos de verdad en cada país (si no, los barridos no prue
     assert.ok(cambios >= 30, `${id}: la capa solo cambió ${cambios} textos`);
   }
 });
+
+test('«archivos de una dictadura»: en México y Colombia no hubo ese régimen, en Chile sí', () => {
+  const e = EVENTS_LATAM.find((x) => x.id === 212);
+  const todo = [e.titulo, e.descripcion].join(' ');
+  for (const id of ['mx', 'co']) {
+    fijarPais(id);
+    const t = textoPais(todo);
+    assert.doesNotMatch(t, /ictadura|régimen autoritario/, id);
+    assert.match(t, /Violencia Política/, id);
+    assert.match(t, /desaparecidos/, id);
+  }
+  fijarPais('cl');
+  assert.match(textoPais(todo), /Dictadura/);
+  fijarPais('latam');
+  assert.match(textoPais(todo), /Dictadura/);
+});

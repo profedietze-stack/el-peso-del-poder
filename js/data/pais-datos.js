@@ -14,6 +14,7 @@ import { VICEPRESIDENTS } from './vicepresident.js';
 import { STICKER_MAP } from './stickers.js';
 import { GLOSSARY } from '../ui/tooltip.js';
 import { localizarDatos, adaptarCitas } from './pais.js';
+import { EVENTS_LATAM, construirComentarios } from './events-latam.js';
 
 export { QUOTES };
 
@@ -26,9 +27,21 @@ export const DATOS = {
   INAUGURAL_VP_EXPECT: news.INAUGURAL_VP_EXPECT,
 };
 
+/**
+ * Suma al banco los eventos de América Latina (y sus comentarios de ministros). Solo
+ * Latinoamérica: con Argentina el banco queda como estaba. Es idempotente.
+ */
+export function agregarEventosLatam() {
+  if (EVENTS.some((e) => e.id === EVENTS_LATAM[0].id)) return 0;
+  EVENTS.push(...EVENTS_LATAM);
+  Object.assign(MINISTER_COMMENTARY, construirComentarios());
+  return EVENTS_LATAM.length;
+}
+
 /** Pasa los datos del juego a Latinoamérica, en el lugar. Una vez por carga de página. */
 export function aplicarPais(pais) {
   if (pais !== 'latam') return 0;
+  agregarEventosLatam();
   adaptarCitas(QUOTES);
   return localizarDatos(DATOS);
 }

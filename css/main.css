@@ -4632,10 +4632,6 @@ body.tut-open {
 .set-font-name { font-size: .72rem; color: var(--text-dim); }
 
 /* ── País ───────────────────────────────────────────────── */
-.set-pais-row { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; margin-top: 12px; }
-.set-pais-btn { min-height: 44px; flex-direction: row; justify-content: center; gap: 8px; padding: 10px 8px; }
-.set-pais-bandera { font-size: 1.4rem; line-height: 1; }
-.set-pais-btn .set-font-name { font-size: .85rem; color: var(--text); }
 
 /* ── Toggle switch ──────────────────────────────────────── */
 .set-toggle {
@@ -4744,3 +4740,24 @@ body.reduce-motion *::after {
 /* Con la letra grande los botones de la barra no entran en una fila: que pasen a la
    siguiente en vez de quedar cortados («SALIR» se salía del borde a 140 %). */
 .top-actions { flex-wrap: wrap; justify-content: flex-end; max-width: 100%; }
+
+/* ── Pantalla de país ─────────────────────────────────────── */
+.pais-wrap { width:100%; max-width:1100px; margin:0 auto; padding:20px 16px 28px; display:flex; flex-direction:column; gap:18px; overflow-y:auto; max-height:100vh; }
+.pais-header { display:flex; align-items:flex-start; justify-content:space-between; gap:14px; }
+.pais-header-title { font-family:var(--font-display, serif); font-size:1.7rem; color:var(--gold); }
+.pais-header-sub { color:var(--text-dim); font-size:.9rem; margin-top:6px; max-width:62ch; }
+.pais-grid { display:grid; grid-template-columns:repeat(auto-fit, minmax(290px, 1fr)); gap:14px; }
+.pais-card { text-align:left; display:flex; flex-direction:column; gap:10px; background:var(--navy-card); color:inherit; border:1px solid rgba(255,255,255,.12); border-radius:var(--radius); padding:16px 18px; cursor:pointer; font:inherit; }
+.pais-card:hover, .pais-card:focus-visible { border-color:var(--gold); outline:none; transform:translateY(-1px); }
+.pais-card-actual { border-color:rgba(201,168,76,.55); }
+.pais-card-cabecera { display:flex; align-items:center; gap:10px; }
+.pais-card-bandera { font-size:1.6rem; }
+.pais-card-nombre { font-family:var(--font-condensed); font-size:1.25rem; color:var(--gold); }
+.pais-card-tag { margin-left:auto; font-size:.75rem; padding:2px 8px; border-radius:99px; background:rgba(201,168,76,.18); color:var(--gold); }
+.pais-card-resumen { font-size:.9rem; color:var(--text, #e8edf5); }
+.pais-card-lineas { display:flex; flex-direction:column; gap:7px; }
+.pais-card-linea { display:flex; gap:9px; font-size:.82rem; color:var(--text-dim); line-height:1.35; }
+.pais-card-icono { flex:0 0 1.4em; }
+.pais-card-elegir { margin-top:auto; font-family:var(--font-condensed); color:var(--gold); font-size:.95rem; }
+.pais-pie { color:var(--text-dim); font-size:.78rem; text-align:center; margin:0; }
+@media (max-width:560px) { .pais-header { flex-direction:column; } .pais-header-title { font-size:1.4rem; } }

@@ -156,8 +156,8 @@ test('Latinoamérica: los textos escritos dentro del código también quedan lim
   assert.deepEqual(quedan, []);
 });
 
-test('el selector de país queda fuera del reescrito (si no, «Argentina» pasaría a decir «El país»)', () => {
-  assert.match(leer('js/ui/settings-modal.js'), /id="set-pais-row" data-sin-pais/);
+test('la pantalla de país queda fuera del reescrito (si no, «Argentina» pasaría a decir «El país»)', () => {
+  assert.match(leer('index.html'), /<div class="pais-wrap" data-sin-pais>/);
   const dom = leer('js/ui/pais-dom.js');
   assert.match(dom, /data-sin-pais/);
   assert.ok((dom.match(/_excluido\(/g) || []).length >= 2, 'tanto textos como elementos tienen que respetar la marca');

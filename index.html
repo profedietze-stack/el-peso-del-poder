@@ -133,6 +133,23 @@
 </div>
 
 <!-- =====================================================
+     PANTALLA PAÍS: lo primero de una partida nueva (ver js/ui/pais-ui.js)
+     ===================================================== -->
+<div id="screen-pais" class="screen">
+  <div class="pais-wrap" data-sin-pais>
+    <div class="pais-header">
+      <div>
+        <div class="pais-header-title">¿En qué país gobernarás?</div>
+        <div class="pais-header-sub">El país se elige al empezar y no cambia durante la partida. Para jugar en otro país hay que empezar una partida nueva: así se puede probar cada uno.</div>
+      </div>
+      <button class="btn btn-outline btn-sm" type="button" onclick="showScreen('screen-start')">← Volver</button>
+    </div>
+    <div class="pais-grid" id="pais-grid"></div>
+    <p class="pais-pie">Ningún país incluye presidentes, partidos ni candidatos reales: solo instituciones y lugares.</p>
+  </div>
+</div>
+
+<!-- =====================================================
      PANTALLA IDENTIDAD POLÍTICA (nueva)
      Aparece entre el menú y la herencia.
      ===================================================== -->

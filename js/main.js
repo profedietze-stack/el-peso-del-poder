@@ -9,6 +9,8 @@ import { initErrorBanner }             from './ui/error-banner.js';
 import { loadSettings, applySettings, setPais } from './engine/settings.js';
 import { aplicarPais } from './data/pais-datos.js';
 import { PAISES } from './data/pais.js';
+import { showPaisScreen } from './ui/pais-ui.js';
+import { consumirNuevaPartida } from './ui/pais-ficha.js';
 import { aplicarReglas, turnoMedioTermino, permiteSegundoMandato } from './engine/mandato.js';
 import { iniciarPaisDom } from './ui/pais-dom.js';
 import { openSettingsModal, closeSettingsModal } from './ui/settings-modal.js';
@@ -222,9 +224,13 @@ document.addEventListener('DOMContentLoaded', () => {
   // ── Splash screen ─────────────────────────────────────────────
   // onReady se llama al tocar "Continuar" (gesto de usuario).
   // initAudio() requiere gesto → va aquí adentro.
+  // Si se llegó acá por elegir otro país en una partida nueva, tras «Continuar» se sigue con la
+  // identidad (el país ya está aplicado) en vez de volver al menú.
+  const veniaDeElegirPais = consumirNuevaPartida();
   initSplash(() => {
     initAudio();
     resumeAudio();
+    if (veniaDeElegirPais) empezarPartidaNueva();
   });
 
   // ── Sonido global para TODOS los botones e interactivos ──────
@@ -269,6 +275,13 @@ document.addEventListener('DOMContentLoaded', () => {
  */
 function startGame() {
   soundClick();
+  // Lo primero de una partida nueva es elegir el país: no se puede cambiar después. Elegir otro
+  // recarga la página (los textos se reescriben al arrancar) y se vuelve acá por `empezarPartidaNueva`.
+  showPaisScreen(empezarPartidaNueva);
+}
+
+/** Desde la identidad: el país ya está elegido y aplicado. */
+function empezarPartidaNueva() {
   showIdentityScreen(({ presidentName, partyName, vpId }) => {
     _displayName     = `Pte. ${presidentName.split(' ').slice(-1)[0]} · ${partyName.split('(')[0].trim().substring(0, 22)}`;
     _pendingIdentity = { presidentName, partyName, vpId };

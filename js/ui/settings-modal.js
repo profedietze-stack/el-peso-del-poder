@@ -14,9 +14,8 @@
 
 import {
   getSettings, FONT_SCALE_KEYS,
-  setFontScale, setSoundOn, setVolume, setHighContrast, setReduceMotion, setPais,
+  setFontScale, setSoundOn, setVolume, setHighContrast, setReduceMotion,
 } from '../engine/settings.js';
-import { PAISES } from '../data/pais.js';
 
 let _overlay = null;
 
@@ -42,18 +41,6 @@ function _build() {
       </div>
 
       <div class="settings-body">
-
-        <div class="set-group">
-          <div class="set-label" id="set-pais-label">🌎 País del juego</div>
-          <div class="set-pais-row" id="set-pais-row" data-sin-pais role="radiogroup" aria-labelledby="set-pais-label">
-            ${Object.values(PAISES).map((p) => `
-              <button class="set-font-btn set-pais-btn" role="radio" data-pais="${p.id}">
-                <span class="set-pais-bandera">${p.bandera}</span>
-                <span class="set-font-name">${p.nombre}</span>
-              </button>`).join('')}
-          </div>
-          <div class="set-hint">Latinoamérica usa un país imaginario, sin datos de un solo país; México, Colombia y Chile suman sus instituciones y la duración real del mandato. Cambiar de país recarga la página. Una partida guardada en otro país se continúa cambiando de país (se pide confirmación).</div>
-        </div>
 
         <div class="set-group">
           <div class="set-label">🔤 Tamaño de letra</div>
@@ -113,13 +100,6 @@ function _build() {
     _syncFont(o);
   });
 
-  o.querySelector('#set-pais-row').addEventListener('click', (e) => {
-    const btn = e.target.closest('.set-pais-btn');
-    if (!btn || btn.dataset.pais === getSettings().pais) return;
-    setPais(btn.dataset.pais);
-    location.reload();
-  });
-
   o.querySelector('#set-sound-toggle').addEventListener('click', () => {
     setSoundOn(!getSettings().soundOn);
     _sync(o);
@@ -158,11 +138,6 @@ function _syncFont(o) {
 function _sync(o) {
   const s = getSettings();
   _syncFont(o);
-  o.querySelectorAll('.set-pais-btn').forEach((b) => {
-    const activo = b.dataset.pais === s.pais;
-    b.classList.toggle('active', activo);
-    b.setAttribute('aria-checked', String(activo));
-  });
   o.querySelector('#set-sound-toggle').classList.toggle('on', s.soundOn);
   o.querySelector('#set-contrast-toggle').classList.toggle('on', s.highContrast);
   o.querySelector('#set-motion-toggle').classList.toggle('on', s.reduceMotion);

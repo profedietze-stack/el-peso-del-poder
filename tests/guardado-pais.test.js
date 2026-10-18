@@ -83,10 +83,3 @@ test('cargarGuardado avisa «otro-pais» y no borra nada; hayPartidaValida deja 
   assert.equal(hayPartidaValida(), true);
   assert.ok(datos.has('sdr_save'), 'el guardado de México tiene que seguir ahí');
 });
-
-test('el selector de país avisa lo que pasa con una partida guardada en otro país', async () => {
-  const { readFileSync } = await import('node:fs');
-  const modal = readFileSync(new URL('../js/ui/settings-modal.js', import.meta.url), 'utf8');
-  assert.doesNotMatch(modal, /tu partida queda guardada/i, 'ya no es cierto: la partida queda en su país');
-  assert.match(modal, /partida guardada en otro país/i);
-});

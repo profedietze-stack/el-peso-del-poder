@@ -262,9 +262,12 @@ export const IDS_DE_REELECCION = REELECTION_ACHIEVEMENTS.map(a => a.id);
 /**
  * Los logros que se pueden ganar en el país activo: sin segundo mandato no hay logros
  * de reelección, y no se muestran como «bloqueados para siempre» ni cuentan en el total.
+ * Los que ya se ganaron en otro país se siguen mostrando como ganados (`ganados`).
  */
-export function logrosVisibles() {
-  return permiteSegundoMandato() ? ACHIEVEMENTS : ACHIEVEMENTS.filter(a => !IDS_DE_REELECCION.includes(a.id));
+export function logrosVisibles(ganados = []) {
+  if (permiteSegundoMandato()) return ACHIEVEMENTS;
+  const ya = new Set(ganados);
+  return ACHIEVEMENTS.filter(a => !IDS_DE_REELECCION.includes(a.id) || ya.has(a.id));
 }
 
 /**
@@ -295,7 +298,7 @@ export function getAchievementById(id) {
  */
 export function buildAchievementsGridHTML(unlockedIds) {
   const unlockedSet = new Set(unlockedIds);
-  return logrosVisibles().map(a => {
+  return logrosVisibles(unlockedIds).map(a => {
     const unlocked = unlockedSet.has(a.id);
     return `<div class="ach-card ${unlocked ? 'unlocked' : 'locked'}" title="${a.desc}">
       <span class="ach-icon">${unlocked ? a.icon : '🔒'}</span>

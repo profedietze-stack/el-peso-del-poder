@@ -284,7 +284,7 @@ function _renderAchievements(state, score) {
 
   const unlockedSet = new Set(state.unlockedAchievements || []);
 
-  grid.innerHTML = logrosVisibles()
+  grid.innerHTML = logrosVisibles(state.unlockedAchievements || [])
     .filter(a => unlockedSet.has(a.id))
     .map(a => `
       <div class="ach-card unlocked" title="${a.desc}">
@@ -570,7 +570,7 @@ function _showLegacyScreen(state, countryName) {
   const party   = id.partyName ? ` · ${id.partyName.split('(')[0].trim()}` : '';
   const diff    = { easy:'Fácil', normal:'Normal', hard:'Difícil', ultra:'Ultra 💀' }[state.difficulty] || 'Normal';
   const unlockedSet = new Set(state.unlockedAchievements || []);
-  const unlockedAchs = logrosVisibles().filter(a => unlockedSet.has(a.id));
+  const unlockedAchs = logrosVisibles(state.unlockedAchievements || []).filter(a => unlockedSet.has(a.id));
   const totalDecisions = (state.history || []).length;
   const crisisCount    = state.adata?.crisisCount ?? 0;
   const neverCorrupt   = !!state.adata?.neverCorrupt;

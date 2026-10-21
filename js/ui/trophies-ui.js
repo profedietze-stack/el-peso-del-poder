@@ -142,7 +142,7 @@ function renderTrophiesAchievements(state) {
     state.unlockedAchievements.forEach(id => unlockedSet.add(id));
   }
 
-  const visibles = logrosVisibles();
+  const visibles = logrosVisibles([...unlockedSet]);
   const unlocked = visibles.filter(a => unlockedSet.has(a.id)).length;
   const total    = visibles.length;
 
@@ -312,7 +312,7 @@ function _renderDocenteGameSummary(s) {
           <div class="dc-ficha-row"><span class="dc-fr-label">Herencia</span><span class="dc-fr-val">${nombreDeHerencia(s.heritageId)}</span></div>
           <div class="dc-ficha-row"><span class="dc-fr-label">Mandato</span><span class="dc-fr-val">${MANDATE_NAMES[s.mandateType] || s.mandateType}</span></div>
           <div class="dc-ficha-row"><span class="dc-fr-label">Turnos jugados</span><span class="dc-fr-val">${s.history.length} / ${totalTurnos()}</span></div>
-          <div class="dc-ficha-row"><span class="dc-fr-label">Logros obtenidos</span><span class="dc-fr-val">${s.unlockedAchievements.length} de ${logrosVisibles().length}</span></div>
+          <div class="dc-ficha-row"><span class="dc-fr-label">Logros obtenidos</span><span class="dc-fr-val">${s.unlockedAchievements.length} de ${logrosVisibles(s.unlockedAchievements).length}</span></div>
         </div>
       </div>
     </div>`;
